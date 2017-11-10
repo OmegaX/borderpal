@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body {
+    font-family: 'Roboto', sans-serif !important;
+}
+
+main {
+    padding: 24px;
+}
+
+p.calc-notes span + span {
+    padding-left: 20px;
+}
+
+
+/* navbar */
+
+.navbar-inverse {
+    background-color: #337ab7;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+.container-fluid {
+    margin-left: 0;
+}
+
+
+header {
+    background-image: url("../images/new-header-black.png");
+    background-size: cover;
+    padding: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 400px;
+ }
+
+input[type="checkbox"] {
+    height: 15px;
+    width: 15px;
+}  
+
+.side-header {
+    margin-bottom: 16px;
+    text-align: center;
+    font-weight: bold;
+}
+
+nav.navbar {
+    font-size: 20px;
+    font-weight: bold;
+    height: 80px;
+}
+
+a.glyphicon-remove-sign {
+    color: red;
+    font-size: 18px;
+}
+
+
+/* cost estimator styles */
+
+.side-section {
+    background-color: #ebfaeb;
+    margin: 16px 0; 
+    padding: 24px;
+
+    .row + .row {
+        padding-top: 16px;  
+    }
+}
+
+#item-header-row {
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.1em;
+}
+
+#button-add-item {
+    width: 140px;
+}
+
+#button-calculate {
+    width: 190px;
+    margin-top: 24px;
+}
+
+#cost-estimator-results {
+    margin-top: 42px;
+}
+
+#totals-wrapper {
+     font-weight: bold; 
+     text-align: center; 
+     font-size: 16px; 
+     margin-top:48px;
+}
+
+
+/* metric converter styles */
+
+#converter-section {
+    text-align: center;
+}
+
+.top-container {
+    margin: 24px auto;
+    width: 48%;
+}
+
+.converter-container {
+    position: relative;
+    width: 50%;
+    margin: 0 auto;
+    min-height: 400px;
+}
+
+.input-container {
+    float: left;
+    width: 48%;
+}
+
+.converter-dropdown {
+    margin-top: 3px;
+}
+
+.center-container {
+    float: left;
+    width: 4%;
+    font-size: 1.7em;
+    text-align: center;
+}
+
+.input-container .form-control {
+    height: 40px;
+    padding-left: 15px;
+    font-size: 18px;
+}
+
+.top-container .form-control {
+    height: 50px;
+    padding-left: 15px;
+    font-size: 20px;
+    background-color: #f1ffd8;
+}
+
+.center-container h4 {
+    padding: 15px 0 15px 0;
+}
+
+
+/* duty table containers */
+
+.duty-table {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 36px;
+}
+
+/* custom classes */
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
+.snuggle {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.percent-sign {
+    padding-left: 6px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.percent-input {
+    display: inline; padding-right: 0;
+}
