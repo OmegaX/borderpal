@@ -2,9 +2,9 @@ export default class ConverterController {
 
   constructor(ConverterService) {
     this.unitsObj = ConverterService.getUnits();
-    this.leftValue = null;
-    this.rightValue = null;
-    this.unitOptions = [];    
+    // this.leftValue = null;
+    // this.rightValue = null;
+    // this.unitOptions = [];    
 
     this.init();
   }
@@ -134,7 +134,7 @@ export default class ConverterController {
           for (let b = 0; b < unitOptions.length; b += 1) {
             if (outputUnit === unitOptions[b].label) {
               let tempValue = (inputValue / unitOptions[i].multiplier) * unitOptions[b].multiplier;
-              outputValue = this.round(tempValue, 2);
+              outputValue = this.round(tempValue, unitOptions[b].precision);
             }
           }
         }

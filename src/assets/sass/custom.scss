@@ -1,36 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
+@import 'nav.scss';
 
 body {
     font-family: 'Roboto', sans-serif !important;
+    max-width: 1800px;
+    margin: 0 auto;
 }
-
-main {
-    padding: 24px;
-}
-
-p.calc-notes span + span {
-    padding-left: 20px;
-}
-
-
-/* navbar */
-
-.navbar-inverse {
-    background-color: #337ab7;
-}
-
-.navbar-inverse .navbar-nav > li > a {
-    color: #fff;
-}
-
-.navbar {
-    margin-bottom: 0;
-}
-
-.container-fluid {
-    margin-left: 0;
-}
-
 
 header {
     background-image: url("../images/new-header-black.png");
@@ -38,120 +13,149 @@ header {
     padding: 0;
     background-repeat: no-repeat;
     background-position: center;
-    height: 400px;
  }
 
-input[type="checkbox"] {
-    height: 15px;
-    width: 15px;
-}  
-
-.side-header {
-    margin-bottom: 16px;
+ .header-wrapper {
     text-align: center;
-    font-weight: bold;
-}
+    margin: 28px 0;
 
-nav.navbar {
-    font-size: 20px;
-    font-weight: bold;
-    height: 80px;
-}
-
-a.glyphicon-remove-sign {
-    color: red;
-    font-size: 18px;
-}
-
-
-/* cost estimator styles */
-
-.side-section {
-    background-color: #ebfaeb;
-    margin: 16px 0; 
-    padding: 24px;
-
-    .row + .row {
-        padding-top: 16px;  
+    h1, h2 {
+        margin-top: 20px;
+        margin-bottom: 20px
+    }
+    
+    h3 {
+        margin-top: 15px;
+        margin-bottom: 15px
     }
 }
 
-#item-header-row {
-    font-weight: bold;
-    text-align: center;
-    font-size: 1.1em;
-}
+#cost-estimator {
+    
+    .side-section {
+        background-color: #ebfaeb;
+        margin: 16px 0; 
+        padding: 5%;
 
-#button-add-item {
-    width: 140px;
-}
+        .row + .row {
+            padding-top: 16px;  
+        }
+    }
 
-#button-calculate {
-    width: 190px;
-    margin-top: 24px;
-}
+    .side-header {
+        margin-bottom: 16px;
+        text-align: center;
+        font-weight: bold;
+    }
 
-#cost-estimator-results {
-    margin-top: 42px;
-}
+    .panel-heading {
+        padding: 0;
+    }
 
-#totals-wrapper {
-     font-weight: bold; 
-     text-align: center; 
-     font-size: 16px; 
-     margin-top:48px;
-}
+    #item-header-row {
+        font-weight: bold;
+        text-align: center;
+        font-size: 1.1em;
+        margin-bottom: 8px;
+    }
 
+    .item-row {
+        margin-bottom: 8px;
+    }
 
-/* metric converter styles */
+    input[type="checkbox"] {
+        height: 15px;
+        width: 15px;
+    }  
 
-#converter-section {
-    text-align: center;
-}
+    #button-group {
 
-.top-container {
-    margin: 24px auto;
-    width: 48%;
-}
+        margin-bottom: 24px;
+        
+        div {
+            margin-top: 24px;
+            display: flex;
+            justify-content: center;
+        }
 
-.converter-container {
-    position: relative;
-    width: 50%;
-    margin: 0 auto;
-    min-height: 400px;
-}
+        button {
+            margin: 0 8px;
+        }
 
-.input-container {
-    float: left;
-    width: 48%;
-}
+        #add-item {
+            width: 140px;
+        }
 
-.converter-dropdown {
-    margin-top: 3px;
-}
+        #calculate {
+            width: 190px;
+        }
+    }
 
-.center-container {
-    float: left;
-    width: 4%;
-    font-size: 1.7em;
-    text-align: center;
-}
+    #cost-estimator-results {
+        margin-top: 42px;
+    }
 
-.input-container .form-control {
-    height: 40px;
-    padding-left: 15px;
-    font-size: 18px;
-}
+    #totals-wrapper {
+         font-weight: bold; 
+         text-align: center; 
+         font-size: 16px; 
+         margin-top: 48px;
+    }
 
-.top-container .form-control {
-    height: 50px;
-    padding-left: 15px;
-    font-size: 20px;
-    background-color: #f1ffd8;
-}
+    a.glyphicon-remove-sign {
+        color: red;
+        font-size: 18px;
+    }
+} 
 
-.center-container h4 {
-    padding: 15px 0 15px 0;
+#metric-converter {
+
+    #conversion-group {
+        text-align: center;
+    }
+
+    #converter-section {
+        text-align: center;
+    }
+
+    .converter-container {
+        position: relative;
+        margin: 0 auto;
+        min-height: 400px;
+    }
+
+    .input-container {
+        float: left;
+        width: 47%;
+    }
+
+    .converter-dropdown {
+        margin-top: 3px;
+    }
+
+    .center-container {
+        float: left;
+        width: 6%;
+        font-size: 2em;
+        text-align: center;
+    }
+
+    .input-container .form-control {
+        height: 40px;
+        padding-left: 15px;
+        font-size: 18px;
+    }
+
+    .top-container .form-control {
+        height: 50px;
+        padding-left: 15px;
+        font-size: 20px;
+        background-color: #ebfaeb;
+    }
+
+    .center-container h4 {
+        padding: 15px 0 15px 0;
+    }
 }
 
 
@@ -170,9 +174,31 @@ a.glyphicon-remove-sign {
     align-items: center;
 }
 
-.snuggle {
+.flex-space {
+    display: flex;
+    justify-content: space-around;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+}
+
+/*.snuggle {
     padding-left: 0;
     padding-right: 0;
+}*/
+
+.item-control {
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 1em;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 .percent-sign {
@@ -182,5 +208,202 @@ a.glyphicon-remove-sign {
 }
 
 .percent-input {
-    display: inline; padding-right: 0;
+    display: inline; 
+    padding-right: 0;
+}
+
+.control-label {
+    display: block;
+}
+
+.checkbox-col {
+  
+    label, input[type="checkbox"] {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+/* Custom, iPhone Retina */ 
+@media only screen and (min-width : 320px) {
+    
+    header {
+        height: 120px;
+    }
+
+    #metric-converter {
+
+        .converter-container {
+            width: 90%;
+        }
+
+        .top-container {
+            width: 100%;
+            margin-bottom: 12px;
+        }
+    }
+
+    #cost-estimator {
+
+        .side-section {
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .table-responsive {
+            padding-bottom: 24px;
+        }
+
+        .number-col {
+            display: none;
+        }
+
+        .desc-col {
+            display: none;
+        }
+
+        .price-col {
+            width: 20%;
+        }
+
+        .delete-col {
+            width: 5%;
+        }
+
+        .duty-col {
+            width: 40%;
+        }
+
+        .checkbox-col {
+            width: 25%;
+
+            label {
+                margin-right: 2px;
+            }
+
+            input[type="checkbox"] {
+                margin-right: 3px;
+            }
+        }
+    }
+}
+
+/* xs */
+@media only screen and (min-width : 480px) {
+
+    header {
+        height: 160px;
+    }
+
+    #metric-converter {
+
+        .converter-container {
+            width: 80%;
+        }
+    } /* end xs metric converter */
+
+    #cost-estimator {
+
+        .number-col {
+            width: 8%;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .price-col {
+            width:19%;
+        }
+    } /* end xs cost estimator */
+}
+
+/* sm */
+@media only screen and (min-width : 768px) {
+
+    header {
+        height: 200px;
+    }
+
+    #metric-converter {
+
+        .top-container {
+            margin: 24px auto;
+            width: 48%;
+        }
+
+        .converter-container {
+            width: 70%;
+        }
+    } /* end sm metric converter */
+
+    #cost-estimator {
+
+        .side-section {
+            margin: 16px 0; 
+            padding: 5%;
+            background-color: #ebfaeb;
+        }
+
+        .number-col {
+            width: 5%;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .desc-col {
+            width: 25%;
+            display: inline-block;
+        }
+
+        .price-col {
+            width: 15%;
+        }
+
+        .delete-col {
+            width: 5%;
+        }
+
+        .duty-col {
+            width: 25%;
+        }
+
+        .checkbox-col {
+
+            width: 15%;
+          
+            label, input[type="checkbox"] {
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+
+            label {
+                margin-right: 4px;
+            }
+
+            input[type="checkbox"] {
+                margin-right: 8px;
+            }
+        }
+    } /* end sm cost estimator */
+}
+
+
+/* md */
+@media only screen and (min-width : 992px) {
+
+    header {
+        height: 300px;
+    }
+
+    #metric-converter .converter-container {
+        width: 50%;
+    }
+}
+
+
+/* lg */
+@media only screen and (min-width : 1200px) {
+    header {
+        height: 400px;
+    }
 }

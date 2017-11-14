@@ -1,8 +1,9 @@
-<section id="converter-section">
+<section id="metric-converter">
 
-	<div class="heading-wrapper">
+	<div class="header-wrapper">
 		<h1>Metric Converter</h1>
-		<h3>Confused by metric and Imperial conversion? Don't be. Use this tool to accurately convert units.</h3>
+		<h3>Confused unit conversion? Don't be!</h3>
+		<h4>Use this tool to accurately convert units.<h4>
 	</div>
 
  	<div class="converter-container">
@@ -12,9 +13,6 @@
 		<div class="input-container">
 			<input type="number" class="form-control" ng-model="metricConverter.leftValue" ng-pattern="/^-?[0-9]\d*(\.\d+)?$/" ng-change="metricConverter.calculate('leftValue')" placeholder="0" valid-number/>
 			<select class="form-control converter-dropdown" ng-model="metricConverter.selectedLeftUnit" ng-change="metricConverter.unitChange('leftValue')" ng-options="unitOption.label for unitOption in metricConverter.unitOptions"></select>
-			<div data-ng-show="converterForm.leftValue.$error.pattern" class="alert alert-danger alert-dismissible" role="alert">Enter numbers only 
-				<span class="glyphicon glyphicon-arrow-up"></span>
-			</div>
 		</div>
 		<div class="center-container">=</div>
 		<div class="input-container">

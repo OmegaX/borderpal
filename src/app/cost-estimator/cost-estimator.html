@@ -1,323 +1,147 @@
 <div class="row" id="cost-estimator">
 
-	<div class="col-md-4">
-
-		<section class="side-section text-center">
-
-			<h3 class="side-header">Exchange Rate</h3>	
-			<h4>$1 USD = ${{costEstimator.exchange.rateCAD}} CAD</h4>
-			<h4>$1 CAD = ${{costEstimator.exchange.rateUSD}} USD</h4>
-			<small>(As of today, {{costEstimator.exchange.date}})</small>	
-
-			<div id="conversion-group" class="form-inline" style="padding-top: 16px;">
-				<p>
-					<em>Note: With a bank fee rate of 
-					<strong>{{costEstimator.exchange.rateBank}}%</strong>
-					<br> you'll pay ${{costEstimator.exchange.rateCADtotal}} CAD for $1 USD</em>
-				</p>
-				<label class="control-label" for="bank-fee-input">
-					<a href="" uib-popover="{{costEstimator.popoverText['bank-fee']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
-					Bank Fee Rate:
-				</label>
-				<input
-					id="bank-fee-input"
-					class="form-control"
-					type="number"
-					step="0.1"
-					min="0"
-					max="10"
-					style="width: 20%; padding-right: 0;"
-					ng-model="costEstimator.exchange.rateBank"
-					ng-change="costEstimator.getTotalCostExchange()"
-				/>
-			 	<span class="percent-sign">%</span>
-			</div>
-		</section> <!-- end exchange rate section  -->
-
-		<section class="side-section">
-
-			<h3 class="side-header">CDN Sales Tax</h3>
-
-			<div id="trip-length-group" class="row">
-				<label class="col-md-12" for="trip-length-dropdown">
-					<a href="" uib-popover="{{costEstimator.popoverText['trip-length']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
-					Trip Length:
-				</label>
-				<div class="controls col-md-10">
-					<select
-						id="trip-length-dropdown"
-						class="form-control"
-						ng-model="costEstimator.tripExemption"
-						ng-options="tripExemption.label for tripExemption in costEstimator.tripExemptions"
-					>
-					</select>
-				</div>
-			</div>
-
-			<div id="province-group" class="row">
-				<div class="col-md-8">
-					<label class="control-label" for="cdn-taxrate-input">
-					<a href="" uib-popover="{{costEstimator.popoverText['province']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
-						Province:
-					</label>
-					<select
-						id="provincial-tax-dropdown"
-						class="form-control"
-						ng-model="costEstimator.provincialTax"
-						ng-options="provincialTax.label for provincialTax in costEstimator.provincialTaxes"
-						>
-					</select>
-				</div>
-				<div class="col-md-4 snuggle">
-					<label class="control-label" for="cdn-taxrate-input">
-						<a href="" uib-popover="{{costEstimator.popoverText['cdn-tax']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
-						Rate:
-					</label>
-					<input
-						id="cdn-taxrate-input"
-						type="number"						
-						class="form-control percent-input"
-						step="0.1"
-						min="0"
-						max="100"
-						style="width: 70%;"						
-						ng-model="costEstimator.provincialTax.combinedRate"
-					/>
-					<label class="percent-sign">%</label>
-				</div>
-			</div>
-
-		</section> <!-- cdn-taxes-section -->
-
-		<section class="side-section">
-
-			<h3 class="side-header">US Sales Tax</h3>
-			<div class="row">
-				<div class="col-md-8">
-					<label control-label" for="zipcode-input">
-						<a href="" uib-popover="{{costEstimator.popoverText['zipcode']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
-						Zipode:
-					</label>
-					<input
-						id="zipcode-input"
-						class="form-control percent-input"
-						type="text"
-						ng-model="costEstimator.taxUS.zipCode"
-						ng-pattern="/^(\d{5}-\d{4}|\d{5})$/"
-						placeholder="Zipcode"
-						ng-blur="costEstimator.getUStaxRate()"
-						required
-					/>	
-
-				</div>
-				<div class="col-md-4 snuggle">
-					<label class="control-label" for="us-tax-rate-input">
-						<a href="" uib-popover="{{costEstimator.popoverText['us-tax']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
-						Rate:
-					</label>					
-					<input
-						id="us-tax-rate-input"
-						class="form-control percent-input"
-						type="number"
-						step="0.1"
-						min="0"
-						max="100"
-						style="width: 70%;"
-						ng-model="costEstimator.taxUS.rate"
-						ng-blur="costEstimator.onBlurUStaxField()"
-					/>
-					<label class="percent-sign">%</label>
-				</div>
-			</div>	
-			<div class="row">
-				<div class="col-md-3">
-					<button
-						id="button-us-tax-rate"
-						type="button"
-						name="button-us-tax-rate"
-						class="btn btn-primary btn-md"
-					>
-						Search
-					</button>
-				</div>
-				<em class="col-md-9">{{costEstimator.taxUS.region}}</em>
-			</div>
-					
-		</section>
-
-	</div> <!-- end right column -->
-
-	<div class="col-md-8">
-		<div class="heading-wrapper">
+	<div class="col-md-8 col-md-push-4">
+		
+		<div class="header-wrapper">
 			<h1>Cost Estimator</h1>
 			<h3>Don't be caught by surprise!</h3>
-			<h4>Enter costs in USD. All fields are optional. Find your tax rates, then click 'Calculate' to see results below.</h4>			
+			<p>Enter costs in USD. All fields are optional. Find your tax rates, then click 'Calculate' to see results below.</p>		
 		</div>
-		<div id="item-header-row" class="row form-group">
-			<div class="col-md-3 col-md-offset-1">
-				Description
-			</div>
-			<div class="col-md-2">
+
+		<div id="item-header-row" class="flex-space">
+
+			<label class="number-col"><!--placeholder--></label>
+			
+			<label class="desc-col">Description</label>
+		
+			<label class="price-col">
 				<a href="" uib-popover="{{costEstimator.popoverText['price']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-right" class="glyphicon glyphicon-question-sign"></a>					
 				Price
-			</div>
-			<div class="col-md-2">
+			</label>
+			
+			<label class="checkbox-col">
 				<a href="" uib-popover="{{costEstimator.popoverText['taxable']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-right" class="glyphicon glyphicon-question-sign"></a>								
 				Taxable
-			</div>
-			<div class="col-md-3">
+			</label>
+
+			<label class="duty-col">
 				<a href="" uib-popover="{{costEstimator.popoverText['duty']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-right" class="glyphicon glyphicon-question-sign"></a>							
 				Duty
-			</div>
-			<div class="col-md-1"></div> <!-- todo offset 1 -->
+			</label>
+
+			<label class="delete-col"></label>
+
 		</div>
 
-		<div id="item-row-{{item.number}}" class="row form-group vertical-align" ng-repeat="item in costEstimator.itemsArray">
-			<label class="col-md-1 text-right snuggle">Item {{item.number}}</label>
-			<div class="col-md-3">
-				<input type="text" id="item-desc-{{item.number}}" class="form-control" ng-model="item.desc" />
-			</div>
-			<div class="col-md-2">
-				<input type="text" class="form-control" ng-model="item.priceUSD" placeholder="0" format-as-currency />
-			</div>
-			<div class="col-md-2 text-center">
+		<div id="item-row-{{item.number}}" class="item-row flex-space vertical-align" ng-repeat="item in costEstimator.itemsArray">
+
+			<label for="item-desc-{{item.number}}" class="number-col">
+				Item {{item.number}}
+			</label>
+
+			<input type="text" id="item-desc-{{item.number}}" class="desc-col item-control" ng-model="item.desc" />
+			
+			<input type="text" class="price-col item-control" ng-model="item.priceUSD" placeholder="0" format-as-currency />
+
+			<span class="checkbox-col vertical-align flex-center">
 				<label for="taxable-us">US</label>
-				<input type="checkbox" class="taxable-checkbox" id="taxable-us" ng-value="true" ng-model="item.taxableUS" />
+				<input type="checkbox" id="taxable-us" ng-value="true" ng-model="item.taxableUS" />
 				<label for="taxable-cdn">CDN</label>
-				<input type="checkbox" class="taxable-checkbox" id="taxable-cdn" ng-value="true" ng-model="item.taxableCDN" />
-			</div>
-			<div class="col-md-3">
-		      <select
-		      	class="form-control"
-		      	ng-model="item.dutyCategory"
-		      	ng-options="dutyCategory.label for dutyCategory in costEstimator.dutyCategories"
-		      >
-		      </select>
-			</div>
-			<div class="col-md-1">
+				<input type="checkbox" id="taxable-cdn" ng-value="true" ng-model="item.taxableCDN" />
+			</span>
+
+			<select
+				class="duty-col item-control"
+				ng-model="item.dutyCategory"
+				ng-options="dutyCategory.label for dutyCategory in costEstimator.dutyCategories"
+			></select>
+
+			<span class="delete-col">
 				<a href="" uib-popover="{{costEstimator.dialogTemplates['us-tax']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" ng-click="costEstimator.removeItem(item.number)" class="glyphicon glyphicon-remove-sign"></a>
-			</div>
+			</span>
+
 		</div>
 
-		<div class="text-center">
-			<button 
-				id="button-add-item" 
-				type="button" 
-				class="btn btn-success" 
-				ng-click="costEstimator.addItem()"
-				style="width: 140px;">
-				Add New Item
-			</button>
-			<button
-				type="button"
-				class="btn btn-danger"
-				ng-click="costEstimator.reset()"
-			>
-				Reset
-			</button>
-		</div>
-		<div class="text-center">
-			<button
-				id="button-calculate"
-				type="button"
-				class="btn btn-primary btn-lg"
-				ng-click="costEstimator.calculate()"
-			>
-				Calculate
-			</button>
+		<div id="button-group">
+			<div>
+				<button id="add-item" type="button" class="btn btn-success"	ng-click="costEstimator.addItem()">
+					Add New Item
+				</button>
+				<button id="reset" type="button" class="btn btn-danger" ng-click="costEstimator.reset()">
+					Reset
+				</button>
+			</div>
+			<div>
+				<button	id="calculate" type="button" class="btn btn-primary btn-lg" ng-click="costEstimator.calculate()">
+					Calculate
+				</button>
+			</div>
 		</div>
 
 		<section id="cost-estimator-results" ng-if="costEstimator.show.results">  
-	
-			<!--table id="US-Summary-xs" class="table table-striped us-results">
-				<thead>
-					<tr>
-						<h2 class="table-heading">US Summary</h2>
-						<h3>Your costs USD</h3>
-					</tr>
-					<tr class="whitedark">
-						<th>List Price</th>	
-						<th>Sales Tax</th>
-						<th>Subtotal</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="item in costEstimator.itemsArray">
-						<td>{{item.priceUSD | currency}}</td>		
-						<td>{{item.taxUSD | currency}}</td>
-						<td><strong>{{item.subtotalUSD | currency}}</strong></td>				
-					</tr>
-				</tbody>	
-			</table>
-			<table class="table table-striped us-summary">
-				<thead>
-					<tr class="whitedark">
-						<th><strong>Total Cost</strong></th>
-					</tr>		
-				</thead>
-				<tbody>
-					<tr>		
-						<td>{{grandTotalUSD | currency}}</td>
-					</tr>
-				</tbody>		
-			</table> -->
 
-			<h2 class="text-center">Results</h2>
-			<h3 class="text-center">Your costs in CAD</h3>
-			<table class="table table-striped">
-				<thead>
-					<tr class="whitedark">
-						<th></th>
-						<th ng-if="costEstimator.show.descCol">Description</th>
-						<th>
-							<a href="" uib-popover="{{costEstimator.popoverText['declarable-amt']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>	
-							Declarable
-						</th>
-						<th>
-							<a href="" uib-popover="{{costEstimator.popoverText['taxable-amt']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
-							Taxable
-						</th>
-						<th>
-							<a href="" uib-popover="{{costEstimator.popoverText['sales-tax-amt']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
-							Sales Tax
-						</th>
-						<th ng-if="costEstimator.show.dutyCol">
-							<a href="" uib-popover="{{costEstimator.popoverText['duty-amt']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
-							Duty
-						</th>
-						<th>
-							<a href="" uib-popover="{{costEstimator.popoverText['bank-fee-amt']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
-							Bank Fee
-						</th>
-						<th>
-							<a href="" uib-popover="{{costEstimator.popoverText['trip-length']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-right" class="glyphicon glyphicon-question-sign"></a>
-							Total
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="item in costEstimator.itemsArray">
-						<td>{{item.number}}</td>
-						<td ng-if="costEstimator.show.descCol">{{item.desc}}</td>
-						<td>{{item.declarableValueCAD | currency}}</td>
-						<td>{{item.taxableValueCAD | currency}}{{item.asterik}}</td>
-						<td>{{item.taxCAD | currency}}</td>
-						<td ng-if="costEstimator.show.dutyCol">{{item.dutyCAD | currency}}</td>
-						<td>{{item.bankFeeCAD | currency}}
-						<td>{{item.subtotalCAD  | currency}}</td>
-					</tr>
-					<tr ng-if="costEstimator.show.totals" style="font-weight: bold;">
-						<td ng-if="costEstimator.show.descCol"></td>
-						<td>TOTALS:</td>
-						<td>{{costEstimator.subtotal.declarable | currency}}</td>
-						<td>{{costEstimator.subtotal.taxable | currency}}</td>
-						<td>{{costEstimator.subtotal.tax | currency}}</td>
-						<td ng-if="costEstimator.show.dutyCol">{{costEstimator.subtotalDuty | currency}}</td>
-						<td>{{costEstimator.subtotal.bankFee | currency}}
-						<td>{{costEstimator.grandTotal.everything | currency}}</td>
-					</tr>
-				</tbody>
-			</table>
+			<div class="header-wrapper">
+				<h2 class="text-center">Results</h2>
+				<h3 class="text-center">Your costs in CAD</h3>
+			</div>
+
+			<div class="table-responsive">
+
+				<table class="table table-striped">
+					<thead>
+						<tr class="whitedark">
+							<th></th>
+							<th ng-if="costEstimator.show.descCol">Description</th>
+							<th>
+								<a href="" uib-popover="{{costEstimator.popoverText['declarable-amt']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>	
+								Declarable
+							</th>
+							<th>
+								<a href="" uib-popover="{{costEstimator.popoverText['taxable-amt']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
+								Taxable
+							</th>
+							<th>
+								<a href="" uib-popover="{{costEstimator.popoverText['sales-tax-amt']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
+								Sales Tax
+							</th>
+							<th ng-if="costEstimator.show.dutyCol">
+								<a href="" uib-popover="{{costEstimator.popoverText['duty-amt']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
+								Duty
+							</th>
+							<th>
+								<a href="" uib-popover="{{costEstimator.popoverText['bank-fee-amt']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
+								Bank Fee
+							</th>
+							<th>
+								<a href="" uib-popover="{{costEstimator.popoverText['trip-length']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-right" class="glyphicon glyphicon-question-sign"></a>
+								Total
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in costEstimator.itemsArray">
+							<td>{{item.number}}</td>
+							<td ng-if="costEstimator.show.descCol">{{item.desc}}</td>
+							<td>{{item.declarableValueCAD | currency}}</td>
+							<td>{{item.taxableValueCAD | currency}}{{item.asterik}}</td>
+							<td>{{item.taxCAD | currency}}</td>
+							<td ng-if="costEstimator.show.dutyCol">{{item.dutyCAD | currency}}</td>
+							<td>{{item.bankFeeCAD | currency}}</td>
+							<td>{{item.subtotalCAD  | currency}}</td>
+						</tr>
+						<tr ng-if="costEstimator.show.totals" style="font-weight: bold;">
+							<td ng-if="costEstimator.show.descCol"></td>
+							<td>TOTALS:</td>
+							<td>{{costEstimator.subtotal.declarable | currency}}</td>
+							<td>{{costEstimator.subtotal.taxable | currency}}</td>
+							<td>{{costEstimator.subtotal.tax | currency}}</td>
+							<td ng-if="costEstimator.show.dutyCol">{{costEstimator.subtotalDuty | currency}}</td>
+							<td>{{costEstimator.subtotal.bankFee | currency}}
+							<td>{{costEstimator.grandTotal.everything | currency}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 
 			<p class="calc-notes">
 				<span ng-if="costEstimator.show.note1">*trip exemption applied</span>
@@ -326,27 +150,189 @@
 			</p>
 
 			<div ng-if="costEstimator.show.totals" id="totals-wrapper" class="row">
-				<div class="col-md-4">
+				<div class="col-sm-4 hidden-xs">
 					<a href="" uib-popover="{{costEstimator.popoverText['total-cost-us']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
-					Total Cost South of Border
+					Total Cost in US
 					<h1>{{costEstimator.grandTotal.US | currency}}</h1>
-				</div>				
-				<div class="col-md-4">
+				</div>
+				<div class="col-sm-4 hidden-xs">
 					<a href="" uib-popover="{{costEstimator.popoverText['total-border']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
 					Total Cost at Border
 					<h1>{{costEstimator.grandTotal.customs | currency}}</h1>
 				</div>
-				<div class="col-md-4">
+				<div class="col-sm-4 hidden-xs">
 					<a href="" uib-popover="{{costEstimator.popoverText['total-cost']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
 					Total Cost of Everything
-					<h1>{{costEstimator.grandTotal.everything | currency}}<h1>
-				</div>		
+					<h1>{{costEstimator.grandTotal.everything | currency}}</h1>
+				</div>
 
 			</div>
 
-		</section> <!-- end of print div-->
+		</section>
 
 	</div>
+
+	<div class="col-md-4 col-md-pull-8">
+
+		<uib-accordion>
+
+			<div uib-accordion-group class="side-section" is-open="costEstimator.accordionStatus.exchangeOpen">
+
+				<uib-accordion-heading>
+					<h3 class="side-header">Exchange Rate <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': costEstimator.accordionStatus.exchangeOpen, 'glyphicon-chevron-right': !costEstimator.accordionStatus.exchangeOpen}"></i></h3> 
+				</uib-accordion-heading>
+
+				<div class="header-wrapper">
+					<h4>$1 USD = ${{costEstimator.exchange.rateCAD}} CAD</h4>
+					<h4>$1 CAD = ${{costEstimator.exchange.rateUSD}} USD</h4>
+					<small>As of {{costEstimator.exchange.date}}</small>
+				</div>	
+
+				<div id="conversion-group">
+					<p>
+						Note: With a bank fee rate of 
+						<strong>{{costEstimator.exchange.rateBank}}% </strong>
+						you'll pay ${{costEstimator.exchange.rateCADtotal}} CAD for $1 USD
+					</p>
+					<label for="bank-fee-input">
+						<a href="" uib-popover="{{costEstimator.popoverText['bank-fee']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
+						Bank Fee Rate:
+					</label>
+					<input
+						id="bank-fee-input"
+						class="form-control percent-input"
+						type="number"
+						step="0.1"
+						min="0"
+						max="10"
+						style="width: 20%;"
+						ng-model="costEstimator.exchange.rateBank"
+						ng-change="costEstimator.getTotalCostExchange()"
+					/>
+				 	<span class="percent-sign">%</span>
+				</div>
+
+		    </div>
+		</uib-accordion>
+
+		<uib-accordion>
+
+			<div uib-accordion-group class="side-section" is-open="costEstimator.accordionStatus.taxCDNOpen">
+
+				<uib-accordion-heading>
+					<h3 class="side-header">CDN Sales Tax <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': costEstimator.accordionStatus.taxCDNOpen, 'glyphicon-chevron-right': !costEstimator.accordionStatus.taxCDNOpen}"></i></h3> 
+				</uib-accordion-heading>
+
+
+				<div id="trip-length-group" class="form-group">
+
+					<label class="col-form-label" for="trip-length-dropdown">
+						<a href="" uib-popover="{{costEstimator.popoverText['trip-length']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
+						Trip Length:
+					</label>
+					<select 
+						class="form-control" 
+						id="trip-length-dropdown"
+						ng-model="costEstimator.tripExemption"
+						ng-options="tripExemption.label for tripExemption in costEstimator.tripExemptions"
+					>
+					</select>
+				</div>
+
+				<div id="province-group" class="row">
+					<div class="col-xs-7">
+						<label class="control-label" for="cdn-taxrate-input">
+						<a href="" uib-popover="{{costEstimator.popoverText['province']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
+							Province:
+						</label>
+						<select
+							id="provincial-tax-dropdown"
+							class="form-control"
+							ng-model="costEstimator.provincialTax"
+							ng-options="provincialTax.label for provincialTax in costEstimator.provincialTaxes"
+							>
+						</select>
+					</div>
+					<div class="col-xs-5 snuggle">
+						<label class="control-label" for="cdn-taxrate-input">
+							<a href="" uib-popover="{{costEstimator.popoverText['cdn-tax']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
+							Tax Rate:
+						</label>
+						<input
+							id="cdn-taxrate-input"
+							type="number"						
+							class="form-control percent-input"
+							step="0.1"
+							min="0"
+							max="100"
+							style="width: 70%;"						
+							ng-model="costEstimator.provincialTax.combinedRate"
+						/>
+						<label class="percent-sign">%</label>
+					</div>
+				</div>
+			</div>
+		</uib-accordion> <!-- cdn-taxes-section -->
+
+
+		<uib-accordion>
+
+			<div uib-accordion-group class="side-section" is-open="costEstimator.accordionStatus.taxUSAOpen">
+
+				<uib-accordion-heading>
+					<h3 class="side-header">US Sales Tax <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': costEstimator.accordionStatus.taxUSAOpen, 'glyphicon-chevron-right': !costEstimator.accordionStatus.taxUSAOpen}"></i></h3> 
+				</uib-accordion-heading>
+				<div class="row">
+					<div class="col-xs-7">
+						<label class="control-label" for="zipcode-input">
+							<a href="" uib-popover="{{costEstimator.popoverText['zipcode']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
+							Zipode:
+						</label>
+						<input
+							id="zipcode-input"
+							class="form-control percent-input"
+							type="text"
+							ng-model="costEstimator.taxUS.zipCode"
+							ng-pattern="/^(\d{5}-\d{4}|\d{5})$/"
+							placeholder="Zipcode"
+							ng-blur="costEstimator.getUStaxRate()"
+							required
+						/>
+					</div>
+
+					<div class="col-xs-5 snuggle">
+						<label class="control-label" for="us-tax-rate-input">
+							<a href="" uib-popover="{{costEstimator.popoverText['us-tax']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
+							Tax Rate:
+						</label>					
+						<input
+							id="us-tax-rate-input"
+							class="form-control percent-input"
+							type="number"
+							step="0.1"
+							min="0"
+							max="100"
+							style="width: 70%;"
+							ng-model="costEstimator.taxUS.rate"
+							ng-blur="costEstimator.onBlurUStaxField()"
+						/>
+						<label class="percent-sign">%</label>
+					</div>
+				</div>	
+				<div class="row">
+					<div class="col-xs-3">
+						<button id="button-us-tax-rate" type="button" name="button-us-tax-rate" class="btn btn-primary btn-md">
+							Search
+						</button>
+					</div>
+					<em class="col-xs-9">{{costEstimator.taxUS.region}}</em>
+				</div>
+			</div>		
+		</uib-accordion>
+
+	</div> <!-- end right column -->
+
+	
 
 </div>
 

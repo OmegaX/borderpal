@@ -38,6 +38,24 @@ export default class EstimatorController {
     // add first item
     this.itemCounter = 1;   
     this.addItem();
+
+    let screenWidth = window.innerWidth;
+
+    if (screenWidth > 992){
+        this.accordionStatus = {
+          exchangeOpen: true,
+          taxCDNOpen: true,
+          taxUSAOpen: true
+        };
+    } else {
+        this.accordionStatus = {
+          exchangeOpen: false,
+          taxCDNOpen: false,
+          taxUSAOpen: false
+        };
+    }
+
+
   }
 
   reset() {

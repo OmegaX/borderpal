@@ -6,8 +6,8 @@ const config = {
   devtool: "inline-source-map",
   entry: './src/app/app.module.js',
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),    
+    filename: 'bundle.js'
   },
   devServer: {
     historyApiFallback: {
@@ -17,8 +17,7 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Output Managements',
-      template: './src/index.template.ejs',
-      inject: 'html',
+      template: './src/index.template.ejs'
     }),
   ],
   module: {
@@ -34,6 +33,11 @@ const config = {
         ]
       },
       {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
+      },
+      {
         test: /\.scss$/,
             use: [{
                 loader: "style-loader" // creates style nodes from JS strings
@@ -42,7 +46,7 @@ const config = {
             }, {
                 loader: "sass-loader" // compiles Sass to CSS
             }]
-      },   
+      },
       {
         test: /\.(png|svg|jpg|gif|eot|ttf|woff|woff2)$/,
         use: [
@@ -52,17 +56,6 @@ const config = {
       {
         test: /\.html$/,
         loader: 'html-loader'
-      },
-      {
-
-      'loader': 'babel-loader',
-      'test': /\.js$/,
-      'exclude': /node_modules/,
-      'query': {
-        'plugins': ['lodash'],
-        'presets': [['env', { 'targets': { 'node': 4 } }]]
-      }
-
       }
     ],
 
