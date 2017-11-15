@@ -94,11 +94,11 @@ export default class ConverterController {
 
   // rounding function accepts a value to round and a precision
   round(number = 0, precision = 1) {
-    const factor = Math.pow(10, precision);
+    const factor = 10 ** precision;
     const tempNumber = number * factor;
     const roundedTempNumber = Math.round(tempNumber);
     return roundedTempNumber / factor;
-  };
+  }
 
   // convert temperatures C to F or F to C
   convertTemp(unit = null, temp = null) {

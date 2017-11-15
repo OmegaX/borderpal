@@ -183,8 +183,8 @@
 				</uib-accordion-heading>
 
 				<div class="header-wrapper">
-					<h4>$1 USD = ${{costEstimator.exchange.rateCAD}} CAD</h4>
-					<h4>$1 CAD = ${{costEstimator.exchange.rateUSD}} USD</h4>
+					<h4>$1 USD = ${{costEstimator.exchange.rateCAD | number:3}} CAD</h4>
+					<h4>$1 CAD = ${{costEstimator.exchange.rateUSD | number:3}} USD</h4>
 					<small>As of {{costEstimator.exchange.date}}</small>
 				</div>	
 
@@ -192,7 +192,7 @@
 					<p>
 						Note: With a bank fee rate of 
 						<strong>{{costEstimator.exchange.rateBank}}% </strong>
-						you'll pay ${{costEstimator.exchange.rateCADtotal}} CAD for $1 USD
+						you'll pay ${{costEstimator.exchange.rateCADtotal | number:3}} CAD for $1 USD
 					</p>
 					<label for="bank-fee-input">
 						<a href="" uib-popover="{{costEstimator.popoverText['bank-fee']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>

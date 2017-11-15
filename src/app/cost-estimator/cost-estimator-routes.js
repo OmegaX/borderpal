@@ -1,11 +1,11 @@
-routes.$inject = ['$stateProvider', '$locationProvider'];
+const template = require('./cost-estimator.html');
 
-export default function routes($stateProvider, $locationProvider) {
+export default function routes($stateProvider) {
   $stateProvider
-  .state('cost-estimator', {
-    url: '/cost-estimator',
-    template: require('./cost-estimator.html'),
-	controller: 'CostEstimatorCtrl',
-	controllerAs: 'costEstimator'
-  });
+    .state('cost-estimator', {
+      url: '/cost-estimator',
+      template,
+      controller: 'CostEstimatorCtrl',
+      controllerAs: 'costEstimator'
+    });
 }

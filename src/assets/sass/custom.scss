@@ -95,6 +95,12 @@ header {
         margin-top: 42px;
     }
 
+    .calc-notes {
+        span + span {
+            margin-left: 18px;
+        }
+    }
+
     #totals-wrapper {
          font-weight: bold; 
          text-align: center; 

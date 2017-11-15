@@ -1,24 +1,27 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const BabelWebpackPlugin = require('babel-minify-webpack-plugin');
+
 
 const config = {
-  devtool: "inline-source-map",
-  entry: './src/app/app.module.js',
-  output: {
-    path: path.resolve(__dirname, 'dist'),    
+    devtool: "inline-source-map",
+    entry: './src/app/app.module.js',
+    output: {
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
     filename: 'bundle.js'
   },
   devServer: {
     historyApiFallback: {
-      index: './dist/index.html'      
+      index: './dist/index.html'
     }
   },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Output Managements',
       template: './src/index.template.ejs'
-    }),
+    })
   ],
   module: {
     noParse: [
@@ -57,9 +60,8 @@ const config = {
         test: /\.html$/,
         loader: 'html-loader'
       }
-    ],
-
-  },
+    ]
+  }
 };
 
 module.exports = config;
