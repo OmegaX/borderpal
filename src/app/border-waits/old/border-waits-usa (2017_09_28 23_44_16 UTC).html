@@ -1,0 +1,47 @@
+<section id="border-waits-usa">
+	<div class="wait-table">
+		<h1>US Border Delays</h1>
+		<div class="center">
+			<img class="spinner" style="padding-top: 15px;" ng-src="images/spinner.gif" style="display:none;">		
+		</div>	
+		<table id="US_border_results" class="table table-hover wait_table">
+			<caption>{{time}}</caption>
+			<tbody>
+				<tr ng-repeat="port in ports  | orderBy:'-prov'">
+					<td><strong>{{port.crossing_name}}</strong><br>{{port.port_name}}</td>
+					<td><strong>{{port.delay}}</strong><small>{{port.updated}}</small><br><small>{{port.lanes}}</td>
+					<td>{{port.hours}}<br>{{port.date}}<br>{{port.status}}</td>
+					<td style="text-align: center;" ng-click="openGoogleMap(port.crossing_name, port.lat, port.lng, port.index)" ng-class="{'selected':port.index == selectedRow}"><img class="google-icon" src="images/google-map.ico"/><br><small>View Map</small></td>
+					<td style="text-align: center;" ng-click="getGasPrices(port.crossing_name, port.zip)" ng-class="{'selected':port.index == selectedRow}"><img class="gas-icon" src="images/gas.svg"/><br><small>Find Gas</small></td>				
+				</tr>
+			</tbody>
+		</table>
+		<small>Source: US Customs and Border Protection Agency</small>
+	</div>
+	
+	<div id="mapdiv">
+		<div ng-show="divShow.mapShow">
+			<h3>{{portmapname}}</h3>			
+			<div id="googleMap"style="width:100%;height:430px;"></div>
+		</div>
+	</div>
+	
+	<div id="gasdiv">
+		<div class="center">
+			<img class="spinner" style="padding-top: 15px;" ng-src="images/spinner.gif" style="display:none;">		
+		</div>	
+		<h3>{{portgasname}}</h3>
+		<table id="gastable" class="table table-bordered table-hover">
+			<tbody>
+				<tr ng-repeat="station in stations">
+					<td style="width: 4%;" class="center" ng-bind-html="station.logo"></td>	
+					<td style="width: 15%;" class="center"><strong>{{station.brand}}</strong></td>	
+					<td style="width: 20%;" class="center"><strong class="price">{{station.price}}</strong><p>{{USgallon}}</p></td>		
+					<td style="width: 61%;">{{station.address}}</td>
+				</tr>	
+			</tbody>						
+		</table>
+	</div>
+
+</section>
+

@@ -4,38 +4,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="/">
 </head>
-<body>
-<header>
-	
-</header>
-<nav class="navbar navbar-inverse vertical-align">
-  <div class="container-fluid">
-	 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#borderpal-navbar">
-		<span class="sr-only">Toggle navigation</span>
-		<span class="icon-bar"></span>
-		<span class="icon-bar"></span>
-		<span class="icon-bar"></span>
-	</button>
-    <div class="collapse navbar-collapse" id="borderpal-navbar">
-      <ul class="nav navbar-nav">
-        <li><a href="/cost-estimator">Cost Estimator</a></li>
-        <li><a href="/metric-converter">Metric Converter</a></li>
+<body ng-app="borderPalApp">
+	<header>
+		<!-- background image set by css -->
+	</header>
+	<nav class="navbar nav-big" role="navigation">
+		<ul class="nav navbar-nav">
+			<li><a href="cost-estimator">Cost Estimator</a></li>
+			<li><a href="gas-calculator">Gas</a></li>			
+			<li><a href="border-waits-usa">Border Waits</a></li>
+			<li><a href="unit-converter">Unit Converter</a></li>
+			<li><a href="duty-table">Duty Table</a></li>
+		</ul>
+	</nav>
 
-		<li><a href="duty-table">Duty Table</a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-
-<main ng-app="borderPalApp" class="container-fluid">
-	<div ui-view autoscroll="false"></div>
-</main>
-
-<footer class="row" style="padding-top: 20px;">
-	<div class="col-md-6"></div>
-	<div class="col-md-6">
-		<div class="fb-like" data-href="http://borderpal.ca" style="float:right;" data-width="300px" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
-	</div>
-</footer>
+	<nav class="navbar nav-small" role="navigation" ng-controller="NavCtrl as navCtrl">
+		<div class="navbar-header">
+			<a ng-click="navCtrl.isNavCollapsed = !navCtrl.isNavCollapsed" class="navbar-brand" href="#">Menu</a>			
+			<button type="button" class="navbar-toggle" ng-click="navCtrl.isNavCollapsed = !navCtrl.isNavCollapsed">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+		<div class="collapse navbar-collapse" uib-collapse="navCtrl.isNavCollapsed">
+	      <ul class="nav navbar-nav">
+			<li><a href="cost-estimator">Cost Estimator</a></li>
+			<li><a href="gas-calculator">Gas</a></li>			
+			<li><a href="border-waits">Border Waits</a></li>
+			<li><a href="unit-converter">Unit Converter</a></li>
+			<li><a href="duty-table">Duty Table</a></li>
+	      </ul>
+		</div>
+	</nav>
+	<main class="container-fluid">
+		<div ui-view autoscroll="false"></div>
+	</main>
+	<footer class="row" style="padding-top: 20px;">
+		<div class="col-md-6"></div>
+		<div class="col-md-6">
+			<div class="fb-like" data-href="http://borderpal.ca" style="float:right;" data-width="300px" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+		</div>
+	</footer>
 
 </body>

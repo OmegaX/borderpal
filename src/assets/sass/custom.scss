@@ -1,10 +1,121 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 @import 'nav.scss';
+@import 'variables.scss';
+
+@import "../../../node_modules/font-awesome/scss/font-awesome";
+.icon-user {
+    @extend .fa;
+    @extend .fa-user;
+}
+
+select.top-level {    
+    height: 50px;
+    padding-left: 15px;
+    font-size: 20px;
+    background-color: $light-green;
+    width: 40%;
+    margin: 0 auto;
+}
+
+table.table {
+    div.big-name {
+        font-weight: bold; 
+        font-size: 1.2em;
+    }
+
+
+thead > tr > th, tbody > tr > th,  tbody > tr > td {
+        vertical-align: middle;
+    }    
+}
+
+
+
+table#gas-results {
+    
+
+    td.big {
+        font-size: 2.3em;
+        font-weight: 900;
+        cursor: pointer; 
+        vertical-align: middle;
+    }
+    td.big:hover {
+        background-color: $light-green;
+    }
+
+}
+
+    .medium {
+        font-size: 1.4em;
+        line-height: 1.1;
+        font-weight: 600;
+    }
+
+    .big {
+
+       font-size: 2.1em;
+       font-weight: 700;
+       line-height: 1.3;
+    }
+
+    .huge {
+
+        display: block;
+        font-size: 3.4em;
+        line-height: .5;
+        font-weight: 900;
+    }
+
+.gas-section {
+    h3.results {
+        position: absolute; 
+        left: 31%; 
+        top: 10.5%; 
+        font-weight: bold;
+    }
+}
+
+
+.gas-results {
+    
+    position: absolute; 
+    width: 34%; 
+    left: 24.5%; 
+    top: 21%; 
+    color: white; 
+    text-align: center; 
+
+
+    h1, h2, h3, h4 {
+    margin: 0;
+    }
+
+    h2 {
+    font-weight: 900;
+    }
+
+    span {
+        display: block;
+    }
+
+
+
+}
 
 body {
-    font-family: 'Roboto', sans-serif !important;
+    font-family: $font-stack;
+    color: $primary-color;
     max-width: 1800px;
     margin: 0 auto;
+}
+
+div.gas-section {
+    background-image: url("../images/gas-tank.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 300px;
 }
 
 header {
@@ -15,7 +126,11 @@ header {
     background-position: center;
  }
 
- .header-wrapper {
+a:hover, a:focus {
+    text-decoration: none;
+}
+
+.header-wrapper, .side-header-wrapper {
     text-align: center;
     margin: 28px 0;
 
@@ -30,23 +145,29 @@ header {
     }
 }
 
+.side-section {
+    margin: 16px 0; 
+    padding: 5%;
+    background-color: #ebfaeb;
+}
+
+.row + .row {
+    padding-top: 8px;
+}
+
+.group:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.side-header {
+    margin-bottom: 16px;
+    text-align: center;
+    font-weight: bold;
+}
+
 #cost-estimator {
-    
-    .side-section {
-        background-color: #ebfaeb;
-        margin: 16px 0; 
-        padding: 5%;
-
-        .row + .row {
-            padding-top: 16px;  
-        }
-    }
-
-    .side-header {
-        margin-bottom: 16px;
-        text-align: center;
-        font-weight: bold;
-    }
 
     .panel-heading {
         padding: 0;
@@ -114,66 +235,75 @@ header {
     }
 } 
 
-#metric-converter {
+#unit-converter {
 
-    #conversion-group {
-        text-align: center;
-    }
+    div.converter {
+        height: 60px; 
+        border-bottom: 1px #d3e1d3 solid; 
+        
+        cursor: pointer; 
+        @extend .vertical-align;
 
-    #converter-section {
-        text-align: center;
-    }
+        span.fa-wrapper {
+            width: 25%;
+            @extend .flex-center;
+        }
 
-    .converter-container {
-        position: relative;
-        margin: 0 auto;
-        min-height: 400px;
-    }
+        span.fa-label {
+            font-weight: bold; 
+            font-size: 1.3em;
+            width: 75%;
+        }
+
+        i {
+            font-size: 1.8em; 
+        }
+    } 
 
     .input-container {
         float: left;
         width: 47%;
-    }
-
-    .converter-dropdown {
-        margin-top: 3px;
+        select {
+            margin-top: 3px;        
+        }
+        .form-control {
+            height: 40px;
+            padding-left: 15px;
+            font-size: 18px;
+        }
     }
 
     .center-container {
         float: left;
-        width: 6%;
-        font-size: 2em;
+        width: 6%;   
         text-align: center;
+        font-size: 2em;
+
     }
 
-    .input-container .form-control {
-        height: 40px;
-        padding-left: 15px;
-        font-size: 18px;
-    }
-
-    .top-container .form-control {
+    select.unit-type {
         height: 50px;
         padding-left: 15px;
         font-size: 20px;
         background-color: #ebfaeb;
     }
 
-    .center-container h4 {
-        padding: 15px 0 15px 0;
+    p.explanation {
+        text-align: center;
+        padding: 18px;
+        font-size: 1.3em;
     }
+
 }
 
 
-/* duty table containers */
+/* custom classes */
 
 .duty-table {
     width: 80%;
     margin: 0 auto;
     margin-top: 36px;
 }
-
-/* custom classes */
 
 .vertical-align {
     display: flex;
@@ -190,24 +320,24 @@ header {
     justify-content: center;
 }
 
-/*.snuggle {
+.snuggle {
     padding-left: 0;
     padding-right: 0;
-}*/
+}
 
 .item-control {
     height: 34px;
     padding: 6px 12px;
     font-size: 1em;
-    line-height: 1.42857143;
+    line-height: 1.4;
     color: #555;
     background-color: #fff;
-    background-image: none;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
 .percent-sign {
+    display: inline;
     padding-left: 6px;
     font-size: 1.2em;
     font-weight: bold;
@@ -216,6 +346,7 @@ header {
 .percent-input {
     display: inline; 
     padding-right: 0;
+    width: 20%;
 }
 
 .control-label {
@@ -237,25 +368,26 @@ header {
         height: 120px;
     }
 
-    #metric-converter {
+    .header-wrapper {
+        h2, h3, h4, h5 {
+            display: none;
+        }
+    }
+
+
+    #unit-converter {
 
         .converter-container {
             width: 90%;
         }
 
-        .top-container {
+        select.unit-type {
             width: 100%;
             margin-bottom: 12px;
         }
     }
 
     #cost-estimator {
-
-        .side-section {
-            background-color: #fff;
-            margin: 0;
-            padding: 0;
-        }
 
         .table-responsive {
             padding-bottom: 24px;
@@ -302,15 +434,13 @@ header {
         height: 160px;
     }
 
-    #metric-converter {
-
+    #unit-converter {
         .converter-container {
             width: 80%;
         }
-    } /* end xs metric converter */
+    } /* end xs unit converter */
 
     #cost-estimator {
-
         .number-col {
             width: 8%;
             display: inline-block;
@@ -330,9 +460,13 @@ header {
         height: 200px;
     }
 
-    #metric-converter {
+    .form-inline .control-label {
+        margin-bottom: 5px;
+    }
 
-        .top-container {
+    #unit-converter {
+
+        select.unit-type {
             margin: 24px auto;
             width: 48%;
         }
@@ -340,14 +474,13 @@ header {
         .converter-container {
             width: 70%;
         }
-    } /* end sm metric converter */
+    } /* end sm unit converter */
 
     #cost-estimator {
 
         .side-section {
             margin: 16px 0; 
             padding: 5%;
-            background-color: #ebfaeb;
         }
 
         .number-col {
@@ -396,16 +529,19 @@ header {
 
 /* md */
 @media only screen and (min-width : 992px) {
-
     header {
         height: 300px;
     }
 
-    #metric-converter .converter-container {
+    .header-wrapper {
+        h2, h3, h4, h5 {
+            display: block;
+        }
+    }
+    #unit-converter .converter-container {
         width: 50%;
     }
 }
-
 
 /* lg */
 @media only screen and (min-width : 1200px) {

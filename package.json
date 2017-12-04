@@ -12,6 +12,7 @@
     "bootstrap": "^3.3.7",
     "express": "^4.16.2",
     "express-history-api-fallback": "^2.2.1",
+    "font-awesome": "github:FortAwesome/Font-Awesome",
     "format-as-currency": "^3.1.3",
     "lint": "^1.1.2",
     "lodash": "^4.17.4",

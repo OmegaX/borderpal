@@ -1,8 +1,8 @@
-import moment from 'moment';
-
-export default class EstimatorController {
-  constructor(EstimatorService) {
+export default class CostEstimatorCtrl {
+  constructor(EstimatorService, ExchangeService) {
     this.EstimatorService = EstimatorService;
+    this.ExchangeService = ExchangeService;
+
     this.init();
   }
 
@@ -14,11 +14,12 @@ export default class EstimatorController {
 
     this.clean();
     this.getExchangeRate();
+
   }
 
   clean() {
     this.show = {};
-    this.exchange = { ...this.exchange, rateBank: 2.5 };
+
     this.taxUS = { rate: 0, region: 'Search for tax rate by zipcode, or enter it manually.' };
     this.subtotal = {};
     this.grandTotal = {};
@@ -35,13 +36,13 @@ export default class EstimatorController {
       this.accordionStatus = {
         exchangeOpen: true,
         taxCDNOpen: true,
-        taxUSAOpen: true,
+        taxUSAOpen: true
       };
     } else {
       this.accordionStatus = {
         exchangeOpen: false,
         taxCDNOpen: false,
-        taxUSAOpen: false,
+        taxUSAOpen: false
       };
     }
   }
@@ -51,19 +52,24 @@ export default class EstimatorController {
   }
 
   getExchangeRate() {
-    this.EstimatorService.getExchangeRate()
+    this.ExchangeService.callExchangeAPI()
       .then((response) => {
-        const exchangeUS = parseFloat(response.rates.CAD);
-        const exchangeBank = 2.5;
         this.exchange = {
           ...this.exchange,
-          date: moment(response.date).format('MMMM DD, YYYY'),
-          rateUSD: exchangeUS,
-          rateCAD: (1 / exchangeUS),
-          rateBank: exchangeBank,
-          rateCADtotal: exchangeUS * (1 + (exchangeBank / 100)),
+          date: response.date,
+          exchangeFee: 2.5,
+          rateUSD: response.rates.USD,
+          rateCAD: 1 / response.rates.USD
         };
+        this.getTotalCostExchange();
       });
+  }
+
+  getTotalCostExchange() {
+    this.exchange = {
+      ...this.exchange,
+      rateCADtotal: this.exchange.rateCAD * (1 + (this.exchange.exchangeFee / 100))
+    };
   }
 
   getUStaxRate() {
@@ -136,7 +142,7 @@ export default class EstimatorController {
   calculate() {
     const taxRateCDN = this.provincialTax.combinedRate / 100;
     const taxRateUS = this.taxUS.rate / 100;
-    const bankFeeRate = this.exchange.rateBank / 100;
+    const exchangeFee = this.exchange.exchangeFee / 100;
 
     let remainingExemption = this.tripExemption.exemption;
 
@@ -144,7 +150,7 @@ export default class EstimatorController {
     let subtotalTaxable = 0;
     let subtotalTax = 0;
     let subtotalDuty = 0;
-    let subtotalBankFee = 0;
+    let subtotalExchangeFee = 0;
 
     let grandTotalUSD = 0;
     let grandTotalCustomsCAD = 0;
@@ -168,9 +174,9 @@ export default class EstimatorController {
       item.subtotalUSD = item.priceUSD + item.taxUSD;
 
       // CAD calculations
-      item.declarableValueCAD = item.subtotalUSD * this.exchange.rateUSD;
+      item.declarableValueCAD = item.subtotalUSD * this.exchange.rateCAD;
 
-      item.bankFeeCAD = item.declarableValueCAD * bankFeeRate;
+      item.exchangeFeeCAD = item.declarableValueCAD * exchangeFee;
 
       if (this.tripExemption.id !== 'same-day') {
         if (item.taxableCDN) {
@@ -209,7 +215,7 @@ export default class EstimatorController {
 
       item.dutyCAD = item.taxableValueCAD * item.dutyCategory.dutyRate;
 
-      item.subtotalCAD = item.declarableValueCAD + item.taxCAD + item.dutyCAD + item.bankFeeCAD;
+      item.subtotalCAD = item.declarableValueCAD + item.taxCAD + item.dutyCAD + item.exchangeFeeCAD;
 
       item.subtotalCustomsCAD = item.taxCAD + item.dutyCAD;
 
@@ -218,7 +224,7 @@ export default class EstimatorController {
       subtotalTaxable += item.taxableValueCAD;
       subtotalTax += item.taxCAD;
       subtotalDuty += item.dutyCAD;
-      subtotalBankFee += item.bankFeeCAD;
+      subtotalExchangeFee += item.exchangeFeeCAD;
 
       grandTotalUSD += item.subtotalUSD;
       grandTotalCustomsCAD += item.subtotalCustomsCAD;
@@ -255,7 +261,7 @@ export default class EstimatorController {
       taxable: subtotalTaxable,
       tax: subtotalTax,
       duty: subtotalDuty,
-      bankFee: subtotalBankFee
+      exchangeFee: subtotalExchangeFee
     };
 
     this.grandTotal = {
@@ -265,3 +271,5 @@ export default class EstimatorController {
     };
   } // end of calculate function
 } // end of controller
+
+

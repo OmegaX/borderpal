@@ -1,12 +1,13 @@
-import dutyCategories from './duty-categories';
-import provincialTaxes from './provincial-taxes';
-import tripExemptions from './trip-exemptions';
-import popoverText from './popover-text';
+import statesArray from './us-states';
 
-export default class EstimatorService {
+export default class GasControllerService {
   constructor($http, $q) {
     this.$http = $http;
     this.$q = $q;
+  }
+
+  getStates() {
+    return statesArray;
   }
 
   // rounding function accepts a value to round and a precision
@@ -28,31 +29,15 @@ export default class EstimatorService {
       });
   }
 
-  getDutyCategories() {
-    return dutyCategories;
-  }
-
-  getPopoverText() {
-    return popoverText;
-  }
-
-  getProvincialTaxes() {
-    return provincialTaxes;
-  }
-
-  getTripExemptions() {
-    return tripExemptions;
-  }
-
-  getUSTaxRates(zip) {
-    const url = 'http://localhost/server/getustaxrate.php';
-    return this.$http.post(url, zip)
+  getGasPrices(state) {
+    const url = 'http://localhost/server/getgasprices.php';
+    return this.$http.post(url, state)
       .then((response) => {
-        if (typeof response.data === 'object') {
+        // if (typeof response.data === 'object') {
           return response.data;
-        }
-        // invalid response
-        return this.$q.reject(response.data);
+        // }
+        // valid response
+        // return this.$q.reject(response.data);
       });
   }
 }

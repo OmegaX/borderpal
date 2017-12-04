@@ -1,16 +1,16 @@
 import angular from 'angular';
 import uirouter from 'angular-ui-router';
-import formatAsCurrency from 'format-as-currency';
-import dutyCategories from './duty-categories';
 
-import routes from './cost-estimator-routes.js';
-import CostEstimatorCtrl from './cost-estimator-ctrl.js';
-import EstimatorService from './cost-estimator-service.js';
-//import estimatorDirective from './cost-estimator-directive.js';
+import routes from './cost-estimator-routes';
+import CostEstimatorCtrl from './cost-estimator-ctrl';
+import EstimatorService from './cost-estimator-service';
+//import estimatorDirective from './cost-estimator-directive';
 
-export default angular.module('borderPalApp.costEstimator', [uirouter, formatAsCurrency])
+export default angular.module('borderPalApp.costEstimator', [uirouter])
   .config(routes)
   .controller('CostEstimatorCtrl', CostEstimatorCtrl)
   .service('EstimatorService', EstimatorService)
- //.directive('estimatorDirective', () => new estimatorDirective)
+
+  // .directive('estimatorDirective', () => new estimatorDirective)
   .name;
+

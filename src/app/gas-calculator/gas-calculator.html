@@ -1,0 +1,69 @@
+<div class="row" id="cost-estimator">
+
+	<section class="col-md-8 col-md-push-4">
+
+		<div class="header-wrapper">
+			<h1>Gas Calculator</h1>
+			<h3>Lookup cheapest gas prices by border state</h3>	
+			<h3>&amp; convert USD/gallon to CAD/litre<h3>				
+		</div>
+		
+		<div style="margin: 24px;">
+			<select class="form-control top-level" ng-model="gasCalculator.selectedState" ng-options="stateObject.name for stateObject in gasCalculator.statesArray" ng-change="gasCalculator.getGasPrices()">
+				<option value="" disabled selected>Select border state</option>
+			</select>
+		</div>
+
+
+
+		<div class="table-responsive">
+			<table id="gas-results" class="table table-striped">
+				<thead>
+					<th>Price</th>
+					<th>Station</th>
+					<th>Area</th>
+					<th>Time</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="station in gasCalculator.gasObject">
+						<td class="big" ng-click="gasCalculator.convertGas(station.price)" >{{station.price | currency}}</td>
+						<td>
+							<div class="big-name">
+							{{station.brand}}
+							</div>
+							{{station.address}}
+						</td>
+						<td>{{station.area}}</td>
+						<td>{{station.time}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div> <!-- table-responsive -->
+
+	</section>
+
+	<aside class="col-md-4 col-md-pull-8">
+
+		<div class="side-section">
+			<div class="gas-section">
+				<h3 ng-if="gasCalculator.resultsShow" class="results">RESULTS</h3>
+				<div class="gas-results" ng-if="gasCalculator.resultsShow">
+					<span class="big">{{gasCalculator.gallon | currency}}</span>
+					<span class="medium" style="margin-bottom: 4px;">USD/gallon</span>
+					<span class="huge">=</span> 
+					<span class="big">{{gasCalculator.litreCAD | currency}}</span> 
+					<span class="medium">CAD/litre</span>
+				</div>
+			</div>				
+			<div class="form-inline text-center" style="padding-top: 24px;">
+				<label for="per-gallon-price" class="control-label">Convert USD/gallon to CAD/litre equivelent</label>
+				<input id="per-gallon-price" type="text" class="form-control item-control" ng-model="gasCalculator.gallon" ng-blur="gasCalculator.convertGas(gasCalculator.gallon)" placeholder="Enter USD/gallon" format-as-currency />
+			</div>
+		</div>
+
+
+<div ng-include="'./src/app/shared-components/exchange-component.html'"></div>
+
+	</aside> <!-- end right column -->
+
+</div>

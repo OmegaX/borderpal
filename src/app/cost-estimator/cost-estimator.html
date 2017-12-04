@@ -5,7 +5,7 @@
 		<div class="header-wrapper">
 			<h1>Cost Estimator</h1>
 			<h3>Don't be caught by surprise!</h3>
-			<p>Enter costs in USD. All fields are optional. Find your tax rates, then click 'Calculate' to see results below.</p>		
+			<p>Enter costs in USD. All fields are optional. Find your tax rates, then click 'Calculate' to see results below.</p>
 		</div>
 
 		<div id="item-header-row" class="flex-space">
@@ -20,7 +20,7 @@
 			</label>
 			
 			<label class="checkbox-col">
-				<a href="" uib-popover="{{costEstimator.popoverText['taxable']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-right" class="glyphicon glyphicon-question-sign"></a>								
+				<a href="" uib-popover="{{costEstimator.popoverText['taxable']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-right" class="glyphicon glyphicon-question-sign"></a>							
 				Taxable
 			</label>
 
@@ -126,7 +126,7 @@
 							<td>{{item.taxableValueCAD | currency}}{{item.asterik}}</td>
 							<td>{{item.taxCAD | currency}}</td>
 							<td ng-if="costEstimator.show.dutyCol">{{item.dutyCAD | currency}}</td>
-							<td>{{item.bankFeeCAD | currency}}</td>
+							<td>{{item.exchangeFeeCAD | currency}}</td>
 							<td>{{item.subtotalCAD  | currency}}</td>
 						</tr>
 						<tr ng-if="costEstimator.show.totals" style="font-weight: bold;">
@@ -136,7 +136,7 @@
 							<td>{{costEstimator.subtotal.taxable | currency}}</td>
 							<td>{{costEstimator.subtotal.tax | currency}}</td>
 							<td ng-if="costEstimator.show.dutyCol">{{costEstimator.subtotalDuty | currency}}</td>
-							<td>{{costEstimator.subtotal.bankFee | currency}}
+							<td>{{costEstimator.subtotal.exchangeFee | currency}}
 							<td>{{costEstimator.grandTotal.everything | currency}}</td>
 						</tr>
 					</tbody>
@@ -172,7 +172,7 @@
 
 	</div>
 
-	<div class="col-md-4 col-md-pull-8">
+	<aside class="col-md-4 col-md-pull-8">
 
 		<uib-accordion>
 
@@ -182,21 +182,21 @@
 					<h3 class="side-header">Exchange Rate <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': costEstimator.accordionStatus.exchangeOpen, 'glyphicon-chevron-right': !costEstimator.accordionStatus.exchangeOpen}"></i></h3> 
 				</uib-accordion-heading>
 
-				<div class="header-wrapper">
-					<h4>$1 USD = ${{costEstimator.exchange.rateCAD | number:3}} CAD</h4>
-					<h4>$1 CAD = ${{costEstimator.exchange.rateUSD | number:3}} USD</h4>
-					<small>As of {{costEstimator.exchange.date}}</small>
+				<div class="side-header-wrapper">
+					<h3>$1 USD = ${{costEstimator.exchange.rateCAD | number:3}} CAD</h3>
+					<h3>$1 CAD = ${{costEstimator.exchange.rateUSD | number:3}} USD</h3>
+					<p>As of {{costEstimator.exchange.date}}</p>
 				</div>	
 
-				<div id="conversion-group">
+				<div class="text-center">
 					<p>
-						Note: With a bank fee rate of 
-						<strong>{{costEstimator.exchange.rateBank}}% </strong>
+						<strong>Note:</strong> With a bank exchange fee of 
+						<strong>{{costEstimator.exchange.exchangeFee}}% </strong>
 						you'll pay ${{costEstimator.exchange.rateCADtotal | number:3}} CAD for $1 USD
 					</p>
 					<label for="bank-fee-input">
 						<a href="" uib-popover="{{costEstimator.popoverText['bank-fee']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
-						Bank Fee Rate:
+						Bank Exchange Fee:
 					</label>
 					<input
 						id="bank-fee-input"
@@ -206,7 +206,7 @@
 						min="0"
 						max="10"
 						style="width: 20%;"
-						ng-model="costEstimator.exchange.rateBank"
+						ng-model="costEstimator.exchange.exchangeFee"
 						ng-change="costEstimator.getTotalCostExchange()"
 					/>
 				 	<span class="percent-sign">%</span>
@@ -253,7 +253,7 @@
 							>
 						</select>
 					</div>
-					<div class="col-xs-5 snuggle">
+					<div class="col-xs-5 form-inline">
 						<label class="control-label" for="cdn-taxrate-input">
 							<a href="" uib-popover="{{costEstimator.popoverText['cdn-tax']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
 							Tax Rate:
@@ -264,8 +264,7 @@
 							class="form-control percent-input"
 							step="0.1"
 							min="0"
-							max="100"
-							style="width: 70%;"						
+							max="100"					
 							ng-model="costEstimator.provincialTax.combinedRate"
 						/>
 						<label class="percent-sign">%</label>
@@ -277,7 +276,7 @@
 
 		<uib-accordion>
 
-			<div uib-accordion-group class="side-section" is-open="costEstimator.accordionStatus.taxUSAOpen">
+			<div uib-accordion-group class="side-section side-us-tax" is-open="costEstimator.accordionStatus.taxUSAOpen">
 
 				<uib-accordion-heading>
 					<h3 class="side-header">US Sales Tax <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': costEstimator.accordionStatus.taxUSAOpen, 'glyphicon-chevron-right': !costEstimator.accordionStatus.taxUSAOpen}"></i></h3> 
@@ -290,17 +289,16 @@
 						</label>
 						<input
 							id="zipcode-input"
-							class="form-control percent-input"
+							class="form-control"
 							type="text"
 							ng-model="costEstimator.taxUS.zipCode"
 							ng-pattern="/^(\d{5}-\d{4}|\d{5})$/"
 							placeholder="Zipcode"
 							ng-blur="costEstimator.getUStaxRate()"
-							required
 						/>
 					</div>
 
-					<div class="col-xs-5 snuggle">
+					<div class="col-xs-5 form-inline">
 						<label class="control-label" for="us-tax-rate-input">
 							<a href="" uib-popover="{{costEstimator.popoverText['us-tax']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
 							Tax Rate:
@@ -309,12 +307,10 @@
 							id="us-tax-rate-input"
 							class="form-control percent-input"
 							type="number"
-							step="0.1"
 							min="0"
 							max="100"
-							style="width: 70%;"
 							ng-model="costEstimator.taxUS.rate"
-							ng-blur="costEstimator.onBlurUStaxField()"
+							ng-change="costEstimator.onBlurUStaxField()"
 						/>
 						<label class="percent-sign">%</label>
 					</div>
@@ -330,7 +326,7 @@
 			</div>		
 		</uib-accordion>
 
-	</div> <!-- end right column -->
+	</aside> <!-- end right column -->
 
 	
 
