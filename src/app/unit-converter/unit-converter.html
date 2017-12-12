@@ -8,7 +8,7 @@
 			<h4>Use this tool for accurate conversions.<h4>
 		</div>
 		
-		<select class="form-control unit-type" ng-model="unitConverter.selectedType" ng-options="typeOption for typeOption in unitConverter.typeOptions" ng-change="unitConverter.typeChange()"></select>
+		<select class="form-control big-select" ng-model="unitConverter.selectedType" ng-options="typeOption for typeOption in unitConverter.typeOptions" ng-change="unitConverter.typeChange()"></select>
 		
 		<div class="group">	
 			<div class="input-container">
@@ -26,10 +26,12 @@
 		</p>
 	</div>
 
-	<div class="col-md-4 col-md-pull-8 hidden-xs">
+	<aside class="col-md-4 col-md-pull-8 hidden-xs side-section menu">
 
-		<div class="side-section">
-			<h3 class="side-header">Common Conversions</h3>
+
+			<div class="aside-header">
+				<h3>Common Conversions</h3>
+			</div>
 			<div ng-click="unitConverter.typeChange('Currency')" class="converter">
 				<span class="fa-wrapper">
 					<i class="fa fa-money" aria-hidden="true"></i>
@@ -60,7 +62,6 @@
 				</span>
 				<span class="fa-label">Pounds to Kilograms</span>
 			</div>		
-		</div>
-	</div>
-
+		</aside>
+	
 </section>

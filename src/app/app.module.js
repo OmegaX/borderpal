@@ -8,14 +8,13 @@ import '../assets/sass/custom.scss';
 
 // custom files
 import NavCtrl from './nav-ctrl';
+import ExchangeService from './shared-services/exchange-service';
 import routing from './app.routes';
 import dutyTable from './duty-table';
 import unitConverter from './unit-converter';
 import costEstimator from './cost-estimator';
 import gasCalculator from './gas-calculator';
 import borderWaits from './border-waits';
-import ExchangeService from './shared-services/exchange-service';
-
 
 angular.module('borderPalApp', [uirouter, ngBootstrap, formatAsCurrency, dutyTable, unitConverter, costEstimator, gasCalculator, borderWaits])
   .controller('NavCtrl', NavCtrl)

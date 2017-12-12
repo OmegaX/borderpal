@@ -6,24 +6,16 @@ export default class GasCalculatorCtrl {
   }
 
   init() {
-    this.resultsShow = false;
     this.getExchangeRate();
-    this.getCDNBorderWaits();
     this.statesArray = this.GasCalculatorService.getStates();
-
-
 
     if (window.innerWidth > 992) {
       this.accordionStatus = {
-        exchangeOpen: true,
-        taxCDNOpen: true,
-        taxUSAOpen: true
+        exchangeOpen: true
       };
     } else {
       this.accordionStatus = {
-        exchangeOpen: false,
-        taxCDNOpen: false,
-        taxUSAOpen: false
+        exchangeOpen: false
       };
     }
   }
@@ -39,6 +31,7 @@ export default class GasCalculatorCtrl {
           rateCAD: 1 / response.rates.USD
         };
         this.getTotalCostExchange();
+        this.convertGas(3);
       });
   }
 
@@ -49,14 +42,10 @@ export default class GasCalculatorCtrl {
     };
   }
 
-
   convertGas(gallonUSD) {
-    const gallonCAD = (gallonUSD, exchange) => gallonUSD * exchange;
-    const litreCAD = valueCAD => valueCAD / 3.78541;
-    this.gallon = gallonUSD;
-    this.litreCAD = litreCAD()
-      .gallonCAD(gallonUSD, this.exchange.rateCADtotal);
-    this.resultsShow = true;
+    const gallonCAD = gallonUSD * this.exchange.rateCADtotal;
+    this.gallonUSD = gallonUSD;
+    this.litreCAD = gallonCAD / 3.78541;
   }
 
   getGasPrices() {
@@ -65,7 +54,6 @@ export default class GasCalculatorCtrl {
     this.GasCalculatorService.getGasPrices(abbr)
       .then((response) => {
         this.gasObject = response;
-        console.log(this.gasObject);
       });
   }
 }

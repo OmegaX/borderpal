@@ -1,27 +1,58 @@
 export default class BorderService {
-  constructor($http, $q) {
+  constructor($http, $q, $sce) {
     this.$http = $http;
     this.$q = $q;
+    this.$sce = $sce;
   }
 
   getCDNBorderWaits() {
-    return this.$http.get('https://www.cbsa-asfc.gc.ca/bwt-taf/bwt-eng.json')
-      .then((response) => {
-        if (typeof response.data === 'object') {
-          return response.data.waitTimes;
-        }
-        // valid response
-        return this.$q.reject(response.data);
-      });
+    const url = './server/get-border-waits-canada.php';
+    return this.$http.post(url)
+      .then(response => response.data);
   }
 
-
   getUSBorderWaits() {
-    return this.$http.get('https://apps.cbp.gov/bwt/bwt.xml')
-      .then((response) => {
+    const url = './server/get-border-waits-usa.php';
+    return this.$http.post(url)
+      .then(response => response.data);
+  }
 
-          return response.data;
-   
-      });
+  xmlToJson(xml) {
+    // Create the return object
+    let obj = {};
+
+    if (xml.nodeType === 1) { // element
+      // do attributes
+      if (xml.attributes.length > 0) {
+        obj['@attributes'] = {};
+        for (let j = 0; j < xml.attributes.length; j += 1) {
+          const attribute = xml.attributes.item(j);
+          obj['@attributes'][attribute.nodeName] = attribute.nodeValue;
+        }
+      }
+    } else if (xml.nodeType === 3) { // text
+      obj = xml.nodeValue;
+    }
+
+    // do children if just one text node inside
+    if (xml.hasChildNodes() && xml.childNodes.length === 1 && xml.childNodes[0].nodeType === 3) {
+      obj = xml.childNodes[0].nodeValue;
+    } else if (xml.hasChildNodes()) {
+      for (let i = 0; i < xml.childNodes.length; i += 1) {
+        const item = xml.childNodes.item(i);
+        const { nodeName } = item;
+        if (typeof (obj[nodeName]) === 'undefined') {
+          obj[nodeName] = this.xmlToJson(item);
+        } else {
+          if (typeof (obj[nodeName].push) === 'undefined') {
+            const old = obj[nodeName];
+            obj[nodeName] = [];
+            obj[nodeName].push(old);
+          }
+          obj[nodeName].push(this.xmlToJson(item));
+        }
+      }
+    }
+    return obj;
   }
 }

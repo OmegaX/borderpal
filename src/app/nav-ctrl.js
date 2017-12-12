@@ -8,18 +8,15 @@ export default class NavCtrl {
     this.isCollapsed = false;
     this.isCollapsedHorizontal = false;
 
+    this.status = {
+      isopen: false
+    };
+  }
 
-  this.status = {
-    isopen: false
-  };
-
-}
   toggleDropdown($event) {
     $event.preventDefault();
     $event.stopPropagation();
     this.status.isopen = !this.status.isopen;
-  };
-
-
-
+  }
 }
+

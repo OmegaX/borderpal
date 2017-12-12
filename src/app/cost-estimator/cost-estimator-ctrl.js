@@ -2,7 +2,6 @@ export default class CostEstimatorCtrl {
   constructor(EstimatorService, ExchangeService) {
     this.EstimatorService = EstimatorService;
     this.ExchangeService = ExchangeService;
-
     this.init();
   }
 
@@ -14,7 +13,6 @@ export default class CostEstimatorCtrl {
 
     this.clean();
     this.getExchangeRate();
-
   }
 
   clean() {
@@ -76,15 +74,16 @@ export default class CostEstimatorCtrl {
     const { zipCode } = this.taxUS;
     this.EstimatorService.getUSTaxRates(zipCode)
       .then((response) => {
+        console.log(response);
         this.taxUS = {
           ...this.taxUS,
           rate: this.EstimatorService.round((response.EstimatedCombinedRate * 100), 3),
-          region: `${response.TaxRegionName}, ${response.State}`,
+          region: `${response.TaxRegionName}, ${response.State}`
         };
       }, () => {
         this.taxUS = {
           ...this.taxUS,
-          region: 'Sorry, zipcode not found. The tax rate remains unchanged.',
+          region: 'Sorry, zipcode not found. The tax rate remains unchanged.'
         };
       });
   }
@@ -96,13 +95,13 @@ export default class CostEstimatorCtrl {
         ...this.taxUS,
         region: 'You entered an invalid tax rate. It has defaulted to 0.',
         zipCode: null,
-        rate: 0,
+        rate: 0
       };
     } else {
       this.taxUS = {
         ...this.taxUS,
         region: 'You entered a custom tax rate',
-        zipCode: null,
+        zipCode: null
       };
     }
   }
@@ -115,7 +114,7 @@ export default class CostEstimatorCtrl {
       priceUSD: null,
       taxableUS: true,
       taxableCDN: true,
-      dutyCategory,
+      dutyCategory
     };
   }
 
@@ -271,5 +270,4 @@ export default class CostEstimatorCtrl {
     };
   } // end of calculate function
 } // end of controller
-
 

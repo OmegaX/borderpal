@@ -91,8 +91,6 @@ export default class ConverterController {
     this.calculate(direction);
   }
 
-
-
   // calculate any value entered in one of the two inputs
   calculate(direction) {
     let inputUnit;

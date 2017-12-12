@@ -1,19 +1,32 @@
-const templateCAN = require('./border-waits-can.html');
-const templateUSA = require('./border-waits-usa.html');
+const templateBorder = require('./border.html');
+const templateUSwaits = require('./partials/us-waits.html');
+const templateCANwaits = require('./partials/can-waits.html');
+const templateUScams = require('./partials/us-cams.html');
+const templateCANcams = require('./partials/can-cams.html');
 
 export default function routes($stateProvider) {
   $stateProvider
-    .state('border-waits-can', {
-      url: '/border-waits-can',
-      template: templateCAN,
+    .state('border', {
+      url: '/border',
+      template: templateBorder,
       controller: 'BorderWaitsCtrl',
       controllerAs: 'borderWaits'
+    })
+    .state('border.us-waits', {
+      url: '/us-waits',
+      template: templateUSwaits
+    })
+    .state('border.can-waits', {
+      url: '/can-waits',
+      template: templateCANwaits
     });
-  $stateProvider
-    .state('border-waits-usa', {
-      url: '/border-waits-usa',
-      template: templateUSA,
-      controller: 'BorderWaitsCtrl',
-      controllerAs: 'borderWaits'
-    });
+    // .state('border.us-cams', {
+    //   url: '/us-cams',
+    //   template: templateUScams
+    // })
+    // .state('border.can-cams', {
+    //   url: '/can-cams',
+    //   template: templateCANcams
+    // })
 }
+

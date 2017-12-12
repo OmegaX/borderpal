@@ -1,7 +1,7 @@
-import dutyCategories from './duty-categories';
 import provincialTaxes from './provincial-taxes';
 import tripExemptions from './trip-exemptions';
 import popoverText from './popover-text';
+import dutyCategories from './duty-categories';
 
 export default class EstimatorService {
   constructor($http, $q) {
@@ -17,19 +17,9 @@ export default class EstimatorService {
     return this.roundedTempNumber / factor;
   }
 
-  getExchangeRate() {
-    return this.$http.get('https://api.fixer.io/latest?base=USD')
-      .then((response) => {
-        if (typeof response.data === 'object') {
-          return response.data;
-        }
-        // valid response
-        return this.$q.reject(response.data);
-      });
-  }
-
   getDutyCategories() {
-    return dutyCategories;
+    this.dutyCategories = dutyCategories;
+    return this.dutyCategories;
   }
 
   getPopoverText() {
@@ -45,7 +35,7 @@ export default class EstimatorService {
   }
 
   getUSTaxRates(zip) {
-    const url = 'http://localhost/server/getustaxrate.php';
+    const url = './server/getustaxrate.php';
     return this.$http.post(url, zip)
       .then((response) => {
         if (typeof response.data === 'object') {
