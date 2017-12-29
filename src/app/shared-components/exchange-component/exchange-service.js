@@ -4,18 +4,19 @@ export default class ExchangeService {
     this.$q = $q;
   }
 
-  callExchangeAPI() {
+  callExchanegeAPI() {
     return this.$http.get('https://api.fixer.io/latest?base=CAD')
       .then((response) => {
         if (typeof response.data === 'object') {
-          const exchangeObj = {
+          return {
             date: response.data.date,
             rates: response.data.rates
           };
-          return exchangeObj;
         }
         // valid response
         return this.$q.reject(response.data);
       });
   }
 }
+
+ExchangeService.$inject = ['$http', '$q'];

@@ -1,6 +1,5 @@
 const template = require('./gas-calculator.html');
-const exchangePartial = require('../shared-partials/exchange-component.html');
-
+const exchangePartial = require('../shared-components/exchange-component/exchange-component.html');
 
 export default function routes($stateProvider) {
   $stateProvider
@@ -14,9 +13,11 @@ export default function routes($stateProvider) {
         },
         'exchangeView@gas-calculator': {
           template: exchangePartial,
-          controller: 'GasCalculatorCtrl',
+          controller: 'ExchangeCtrl',
           controllerAs: 'exchangeCtrl'
         }
       }
     });
 }
+
+routes.$inject = ['$stateProvider'];

@@ -1,7 +1,8 @@
 export default class CostEstimatorCtrl {
-  constructor(EstimatorService, ExchangeService) {
+  constructor(EstimatorService, ExchangeFactory, $scope) {
     this.EstimatorService = EstimatorService;
-    this.ExchangeService = ExchangeService;
+    this.ExchangeFactory = ExchangeFactory;    
+    this.scope = $scope;
     this.init();
   }
 
@@ -12,7 +13,11 @@ export default class CostEstimatorCtrl {
     this.popoverText = this.EstimatorService.getPopoverText();
 
     this.clean();
-    this.getExchangeRate();
+    this.exchange = this.ExchangeFactory.getExchangeObj();
+    this.scope.$watchCollection(() => this.ExchangeFactory.getExchangeObj(), () => {
+      this.exchange = this.ExchangeFactory.getExchangeObj();
+      return () => this.exchange;
+    });
   }
 
   clean() {
@@ -49,32 +54,10 @@ export default class CostEstimatorCtrl {
     this.clean();
   }
 
-  getExchangeRate() {
-    this.ExchangeService.callExchangeAPI()
-      .then((response) => {
-        this.exchange = {
-          ...this.exchange,
-          date: response.date,
-          exchangeFee: 2.5,
-          rateUSD: response.rates.USD,
-          rateCAD: 1 / response.rates.USD
-        };
-        this.getTotalCostExchange();
-      });
-  }
-
-  getTotalCostExchange() {
-    this.exchange = {
-      ...this.exchange,
-      rateCADtotal: this.exchange.rateCAD * (1 + (this.exchange.exchangeFee / 100))
-    };
-  }
-
   getUStaxRate() {
     const { zipCode } = this.taxUS;
     this.EstimatorService.getUSTaxRates(zipCode)
       .then((response) => {
-        console.log(response);
         this.taxUS = {
           ...this.taxUS,
           rate: this.EstimatorService.round((response.EstimatedCombinedRate * 100), 3),
@@ -141,7 +124,7 @@ export default class CostEstimatorCtrl {
   calculate() {
     const taxRateCDN = this.provincialTax.combinedRate / 100;
     const taxRateUS = this.taxUS.rate / 100;
-    const exchangeFee = this.exchange.exchangeFee / 100;
+    const exchangeFee = this.exchange.fee / 100;
 
     let remainingExemption = this.tripExemption.exemption;
 
@@ -271,3 +254,4 @@ export default class CostEstimatorCtrl {
   } // end of calculate function
 } // end of controller
 
+CostEstimatorCtrl.$inject = ['EstimatorService', 'ExchangeFactory', '$scope'];

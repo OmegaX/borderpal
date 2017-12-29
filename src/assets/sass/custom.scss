@@ -23,6 +23,13 @@ header {
     background-position: center;
  }
 
+ footer {
+    background-color: $primary-color;
+    color: #fff; 
+    padding: 20px;
+    height: 200px;
+ }
+
 #gas-calculator {
     #gas-results-outer {
         padding: 18px 0;
@@ -136,6 +143,24 @@ p.note {
     content: "";
     display: table;
     clear: both;
+}
+
+#border-waits {
+    table {
+        th.name {
+            width: 41%;
+        }
+        th.passenger {
+            width: 17%;
+        }
+        th.commercial {
+            width: 17%;
+        }
+        th.updated {
+            width: 25%;
+        }
+    }
+
 }
 
 #cost-estimator {

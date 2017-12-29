@@ -19,4 +19,3 @@ export default class NavCtrl {
     this.status.isopen = !this.status.isopen;
   }
 }
-

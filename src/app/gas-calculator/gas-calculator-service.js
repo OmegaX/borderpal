@@ -1,6 +1,6 @@
 import statesArray from './us-states';
 
-export default class GasControllerService {
+export default class GasService {
   constructor($http, $q) {
     this.$http = $http;
     this.$q = $q;
@@ -31,3 +31,5 @@ export default class GasControllerService {
       });
   }
 }
+
+GasService.$inject = ['$http', '$q'];

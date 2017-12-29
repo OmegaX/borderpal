@@ -4,6 +4,7 @@
 		<div class="header-wrapper">
 			<h1>Gas Calculator</h1>
 			<h3>Convert USD/gallon to CAD/litre</h3>
+			{{gasCalculator.exchange.fee}}
 		</div>
 		<select class="form-control big-select" ng-model="gasCalculator.selectedState" ng-options="stateObject.name for stateObject in gasCalculator.statesArray" ng-change="gasCalculator.getGasPrices()">
 			<option value="" disabled selected>Select border state</option>
@@ -50,8 +51,8 @@
 					<span class="medium">CAD/litre</span>				
 					<div class="form-inline top-buffer text-center">
 						<label for="per-gallon-price" class="control-label">Convert USD/gallon to CAD/litre equivelent</label>
-						<input id="per-gallon-price" type="text" class="form-control item-control" ng-model="gasCalculator.gallon" ng-blur="gasCalculator.convertGas(gasCalculator.gallon)" placeholder="Enter USD/gallon" format-as-currency />
-						<button	type="button" class="btn btn-primary">
+						<input id="per-gallon-price" type="text" class="form-control item-control" ng-model="gasCalculator.gallon" ng-change="gasCalculator.convertGas(gasCalculator.gallon)" placeholder="Enter USD/gallon" format-as-currency />
+						<button	type="button" class="btn btn-primary" ng-click="gasCalculator.convertGas(gasCalculator.gallon)" >
 							Calculate
 						</button>
 						<p class="note">

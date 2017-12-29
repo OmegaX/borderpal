@@ -1,5 +1,5 @@
 const template = require('./cost-estimator.html');
-const exchangePartial = require('../shared-partials/exchange-component.html');
+const exchangePartial = require('../shared-components/exchange-component/exchange-component.html');
 
 export default function routes($stateProvider) {
   $stateProvider
@@ -19,3 +19,5 @@ export default function routes($stateProvider) {
       }
     });
 }
+
+routes.$inject = ['$stateProvider'];

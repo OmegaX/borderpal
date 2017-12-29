@@ -5,22 +5,29 @@
 <div class="table-responsive">
 	<table ng-init="borderWaits.getUSwaits()" id="US-wait-times" class="table table-striped">
 		<thead>
-			<th>Name</th>
-			<th>Passenger</th>
-			<th>Commerical</th>
-			<th>Last Updated</th>
+			<th class="name1">Name</th>
+			<th class="passenger1">Passenger</th>
+			<th class="nexus">Nexus</th>
+			<th class="commerical1">Commerical</th>
+			<th class="updated1">Last Updated</th>
+			<th class="map">Map</th>
 		</thead>
 		<tbody>
-			<tr ng-repeat="border in borderWaits.borderArrayUS">
+			<tr ng-repeat="border in borderWaits.borderArrayUS | orderBy: 'province'">
 				<td>
 					<div class="big-name">
-						{{border.port}}
-					</div>
-					{{border.crossing}}								
+						{{border.name}}						   	 
+					</div>				
+					{{border.connection}}						
 				</td>
-				<td style="text-transform: capitalize;">{{border.passenger}}</td>			
+
+				<td style="text-transform: capitalize;">{{border.passenger}}</td>
+				<td style="text-transform: capitalize;">{{border.nexus}}</td>			
 				<td style="text-transform: capitalize;">{{border.commercial}}</td>	
-				<td>{{border.updated}}</td>			
+				<td>{{border.updated}}</td>	
+				<td>
+					<img src="../../../assets/images/map-icon.png" alt="Google map icon" ng-click="borderWaits.openModal(border)">
+				</td>		
 			</tr>
 		</tbody>
 	</table>

@@ -1,8 +1,8 @@
-const templateBorder = require('./border.html');
+const templateBorder = require('./border-waits.html');
 const templateUSwaits = require('./partials/us-waits.html');
 const templateCANwaits = require('./partials/can-waits.html');
-const templateUScams = require('./partials/us-cams.html');
-const templateCANcams = require('./partials/can-cams.html');
+// const templateUScams = require('./partials/us-cams.html');
+// const templateCANcams = require('./partials/can-cams.html');
 
 export default function routes($stateProvider) {
   $stateProvider
@@ -30,3 +30,4 @@ export default function routes($stateProvider) {
     // })
 }
 
+routes.$inject = ['$stateProvider'];

@@ -8,7 +8,7 @@ import '../assets/sass/custom.scss';
 
 // custom files
 import NavCtrl from './nav-ctrl';
-import ExchangeService from './shared-services/exchange-service';
+import ExchangeService from './shared-components/exchange-component/exchange-service';
 import routing from './app.routes';
 import dutyTable from './duty-table';
 import unitConverter from './unit-converter';

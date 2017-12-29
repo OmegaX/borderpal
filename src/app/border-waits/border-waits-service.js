@@ -1,3 +1,5 @@
+import borderArrayUS from './us-border-info';
+
 export default class BorderService {
   constructor($http, $q, $sce) {
     this.$http = $http;
@@ -5,14 +7,18 @@ export default class BorderService {
     this.$sce = $sce;
   }
 
+  getOurBorderArrayUS() {
+    return borderArrayUS;
+  }
+
   getCDNBorderWaits() {
-    const url = './server/get-border-waits-canada.php';
+    const url = 'http://localhost/server/get-border-waits-canada.php';
     return this.$http.post(url)
       .then(response => response.data);
   }
 
   getUSBorderWaits() {
-    const url = './server/get-border-waits-usa.php';
+    const url = 'http://localhost/server/get-border-waits-usa.php';
     return this.$http.post(url)
       .then(response => response.data);
   }
@@ -56,3 +62,5 @@ export default class BorderService {
     return obj;
   }
 }
+
+BorderService.$inject = ['$http', '$q', '$sce'];

@@ -1,45 +1,18 @@
 export default class GasCalculatorCtrl {
-  constructor(GasCalculatorService, ExchangeService) {
-    this.GasCalculatorService = GasCalculatorService;
-    this.ExchangeService = ExchangeService;
+  constructor(GasService, ExchangeFactory, $scope) {
+    this.GasService = GasService;
+    this.ExchangeFactory = ExchangeFactory;
+    this.scope = $scope;
     this.init();
   }
 
   init() {
-    this.getExchangeRate();
-    this.statesArray = this.GasCalculatorService.getStates();
-
-    if (window.innerWidth > 992) {
-      this.accordionStatus = {
-        exchangeOpen: true
-      };
-    } else {
-      this.accordionStatus = {
-        exchangeOpen: false
-      };
-    }
-  }
-
-  getExchangeRate() {
-    this.ExchangeService.callExchangeAPI()
-      .then((response) => {
-        this.exchange = {
-          ...this.exchange,
-          date: response.date,
-          exchangeFee: 2.5,
-          rateUSD: response.rates.USD,
-          rateCAD: 1 / response.rates.USD
-        };
-        this.getTotalCostExchange();
-        this.convertGas(3);
-      });
-  }
-
-  getTotalCostExchange() {
-    this.exchange = {
-      ...this.exchange,
-      rateCADtotal: this.exchange.rateCAD * (1 + (this.exchange.exchangeFee / 100))
-    };
+    this.statesArray = this.GasService.getStates();
+    this.exchange = this.ExchangeFactory.getExchangeObj();
+    this.scope.$watchCollection(() => this.ExchangeFactory.getExchangeObj(), () => {
+      this.exchange = this.ExchangeFactory.getExchangeObj();
+      return () => this.exchange;
+    });
   }
 
   convertGas(gallonUSD) {
@@ -51,9 +24,11 @@ export default class GasCalculatorCtrl {
   getGasPrices() {
     this.gasObject = {};
     const { abbr } = this.selectedState;
-    this.GasCalculatorService.getGasPrices(abbr)
+    this.GasService.getGasPrices(abbr)
       .then((response) => {
         this.gasObject = response;
       });
   }
 }
+
+GasCalculatorCtrl.$inject = ['GasService', 'ExchangeFactory', '$scope'];

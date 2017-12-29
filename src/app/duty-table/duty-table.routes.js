@@ -1,9 +1,11 @@
-routes.$inject = ['$stateProvider'];
+const template = require('./duty-table.html');
 
 export default function routes($stateProvider) {
   $stateProvider
-  .state('duty-table', {
-    url: '/duty-table',
-    template: require('./duty-table.html')
-  });
+    .state('duty-table', {
+      url: '/duty-table',
+      template
+    });
 }
+
+routes.$inject = ['$stateProvider'];

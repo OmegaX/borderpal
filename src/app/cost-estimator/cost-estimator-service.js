@@ -46,3 +46,5 @@ export default class EstimatorService {
       });
   }
 }
+
+EstimatorService.$inject = ['$http', '$q'];

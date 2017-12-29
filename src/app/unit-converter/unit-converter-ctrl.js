@@ -1,12 +1,13 @@
-export default class ConverterController {
-  constructor(ConverterService, ExchangeService) {
+export default class ConverterCtrl {
+  constructor(ConverterService, ExchangeService, Utilities) {
     this.ConverterService = ConverterService;
     this.ExchangeService = ExchangeService;
+    this.utilities = Utilities;
     this.init();
   }
 
   init() {
-    this.unitsObj = this.ConverterService.getUnits();
+    this.unitsObj = this.utilities.getUnits();
     this.unitOptions = this.unitsObj.Length;
     [,,,,,, this.selectedLeftUnit, this.selectedRightUnit] = this.unitOptions;
 
@@ -109,14 +110,14 @@ export default class ConverterController {
     }
 
     if (this.selectedType === 'Temperature') {
-      outputValue = this.ConverterService.convertTemp(inputUnit, inputValue);
-      outputValue = this.ConverterService.round(outputValue, 1);
+      outputValue = this.utilities.convertTemp(inputUnit, inputValue);
+      outputValue = this.utilities.round(outputValue, 1);
     } else {
       const [inputObj] = this.unitOptions.filter(unitIn => unitIn.id === inputUnit);
       const [outputObj] = this.unitOptions.filter(unitOut => unitOut.id === outputUnit);
       let tempValue = (inputValue / inputObj.multiplier);
       tempValue *= outputObj.multiplier;
-      outputValue = this.ConverterService.round(tempValue, outputObj.precision);
+      outputValue = this.utilities.round(tempValue, outputObj.precision);
     }
 
     // null defaults to 0 placeholder
@@ -133,3 +134,5 @@ export default class ConverterController {
     }
   }
 }
+
+ConverterCtrl.$inject = ['ConverterService', 'ExchangeService', 'Utilities'];

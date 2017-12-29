@@ -1,13 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const BabelWebpackPlugin = require('babel-minify-webpack-plugin');
-
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const config = {
-    devtool: "inline-source-map",
-    entry: './src/app/app.module.js',
-    output: {
+  devtool: 'inline-source-map',
+  entry: './src/app/app.module.js',
+  output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
     filename: 'bundle.js'
@@ -18,14 +17,20 @@ const config = {
     }
   },
   plugins: [
+    // new UglifyJsPlugin({
+    //   test: /\.js($|\?)/i
+    // }),
     new HtmlWebpackPlugin({
       title: 'Output Managements',
       template: './src/index.template.ejs'
+    }),
+    new webpack.ProvidePlugin({
+      _: 'lodash'
     })
   ],
   module: {
     noParse: [
-      /[\/\\]node_modules[\/\\]angular[\/\\]angular\.js$/
+      /[/\\]node_modules[/\\]angular[/\\]angular\.js$/
     ],
     rules: [
       {
@@ -42,13 +47,13 @@ const config = {
       },
       {
         test: /\.scss$/,
-            use: [{
-                loader: "style-loader" // creates style nodes from JS strings
-            }, {
-                loader: "css-loader" // translates CSS into CommonJS
-            }, {
-                loader: "sass-loader" // compiles Sass to CSS
-            }]
+        use: [{
+          loader: 'style-loader' // creates style nodes from JS strings
+        }, {
+          loader: 'css-loader' // translates CSS into CommonJS
+        }, {
+          loader: 'sass-loader' // compiles Sass to CSS
+        }]
       },
       {
         test: /\.(png|svg|jpg|gif|eot|ttf|woff|woff2)$/,
