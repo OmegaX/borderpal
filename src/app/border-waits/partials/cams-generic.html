@@ -1,0 +1,24 @@
+<section ng-if="borderCtrl.selectedCams">
+  <div class="header-wrapper">
+    <h1>{{borderCtrl.selectedCams.name}} Traffic Cams</h1>
+    <h2>{{borderCtrl.h2}}</h2>
+  </div>
+  <div class="row" ng-if="borderCtrl.showCams">
+    <div class="col-md-6" ng-repeat="cam in borderCtrl.cams | filter: { name: borderCtrl.selectedCams.side }" style="margin-bottom: 30px;">      
+      <a href="{{cam.source}}" target="_blank" title="{{cam.caption}}">
+        <figure>
+          <img width="100%" ng-src="{{cam.src}}" alt="Traffic cam for {{cam.name}} border area - {{cam.caption}}">                
+          <figcaption class="cam-caption">{{cam.caption}}</figcaption>
+        </figure>
+      </a>  
+    </div>
+  </div>
+</section>
+
+<section ng-if="!borderCtrl.selectedCams">
+  <div class="header-wrapper">
+    <h1>Sorry!</h1>
+    <h2>There are no cams for this location... yet</h2>
+  </div>
+</section>
+

@@ -1,19 +1,28 @@
 export default class ConverterCtrl {
-  constructor(ConverterService, ExchangeService, Utilities) {
-    this.ConverterService = ConverterService;
+  constructor(ExchangeService, Utilities, $scope, $state, $stateParams) {
     this.ExchangeService = ExchangeService;
-    this.utilities = Utilities;
+    this.Utilities = Utilities;
+    this.scope = $scope;
+    this.state = $state;
+    this.stateParams = $stateParams;
     this.init();
   }
 
   init() {
-    this.unitsObj = this.utilities.getUnits();
+    this.poundUSD = 5;
+    this.gallonUSD = 3;
+    this.unitsObj = this.Utilities.getUnits();
     this.unitOptions = this.unitsObj.Length;
     [,,,,,, this.selectedLeftUnit, this.selectedRightUnit] = this.unitOptions;
-
     this.typeOptions = Object.keys(this.unitsObj);
     [this.selectedType] = this.typeOptions;
-    this.getExchangeRate();
+
+    this.scope.$watchCollection(() => this.ExchangeService.getExchangeObj(), () => {
+      this.exchange = this.ExchangeService.getExchangeObj();
+      this.convertGas();
+      this.convertGroceries();
+      return () => this.exchange;
+    });
   }
 
   clean() {
@@ -22,27 +31,36 @@ export default class ConverterCtrl {
     this.explanation = null;
   }
 
+  convertGas() {
+    const gallonCAD = this.gallonUSD * this.exchange.rateCADtotal;
+    this.litreCAD = gallonCAD / 3.78541;
+  }
+
+  convertGroceries(poundUSD = this.poundUSD) {
+    this.poundUSD = poundUSD;
+    const poundCAD = poundUSD * this.exchange.rateCADtotal;
+    this.kiloCAD = poundCAD * 2.2;
+  }
+
   getExchangeRate() {
-    if (this.unitsObj.Currency[0].multiplier === null) {
-      this.ExchangeService.callExchangeAPI()
-        .then((response) => {
-          const { rates } = response;
-          this.unitsObj.Currency[0].multiplier = parseFloat(rates.USD);
-          this.unitsObj.Currency[2].multiplier = parseFloat(rates.EUR);
-          this.unitsObj.Currency[3].multiplier = parseFloat(rates.GBP);
-          this.unitsObj.Currency[4].multiplier = parseFloat(rates.CNY);
-        });
-    }
+    this.ExchangeService.callExchangeAPI()
+      .then((response) => {
+        this.unitsObj.Currency[0].multiplier = response.rateUSD;
+        this.unitsObj.Currency[1].multiplier = 1;
+        this.unitsObj.Currency[2].multiplier = response.rateEUR;
+        this.unitsObj.Currency[3].multiplier = response.rateGBP;
+        this.unitsObj.Currency[4].multiplier = response.rateCNY;
+      });
   }
 
   // when page loads or ng-change typeSelector changes
   typeChange(selectedType = this.selectedType) {
     this.clean();
-    this.unitOptions = this.unitsObj[selectedType].map(unit => unit);
 
     let defaultLeftUnit;
     let defaultRightUnit;
 
+    this.unitOptions = this.unitsObj[selectedType].map(unit => unit);
     this.selectedType = selectedType;
 
     switch (selectedType) {
@@ -110,14 +128,14 @@ export default class ConverterCtrl {
     }
 
     if (this.selectedType === 'Temperature') {
-      outputValue = this.utilities.convertTemp(inputUnit, inputValue);
-      outputValue = this.utilities.round(outputValue, 1);
+      outputValue = this.Utilities.convertTemp(inputUnit, inputValue);
+      outputValue = this.Utilities.round(outputValue, 1);
     } else {
       const [inputObj] = this.unitOptions.filter(unitIn => unitIn.id === inputUnit);
       const [outputObj] = this.unitOptions.filter(unitOut => unitOut.id === outputUnit);
       let tempValue = (inputValue / inputObj.multiplier);
       tempValue *= outputObj.multiplier;
-      outputValue = this.utilities.round(tempValue, outputObj.precision);
+      outputValue = this.Utilities.round(tempValue, outputObj.precision);
     }
 
     // null defaults to 0 placeholder
@@ -135,4 +153,4 @@ export default class ConverterCtrl {
   }
 }
 
-ConverterCtrl.$inject = ['ConverterService', 'ExchangeService', 'Utilities'];
+ConverterCtrl.$inject = ['ExchangeService', 'Utilities', '$scope', '$state', '$stateParams'];

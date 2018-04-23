@@ -1,18 +1,19 @@
 export default class ExchangeCtrl {
-  constructor(ExchangeFactory) {
-    this.ExchangeFactory = ExchangeFactory;
+  constructor(ExchangeService) {
+    this.ExchangeService = ExchangeService;
     this.init();
   }
 
   init() {
     this.getExchangeRate();
+    this.popoverText = 'Most banks charge a fee for converting currency. Typically it\'s 2.5%.';
     if (window.innerWidth > 992) this.accordionOpen = true;
   }
 
   getExchangeRate() {
-    this.ExchangeFactory.callExchangeAPI()
+    this.ExchangeService.callExchangeAPI()
       .then(() => {
-        this.exchange = this.ExchangeFactory.getExchangeObj();
+        this.exchange = this.ExchangeService.getExchangeObj();
         this.getRateCADtotal();
       });
   }
@@ -20,13 +21,15 @@ export default class ExchangeCtrl {
   getRateCADtotal() {
     const rateCAD = 1 / this.exchange.rateUSD;
     const rateCADtotal = rateCAD * (1 + (this.exchange.fee / 100));
-    this.ExchangeFactory.setExchangeObj({ rateCAD, rateCADtotal });
-    this.exchange = this.ExchangeFactory.getExchangeObj();
+    this.ExchangeService.setExchangeObj({ rateCAD, rateCADtotal });
+    this.exchange = this.ExchangeService.getExchangeObj();
   }
 
   exchangeFeeChanged() {
     const { fee } = this.exchange;
-    this.ExchangeFactory.setExchangeObj({ fee });
+    this.ExchangeService.setExchangeObj({ fee });
     this.getRateCADtotal();
   }
 }
+
+ExchangeCtrl.$inject = ['ExchangeService'];

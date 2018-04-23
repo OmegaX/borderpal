@@ -1,7 +1,8 @@
 const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const ResourceHintWebpackPlugin = require('resource-hints-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const config = {
   devtool: 'inline-source-map',
@@ -21,12 +22,12 @@ const config = {
     //   test: /\.js($|\?)/i
     // }),
     new HtmlWebpackPlugin({
-      title: 'Output Managements',
-      template: './src/index.template.ejs'
+      title: 'Output Management',
+      template: './src/index.template.ejs',
+      minifiy: true
     }),
-    new webpack.ProvidePlugin({
-      _: 'lodash'
-    })
+    new FaviconsWebpackPlugin('./src/assets/images/canadian-icon.png'),
+    new ResourceHintWebpackPlugin()
   ],
   module: {
     noParse: [
@@ -56,7 +57,7 @@ const config = {
         }]
       },
       {
-        test: /\.(png|svg|jpg|gif|eot|ttf|woff|woff2)$/,
+        test: /\.(png|ico|svg|jpg|gif|eot|ttf|woff|woff2)$/,
         use: [
           'file-loader'
         ]

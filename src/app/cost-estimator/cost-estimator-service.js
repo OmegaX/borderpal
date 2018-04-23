@@ -7,6 +7,10 @@ export default class EstimatorService {
   constructor($http, $q) {
     this.$http = $http;
     this.$q = $q;
+    this.provincialTaxes = provincialTaxes;
+    this.tripExemptions = tripExemptions;
+    this.popoverText = popoverText;
+    this.dutyCategories = dutyCategories;
   }
 
   // rounding function accepts a value to round and a precision
@@ -23,15 +27,15 @@ export default class EstimatorService {
   }
 
   getPopoverText() {
-    return popoverText;
+    return this.popoverText;
   }
 
   getProvincialTaxes() {
-    return provincialTaxes;
+    return this.provincialTaxes;
   }
 
   getTripExemptions() {
-    return tripExemptions;
+    return this.tripExemptions;
   }
 
   getUSTaxRates(zip) {

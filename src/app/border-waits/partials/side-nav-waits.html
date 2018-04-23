@@ -1,0 +1,21 @@
+<div class="border-menu">
+	<div class="menu-header">
+		<h3>Travel Direction</h3>
+	</div>
+	<div ui-sref="border.waits.us" ng-class="{focus: borderCtrl.state.current.name === 'border.waits.us'}" class="menu-item" ng-click="borderCtrl.getUSwaits()">
+		<div class="fa-wrapper">
+			<img src="../../../assets/images/canadian-icon-small.png" alt="Travelling from Canada to the USA">	
+			<i class="fa fa-arrow-right" aria-hidden="true"></i>
+			<img src="../../../assets/images/american-icon-small.png" alt="Travelling to the USA from Canada">
+		</div>
+		<span class="fa-label">US-Bound</span>
+	</div>
+	<div ui-sref="border.waits.canada" ng-class="{focus: borderCtrl.state.current.name === 'border.waits.canada'}" class="menu-item" ng-click="borderCtrl.getCANwaits()">
+		<div class="fa-wrapper">
+			<img src="../../../assets/images/american-icon-small.png" alt="Travelling from the USA to Canada">	
+			<i class="fa fa-arrow-right" aria-hidden="true"></i>
+			<img src="../../../assets/images/canadian-icon-small.png" alt="Returning to Canada from the USA">
+		</div>
+		<span class="fa-label">Home-Bound</span>
+	</div> 
+</div>

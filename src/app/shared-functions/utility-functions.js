@@ -9,7 +9,8 @@ export default function Utilities() {
       return roundedTempNumber / factor;
     },
     convertTemp(unit = 0, temp = 0) {
-      if (unit === 'C') { // convert celcius to fahrenheit
+      // convert celcius to fahrenheit
+      if (unit === 'C') {
         return (temp * (9 / 5)) + 32;
       }
       // convert fahrenheit to celcius

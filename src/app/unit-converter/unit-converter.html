@@ -1,67 +1,32 @@
-<section class="row" id="unit-converter">
+<section id="unit-converter">    
+  <aside class="col-side">
+    <div class="converter-menu-left">
+      <div class="side-header">
+        <h3>Converter Menu</h3>
+      </div>
+      <div class="menu-item" ui-sref="converter.metric" ng-click="unitConverter.menuClicked('metric')" ng-class="{focus: unitConverter.state.current.name === 'converter.metric'}" title="Convert metric and imperial units, as well as currency">
+        <span class="fa-wrapper">
+          <img class="fa" src="../../assets/images/measuring-tape.png">
+        </span>
+        <span class="fa-label">Convert Units &amp; Currency</span>
+      </div>
+      <div class="menu-item" ui-sref="converter.gas" ng-click="unitConverter.menuClicked('gas')" ng-class="{focus: unitConverter.state.current.name === 'converter.gas'}" title="Compare $USD/gallon to $CAD/litre">
+        <span class="fa-wrapper">
+          <img class="fa" src="../../assets/images/gas-icon.png">
+        </span>
+        <span class="fa-label">Convert Gas Prices</span>
+      </div>
+      <div class="menu-item" ui-sref="converter.groceries" ng-click="unitConverter.menuClicked('groceries')" ng-class="{focus: unitConverter.state.current.name == 'converter.groceries'}" title="$USD/pound to $CAD/kg">
+        <span class="fa-wrapper">
+          <img class="fa" src="../../assets/images/chicken.png">
+        </span>
+        <span class="fa-label">Convert Grocery Prices</span>
+      </div>
+    </div>    
+  </aside>
 
-	<div class="col-md-8 col-md-push-4">
-
-		<div class="header-wrapper">
-			<h1>Unit Converter</h1>
-			<h3>Confused unit conversion? Don't be!</h3>
-			<h4>Use this tool for accurate conversions.<h4>
-		</div>
-		
-		<select class="form-control big-select" ng-model="unitConverter.selectedType" ng-options="typeOption for typeOption in unitConverter.typeOptions" ng-change="unitConverter.typeChange()"></select>
-		
-		<div class="group">	
-			<div class="input-container">
-				<input type="number" class="form-control" ng-model="unitConverter.leftValue" ng-change="unitConverter.calculate('left')" placeholder="0"/>
-				<select class="form-control converter-dropdown" ng-model="unitConverter.selectedLeftUnit" ng-change="unitConverter.unitChange('left')" ng-options="unitOption.label for unitOption in unitConverter.unitOptions"></select>
-			</div>
-			<div class="center-container">=</div>
-			<div class="input-container">
-				<input type="number" class="form-control" ng-model="unitConverter.rightValue" ng-change="unitConverter.calculate('right')" placeholder="0"/>
-				<select class="form-control converter-dropdown" ng-model="unitConverter.selectedRightUnit" ng-change="unitConverter.unitChange('right')" ng-options="unitOption.label for unitOption in unitConverter.unitOptions"></select>
-			</div>	
-		</div>
-		<p class="explanation">
-			{{unitConverter.explanation}}
-		</p>
-	</div>
-
-	<aside class="col-md-4 col-md-pull-8 hidden-xs side-section menu">
-
-
-			<div class="aside-header">
-				<h3>Common Conversions</h3>
-			</div>
-			<div ng-click="unitConverter.typeChange('Currency')" class="converter">
-				<span class="fa-wrapper">
-					<i class="fa fa-money" aria-hidden="true"></i>
-				</span>
-				<span class="fa-label">$USD to $CAD</span>
-			</div>
-			<div ng-click="unitConverter.typeChange('Length')" class="converter">
-				<span class="fa-wrapper">
-					<i class="fa fa-car" aria-hidden="true"></i>
-				</span>
-				<span class="fa-label">Miles to Kilometers</span>
-			</div>
-			<div ng-click="unitConverter.typeChange('Temperature')" class="converter">
-				<span class="fa-wrapper">
-					<i class="fa fa-thermometer-half" aria-hidden="true"></i>
-				</span>
-				<span class="fa-label">Fahrenheit to Celcius</span>
-			</div>	
-			<div ng-click="unitConverter.typeChange('Volume')" class="converter">
-				<span class="fa-wrapper">
-					<i class="fa fa-tint" aria-hidden="true"></i>
-				</span>
-				<span class="fa-label">Gallons to Litres</span>
-			</div>	
-			<div ng-click="unitConverter.typeChange('Weight')" class="converter">
-				<span class="fa-wrapper">
-					<i class="fa fa-balance-scale" aria-hidden="true"></i>
-				</span>
-				<span class="fa-label">Pounds to Kilograms</span>
-			</div>		
-		</aside>
-	
+	<div ui-view class="col-middle"></div>
+   
+  <div ui-view="right-side" class="col-side-right"></div> 
+  
 </section>

@@ -1,0 +1,70 @@
+body {
+    font-family: $font-stack;
+    color: $primary-color;
+    height: 100%;
+    max-width: 3000px;
+    margin: 0 auto;
+    background-color: $light-blue;
+}
+header {
+    background-image: url("../images/new-header-black.png");
+    background-size: cover;
+    min-height: 100px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+footer {
+    background-color: $primary-color;
+    color: #fff; 
+    padding: 20px;
+    bottom: 0;
+ }
+
+.container-fluid {
+    padding-top: 30px;
+    background-color: white;
+}
+
+
+/* Custom, iPhone Retina */ 
+@media (min-width : 320px) {
+    header {
+        height: 130px;
+    }
+    .header-wrapper {
+        h3, h4, h5 {
+            display: none;
+        }
+    }
+    .container-fluid {
+        margin: 0;
+    }
+}
+
+/* xs */
+@media (min-width : 480px) {
+    header {
+        height: 160px;
+    }
+}
+
+/* sm */
+@media (min-width : 768px) {
+    header {
+        height: 200px;
+    }
+}
+
+/* sm */
+@media (min-width : 992px) {
+    header {
+        height: 300px;
+    }
+}
+
+/* lg */
+@media (min-width : 1200px) {
+    header {
+        height: 400px;
+    }
+}

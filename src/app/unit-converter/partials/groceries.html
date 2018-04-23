@@ -1,0 +1,36 @@
+<div class="header-wrapper">
+	<h1>Grocery Converter</h1>
+	<h2>Stop Comparing Apples to Oranges</h2>
+	<h3>Convert $USD/pound to $CAD/kg and save</h3>
+</div>
+<div id="converter-outer">
+	<div id="converter-inner" class="grocery-background">	
+		<div id="converter-innermost">				
+			<span class="big">						
+				<img src="../../../assets/images/american-icon-small.png" alt="american flag">{{unitConverter.poundUSD | currency}}
+			</span>
+			<span class="medium">USD/pound</span>
+			<span class="huge equals">=</span> 
+			<span class="big">						
+				<img src="../../../assets/images/canadian-icon-small.png" alt="canadian flag">{{unitConverter.kiloCAD | currency}}
+			</span> 
+			<span class="medium">CAD/kg</span>
+		</div>
+		<div class="top-buffer text-center">
+			<label for="per-gallon-price" class="control-label">
+				Enter a price in $USD/lb and click Convert
+			</label>
+			<div class="row">
+				<div class="col-xs-7">
+					<input id="per-gallon-price" type="text" class="form-control input-lg" ng-model="unitConverter.poundUSD" ng-blur="unitConverter.convertGroceries(unitConverter.poundUSD)" placeholder="Enter $USD/pound" format-as-currency />
+				</div>
+				<div class="col-xs-5">
+					<button	id="gas-calculate-button" type="button" class="btn btn-primary btn-lg" ng-click="unitConverter.convertGroceries()" >
+						Convert
+					</button>
+				</div>
+			</div>			
+			<p class="note">This result is calculated using the current exchange rate and bank exchange fee as seen on the right</p>
+		</div>
+	</div>				
+</div>	

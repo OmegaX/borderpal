@@ -1,7 +1,7 @@
 export default class CostEstimatorCtrl {
-  constructor(EstimatorService, ExchangeFactory, $scope) {
+  constructor(EstimatorService, ExchangeService, $scope) {
     this.EstimatorService = EstimatorService;
-    this.ExchangeFactory = ExchangeFactory;    
+    this.ExchangeService = ExchangeService;
     this.scope = $scope;
     this.init();
   }
@@ -11,24 +11,21 @@ export default class CostEstimatorCtrl {
     this.provincialTaxes = this.EstimatorService.getProvincialTaxes();
     this.tripExemptions = this.EstimatorService.getTripExemptions();
     this.popoverText = this.EstimatorService.getPopoverText();
-
-    this.clean();
-    this.exchange = this.ExchangeFactory.getExchangeObj();
-    this.scope.$watchCollection(() => this.ExchangeFactory.getExchangeObj(), () => {
-      this.exchange = this.ExchangeFactory.getExchangeObj();
+    this.scope.$watchCollection(() => this.ExchangeService.getExchangeObj(), () => {
+      this.exchange = this.ExchangeService.getExchangeObj();
       return () => this.exchange;
     });
+    this.clean();
   }
 
   clean() {
     this.show = {};
-
     this.taxUS = { rate: 0, region: 'Search for tax rate by zipcode, or enter it manually.' };
     this.subtotal = {};
     this.grandTotal = {};
-
     this.itemsArray = [];
     [, this.provincialTax] = this.provincialTaxes;
+    this.provincialTaxrate = this.provincialTax.rate;
     [this.tripExemption] = this.tripExemptions;
 
     // add first item
@@ -37,13 +34,11 @@ export default class CostEstimatorCtrl {
 
     if (window.innerWidth > 992) {
       this.accordionStatus = {
-        exchangeOpen: true,
         taxCDNOpen: true,
         taxUSAOpen: true
       };
     } else {
       this.accordionStatus = {
-        exchangeOpen: false,
         taxCDNOpen: false,
         taxUSAOpen: false
       };
@@ -52,6 +47,18 @@ export default class CostEstimatorCtrl {
 
   reset() {
     this.clean();
+  }
+
+  cdnTaxBlur() {
+    this.provincialTaxes.push({
+      label: `Custom - ${this.provincialTaxrate}%`,
+      rate: this.provincialTaxrate
+    });
+    this.provincialTax = this.provincialTaxes[this.provincialTaxes.length - 1];
+  }
+
+  provSelectChange() {
+    this.provincialTaxrate = this.provincialTax.rate;
   }
 
   getUStaxRate() {
@@ -122,7 +129,7 @@ export default class CostEstimatorCtrl {
   }
 
   calculate() {
-    const taxRateCDN = this.provincialTax.combinedRate / 100;
+    const taxRateCDN = this.provincialTaxrate / 100;
     const taxRateUS = this.taxUS.rate / 100;
     const exchangeFee = this.exchange.fee / 100;
 
@@ -254,4 +261,4 @@ export default class CostEstimatorCtrl {
   } // end of calculate function
 } // end of controller
 
-CostEstimatorCtrl.$inject = ['EstimatorService', 'ExchangeFactory', '$scope'];
+CostEstimatorCtrl.$inject = ['EstimatorService', 'ExchangeService', '$scope'];

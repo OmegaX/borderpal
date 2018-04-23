@@ -189,8 +189,8 @@ const unitsObj = {
       compare: 'mph'
     },
     {
-      id: 'knot',
-      label: 'Knot',
+      id: 'knots',
+      label: 'Knots',
       multiplier: 0.539957,
       precision: 2,
       compare: 'kph'

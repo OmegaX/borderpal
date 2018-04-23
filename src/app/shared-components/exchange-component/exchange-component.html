@@ -1,7 +1,7 @@
 <uib-accordion>
-	<div uib-accordion-group class="side-section" is-open="exchangeCtrl.accordionOpen">
+	<div uib-accordion-group id="exchange-component" class="side-section" is-open="exchangeCtrl.accordionOpen">
 		<uib-accordion-heading>
-			Exchange Rate 
+			Today's Exchange Rate
 			<i class="glyphicon" ng-class="{'glyphicon-chevron-down': exchangeCtrl.accordionOpen, 'glyphicon-chevron-right': !exchangeCtrl.accordionOpen}"></i> 
 		</uib-accordion-heading>	
 		<div class="text-center">			
@@ -22,33 +22,30 @@
 				<span class="medium">CAD</span>
 				<span class="big"> = ${{exchangeCtrl.exchange.rateUSD | number:3}}</span>
 				<span class="medium">USD</span>
-			</p>
-		
-			<p>As of {{exchangeCtrl.exchange.date | date}}</p>
+			</p>		
+			<p><strong>{{exchangeCtrl.exchange.date | date}}</strong></p>
+			<p>(updated every business day)</p>
 			<p class="note">
-				<strong>NOTE:</strong> With a bank exchange fee of 
-				<strong>{{exchangeCtrl.exchange.fee}}% </strong>
-				you'll pay ${{exchangeCtrl.exchange.rateCADtotal | number:3}} CAD for $1 USD
+				With a bank exchange fee of <strong>{{exchangeCtrl.exchange.fee}}%</strong> you'll pay ${{exchangeCtrl.exchange.rateCADtotal | number:3}} CAD for $1 USD. You can change this fee here.
 			</p>
 		</div>
-		<div class="row">
-			<div class="col-xs-5 col-xs-offset-4">
-				<label for="bank-fee-input">
-					<a href="" uib-popover="{{exchangeCtrl.popoverText['bank-fee']}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
-					Exchange Fee:
-				</label>
+		<div id="bank-fee-wrapper">
+			<label for="bank-fee-input">
+				<a href="" uib-popover="{{exchangeCtrl.popoverText}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
+				Bank Fee:
+			</label>
+			<div class="form-group">
 				<input
 					id="exchange-fee-input"
-					type="number"						
-					class="form-control percent-input"
-					step="0.1"
-					min="0"
-					max="100"					
+					class="form-control"
+	    			percentage-field 
+					percentage-max-value="10" 
+					percentage-max-decimals="3"				
+					type="text"		
 					ng-model="exchangeCtrl.exchange.fee"
 					ng-change="exchangeCtrl.exchangeFeeChanged()"
 				/>
-				<label class="percent-sign">%</label>
-			</div>
+			</div>			
 		</div>
     </div>
 </uib-accordion>

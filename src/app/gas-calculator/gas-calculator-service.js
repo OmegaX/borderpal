@@ -2,22 +2,13 @@ import statesArray from './us-states';
 
 export default class GasService {
   constructor($http, $q) {
+    this.statesArray = statesArray;
     this.$http = $http;
     this.$q = $q;
   }
 
   getStates() {
-    return statesArray;
-  }
-
-  getExchangeRate() {
-    return this.$http.get('https://api.fixer.io/latest?base=USD')
-      .then((response) => {
-        if (typeof response.data === 'object') {
-          return response.data;
-        }
-        return this.$q.reject(response.data);
-      });
+    return this.statesArray;
   }
 
   getGasPrices(state) {

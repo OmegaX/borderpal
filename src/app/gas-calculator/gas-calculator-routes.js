@@ -3,15 +3,15 @@ const exchangePartial = require('../shared-components/exchange-component/exchang
 
 export default function routes($stateProvider) {
   $stateProvider
-    .state('gas-calculator', {
-      url: '/gas-calculator',
+    .state('gas', {
+      url: '/gas',
       views: {
         '': {
           template,
           controller: 'GasCalculatorCtrl',
           controllerAs: 'gasCalculator'
         },
-        'exchangeView@gas-calculator': {
+        'exchangeView@gas': {
           template: exchangePartial,
           controller: 'ExchangeCtrl',
           controllerAs: 'exchangeCtrl'

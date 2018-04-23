@@ -1,0 +1,45 @@
+<script type="text/ng-template" id="mapModal.html">
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-title">{{borderCtrl.mapParams.title}}</h3>
+    <h4>{{borderCtrl.mapParams.connection}}</h4>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <div map-lazy-load="https://maps.google.com/maps/api/js"
+      map-lazy-load-params="{{borderCtrl.googleMapsUrl}}">
+        <ng-map id="{{borderCtrl.mapParams.id}}" center="{{borderCtrl.mapParams.lat}}, {{borderCtrl.mapParams.lng}}" zoom="{{borderCtrl.mapParams.zoom}}">
+        <marker position="{{borderCtrl.mapParams.lat}}, {{borderCtrl.mapParams.lng}}" title="{{borderCtrl.mapParams.title}}"></marker>
+        </ng-map>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="borderCtrl.closeModal()">Close</button>
+  </div>
+</script>
+
+<div class="header-wrapper">
+  <h1>{{borderCtrl.h1}}</h1>
+  <h2>{{borderCtrl.h2}}</h2>   
+</div>
+<div class="input-container">
+  <select id="sort-dropdown" class="form-control" ng-model="borderCtrl.sort">
+    <option value="distance" disabled="{{borderCtrl.coords.enabled}}">Sorted by Distance</option>
+    <option value="province">Sorted by Province</option>
+    <option value="state">Sorted by State</option>
+    <option value="-longitude">Sorted East to West</option>
+    <option value="longitude">Sorted West to East</option>
+  </select>
+</div>
+<p ng-if="!borderCtrl.coords.enabled">To sort by distance, please allow Borderpal access to your geolocation in your browser</p>
+ <div class="table-responsive">  
+  <table id="border-waits-table" class="table table-striped">
+    <thead id="border-waits-head">
+      <th class="name">Port of Entry</th>
+      <th class="passenger">Passenger</th>
+      <th class="commercial">Commerical</th>
+      <th class="updated">Updated</th>          
+      <th class="cam">Cams</th>
+      <th class="map">Maps</th>
+    </thead>
+    <tbody ui-view></tbody>
+  </table>
+</div>

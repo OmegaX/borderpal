@@ -1,0 +1,21 @@
+<div class="border-menu">
+	<div class="menu-header">
+		<h3>Side of Border</h3>
+	</div>
+	<div ui-sref="border.cams" ng-click="borderCtrl.camNavClicked('Canada')" ng-class="{focus: borderCtrl.state.current.name === 'border.waits.us'}" class="menu-item">
+		<div class="fa-wrapper">
+			<img src="../../../assets/images/canadian-icon-small.png" alt="Travelling from Canada to the USA">	
+			<i class="fa fa-arrow-right" aria-hidden="true"></i>
+			<img src="../../../assets/images/american-icon-small.png" alt="Travelling to the USA from Canada">
+		</div>
+		<span class="fa-label">Canadian</span>
+	</div>
+	<div ui-sref="border.cams" ng-class="{focus: borderCtrl.state.current.name === 'border.waits.canada'}" ng-click="borderCtrl.camNavClicked('US')" class="menu-item">
+		<div class="fa-wrapper">
+			<img src="../../../assets/images/american-icon-small.png" alt="Travelling from the USA to Canada">	
+			<i class="fa fa-arrow-right" aria-hidden="true"></i>
+			<img src="../../../assets/images/canadian-icon-small.png" alt="Returning to Canada from the USA">
+		</div>
+		<span class="fa-label">US</span>
+	</div> 
+</div>

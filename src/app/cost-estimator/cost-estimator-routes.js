@@ -13,7 +13,7 @@ export default function routes($stateProvider) {
         },
         'exchangeView@cost-estimator': {
           template: exchangePartial,
-          controller: 'CostEstimatorCtrl',
+          controller: 'ExchangeCtrl',
           controllerAs: 'exchangeCtrl'
         }
       }
