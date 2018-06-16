@@ -1,0 +1,50 @@
+header {
+  @include poly-fluid-sizing('height', $header-height-map);
+  background-image: url("../images/new-header-black.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+body {
+  color: $text-color;
+    @include poly-fluid-sizing('font-size', $p-map);
+}
+
+footer {
+  background-color: $primary-color;
+  color: $white; 
+ }
+
+.container-fluid {
+  padding-top: 30px;
+  background-color: white;
+}
+
+@include media-breakpoint-up(xs) { 
+
+
+  .header-wrapper {
+    h3, h4, h5 {
+      display: none;
+    }
+  } 
+}
+
+@include media-breakpoint-up(sm) { 
+
+}
+
+@include media-breakpoint-up(md) {
+
+}
+
+@include media-breakpoint-up(lg) {
+
+
+}
+
+@include media-breakpoint-up(xl) {    
+
+}
+

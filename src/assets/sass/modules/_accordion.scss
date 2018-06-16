@@ -1,0 +1,29 @@
+.accordion {    
+	margin-bottom: $spacer; 
+    background-color: $light-blue;
+    
+	.card-header {
+		padding: 1.25rem;
+	    background-color: transparent;
+	    border-bottom: none;
+
+	    .fas {
+			float: right;
+		}
+	}
+
+	.card-body {
+		padding: 0 1.25rem 1.25rem 1.25rem;
+	}
+
+	&__row:not(:last-child) {
+	    margin-bottom: $spacer;
+	}
+
+	&__btn {
+		@extend .btn;
+		@extend .btn-primary;
+		width: 100%;
+	}
+
+}

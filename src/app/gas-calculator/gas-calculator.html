@@ -1,39 +1,43 @@
-<main id="gas-calculator">
-	<section class="col-full col-side-push">
-		<div class="header-wrapper">
-			<h1>Find Cheap Gas</h1>
-			<h2>Convert USD/gallon to CAD/litre</h2>
-			<h4>Select a state and click a price to convert to the CAD/litre equivelent</h4>
-		</div>
-		<select class="form-control big-select" ng-model="gasCalculator.selectedState" ng-options="stateObject.name for stateObject in gasCalculator.statesArray" ng-change="gasCalculator.getGasPrices()">
-			<option value="" disabled selected>Select border state</option>
-		</select>
-		<div class="table-responsive" ng-if="gasCalculator.gasObject">
-			<h3>Cheapest Gas in {{gasCalculator.selectedState.name}}</h3>
-			<table id="gas-results-table" class="table table-striped">
-				<thead>
-					<th>Price</th>
-					<th>Station</th>
-					<th>Area</th>
-					<th>Time</th>
-				</thead>
-				<tbody>
-					<tr ng-repeat="station in gasCalculator.gasObject">
-						<td class="big" title="Click to convert to CAD/litre" ng-click="gasCalculator.convertGas(station.price)" >{{station.price | currency}}</td>
-						<td>
-							<div class="big-name">
-							{{station.brand}}
-							</div>
-							{{station.address}}
-						</td>
-						<td>{{station.area}}</td>
-						<td>{{station.time}}</td>
-					</tr>
-				</tbody>
-			</table>
-			<p class="note" ng-if="gasCalculator.gasObject"><strong>Note: </strong> This table shows only the cheapest reported prices for regular gas in states that share a border with Canada.</p>
-		</div> <!-- table-responsive -->
-	</section>
+<update-title title="Borderpal - Cost Estimator"></update-title>
+<update-meta name="description" content="A unique tool to accurately estimate your costs while shopping in the United States. Factor in "></update-meta>
+<update-meta property="og:title" content="Minions"></update-meta>
+<update-meta itemprop="description" content="A page specific itemprop description"></update-meta>
+
+<main class="col-full col-side-push">
+	<div class="header-wrapper">
+		<h1>Find Cheap Gas</h1>
+		<h2>Convert USD/gallon to CAD/litre</h2>
+		<h4>Select a state and click a price to convert to the CAD/litre equivelent</h4>
+	</div>
+	<select class="form-control big-select" ng-model="gasCalculator.selectedState" ng-options="stateObject.name for stateObject in gasCalculator.statesArray" ng-change="gasCalculator.getGasPrices()">
+		<option value="" disabled selected>Select border state</option>
+	</select>
+	<div class="table-responsive" ng-if="gasCalculator.gasObject">
+		<h3>Cheapest Gas in {{gasCalculator.selectedState.name}}</h3>
+		<table id="gas-results-table" class="table table-striped">
+			<thead>
+				<th>Price</th>
+				<th>Station</th>
+				<th>Area</th>
+				<th>Time</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="station in gasCalculator.gasObject">
+					<td class="big" title="Click to convert to CAD/litre" ng-click="gasCalculator.convertGas(station.price)" >{{station.price | currency}}</td>
+					<td>
+						<div class="big-name">
+						{{station.brand}}
+						</div>
+						{{station.address}}
+					</td>
+					<td>{{station.area}}</td>
+					<td>{{station.time}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<p class="note" ng-if="gasCalculator.gasObject"><strong>Note: </strong> This table shows only the cheapest reported prices for regular gas in states that share a border with Canada.</p>
+	</div> <!-- table-responsive -->
+</main>
 
 	<aside class="col-side col-full-push">
 		<section class="side-section">

@@ -9,14 +9,16 @@ export default class GasCalculatorCtrl {
   init() {
     this.gallonUSD = 3;
     this.statesArray = this.GasService.getStates();
-    this.scope.$watchCollection(() => this.ExchangeService.getExchangeObj(), () => {
-      this.exchange = this.ExchangeService.getExchangeObj();
+    this.scope.$watchCollection(() => this.ExchangeService.getExchangeObj(), (response) => {
+      this.exchange = response;
       this.convertGas();
-      return () => this.exchange;
     });
+    this.name = window.sessionStorage.getItem("SavedString");
+    console.log(this.name);
   }
 
   convertGas(gallonUSD = this.gallonUSD) {
+    console.log(this.exchange);
     this.gallonUSD = gallonUSD;
     const gallonCAD = gallonUSD * this.exchange.rateCADtotal;
     this.litreCAD = gallonCAD / 3.78541;

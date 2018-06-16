@@ -1,12 +1,9 @@
 import angular from 'angular';
 import uirouter from 'angular-ui-router';
 import ngSanitize from 'angular-sanitize';
-import ngBootstrap from 'angular-ui-bootstrap';
-import formatAsCurrency from 'format-as-currency';
+import ngBootstrap from 'ui-bootstrap4';
 
-import 'bootstrap/dist/css/bootstrap.css';
-import '../assets/sass/custom.scss';
-
+import '../assets/sass/main.scss';
 import routing from './app.routes';
 import unitConverter from './unit-converter';
 import costEstimator from './cost-estimator';
@@ -18,7 +15,7 @@ import NavCtrl from './shared-components/navbar-component/nav-ctrl';
 import footerTemplate from './shared-components/footer-component/footer.html';
 import percentageField from './shared-functions/percentage-directive';
 
-angular.module('borderPalApp', [uirouter, ngSanitize, ngBootstrap, formatAsCurrency, unitConverter, costEstimator, gasCalculator, borderCtrl, exchangeComponent])
+angular.module('borderPalApp', [uirouter, ngSanitize, ngBootstrap, unitConverter, costEstimator, gasCalculator, borderCtrl, exchangeComponent])
   .component('navbar', {
     template: navbarTemplate,
     controller: NavCtrl,

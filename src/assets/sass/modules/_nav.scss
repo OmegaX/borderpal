@@ -11,12 +11,13 @@ nav.navbar, .navbar-header {
 
 .nav > li > a, .nav > li > a {
   color: #fff;  
-  font-weight: bold;
-  margin: 0 1vw;
+  margin: 0 2vw;
   padding: 2vw 0;
   border-bottom: 2px solid transparent;
   -webkit-transition: all 1s; /* Safari */
   transition: border-bottom 1s ease-in-out;
+  $map: (576px: 22px, 320px: 18px, 992px: 34px, 768px: 24px);     
+  @include poly-fluid-sizing('font-size', $map);
 }
 
 .navbar {

@@ -4,11 +4,15 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const ResourceHintWebpackPlugin = require('resource-hints-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
+const DIST_DIR = path.resolve(__dirname, 'dist');
+const CLIENT_DIR = path.resolve(__dirname, 'src');
+
 const config = {
+  context: CLIENT_DIR,
   devtool: 'inline-source-map',
-  entry: './src/app/app.module.js',
+  entry: './app/app.module.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: DIST_DIR,
     publicPath: '/',
     filename: 'bundle.js'
   },
@@ -43,8 +47,8 @@ const config = {
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        use: ['babel-loader', 'eslint-loader']
       },
       {
         test: /\.scss$/,

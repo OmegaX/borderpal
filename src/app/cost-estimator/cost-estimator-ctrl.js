@@ -1,3 +1,6 @@
+import { $ } from 'moneysafe';
+import { $$, percent, addPercent } from 'moneysafe/ledger';
+
 export default class CostEstimatorCtrl {
   constructor(EstimatorService, ExchangeService, $scope) {
     this.EstimatorService = EstimatorService;
@@ -7,58 +10,50 @@ export default class CostEstimatorCtrl {
   }
 
   init() {
-    this.dutyCategories = this.EstimatorService.getDutyCategories();
-    this.provincialTaxes = this.EstimatorService.getProvincialTaxes();
-    this.tripExemptions = this.EstimatorService.getTripExemptions();
-    this.popoverText = this.EstimatorService.getPopoverText();
-    this.scope.$watchCollection(() => this.ExchangeService.getExchangeObj(), () => {
-      this.exchange = this.ExchangeService.getExchangeObj();
-      return () => this.exchange;
+    this.dutyCategories = Object.create(this.EstimatorService.getDutyCategories());
+    this.provincialTaxes = Object.create(this.EstimatorService.getProvincialTaxes());
+    this.tripExemptions = Object.create(this.EstimatorService.getTripExemptions());
+    this.popoverText = Object.create(this.EstimatorService.getPopoverText());
+    this.scope.$watchCollection(() => this.ExchangeService.getExchangeObj(), (response) => {
+      this.exchange = Object.create(response);
     });
     this.clean();
   }
 
   clean() {
     this.show = {};
-    this.taxUS = { rate: 0, region: 'Search for tax rate by zipcode, or enter it manually.' };
+    this.taxUS = {
+      rate: 0,
+      region: 'Search for tax rate by zipcode, or enter it manually.'
+    };
     this.subtotal = {};
     this.grandTotal = {};
     this.itemsArray = [];
-    [, this.provincialTax] = this.provincialTaxes;
-    this.provincialTaxrate = this.provincialTax.rate;
+    this.provincialTax = this.provincialTaxes[1];
     [this.tripExemption] = this.tripExemptions;
 
     // add first item
     this.itemCounter = 1;
     this.addItem();
 
-    if (window.innerWidth > 992) {
-      this.accordionStatus = {
-        taxCDNOpen: true,
-        taxUSAOpen: true
-      };
-    } else {
-      this.accordionStatus = {
-        taxCDNOpen: false,
-        taxUSAOpen: false
-      };
-    }
+    this.accordionStatus = (window.innerWidth > 992) ?
+      { taxCDNOpen: true, taxUSAOpen: true } : { taxCDNOpen: false, taxUSAOpen: false };
   }
 
   reset() {
     this.clean();
   }
 
-  cdnTaxBlur() {
-    this.provincialTaxes.push({
-      label: `Custom - ${this.provincialTaxrate}%`,
-      rate: this.provincialTaxrate
-    });
-    this.provincialTax = this.provincialTaxes[this.provincialTaxes.length - 1];
+  createCDNcustomTaxObj() {
+    return {
+      label: `Custom - ${this.provincialTax.rate}%`,
+      rate: this.provincialTax.rate
+    };
   }
 
-  provSelectChange() {
-    this.provincialTaxrate = this.provincialTax.rate;
+  addCDNcustomTax() {
+    this.provincialTaxes.push(this.createCDNcustomTaxObj());
+    this.provincialTax = this.provincialTaxes[this.provincialTaxes.length - 1];
   }
 
   getUStaxRate() {
@@ -67,7 +62,8 @@ export default class CostEstimatorCtrl {
       .then((response) => {
         this.taxUS = {
           ...this.taxUS,
-          rate: this.EstimatorService.round((response.EstimatedCombinedRate * 100), 3),
+          rate: response.EstimatedCombinedRate,
+          rateLabel: (response.EstimatedCombinedRate * 100),
           region: `${response.TaxRegionName}, ${response.State}`
         };
       }, () => {
@@ -79,185 +75,298 @@ export default class CostEstimatorCtrl {
   }
 
   onBlurUStaxField() {
-    const taxRateUS = parseFloat(this.taxUS.rate);
+    const taxRateUS = parseFloat(this.taxUS.rateLabel);
     if (Number.isNaN(taxRateUS)) {
       this.taxUS = {
         ...this.taxUS,
         region: 'You entered an invalid tax rate. It has defaulted to 0.',
         zipCode: null,
-        rate: 0
+        rate: 0,
+        rateLabel: 0
       };
     } else {
       this.taxUS = {
         ...this.taxUS,
         region: 'You entered a custom tax rate',
-        zipCode: null
+        zipCode: null,
+        rate: taxRateUS / 100
       };
     }
   }
 
-  createItem() {
-    const [dutyCategory] = this.dutyCategories;
-    return {
-      number: this.itemCounter,
-      desc: null,
-      priceUSD: null,
+  createItemObj() {
+    return Object.create({
+      number: null,
+      desc: '',      
       taxableUS: true,
-      taxableCDN: true,
-      dutyCategory
-    };
+      taxableCAN: true,
+      dutyCategory: this.dutyCategories[0],
+      USDprice: 0,
+      USDtaxUS: 0,
+      USDsubtotal: 0,
+      USDexchangeFee: 0,
+      USDtotal: 0,    
+      CADdeclarable: 0,
+      CADtaxable: 0,
+      CADexempt: 0,
+      CADtaxCAN: 0,
+      CADduty: 0,
+      CADexchangeFee: 0,
+      CADsubtotal: 0
+    });
   }
 
   addItem() {
-    const nextItemNumber = this.itemCounter;
-    const itemObject = this.createItem(nextItemNumber);
-    this.itemsArray.push(itemObject);
+    const itemObj = this.createItemObj();
+    itemObj.number = this.itemCounter;
+    this.itemsArray.push(itemObj);
     this.itemCounter += 1;
+    console.log(this.itemsArray);
   }
 
-  removeItem(thisItemNumber) {
+  removeItem(thisItemNumber = 1) {
     const thisItemIndex = thisItemNumber - 1;
     this.itemsArray[thisItemIndex] = {};
     this.itemsArray.splice(thisItemIndex, 1);
     this.itemCounter -= 1;
 
-    this.itemsArray.map((itemObject, index) => {
-      const item = itemObject;
+    this.itemsArray.map((itemObj, index) => {
+      const item = itemObj;
       item.number = index + 1;
       return item;
     });
   }
 
+  getNoteOrder() {
+    switch (this.notes.length) {
+      case 0:
+        return '*';
+      case 1:
+        return '**';
+      case 2:
+        return '***';
+      default:
+        return '';
+    }
+  }
+
   calculate() {
-    const taxRateCDN = this.provincialTaxrate / 100;
-    const taxRateUS = this.taxUS.rate / 100;
-    const exchangeFee = this.exchange.fee / 100;
+    const exchangePercent = (this.exchange.rateCAD - 1) * 100;
 
     let remainingExemption = this.tripExemption.exemption;
 
-    let subtotalDeclarable = 0;
-    let subtotalTaxable = 0;
-    let subtotalTax = 0;
-    let subtotalDuty = 0;
-    let subtotalExchangeFee = 0;
+    let CADsubtotalDeclarable = 0;
+    let CADsubtotalTaxable = 0;
+    let CADsubtotalTax = 0;
+    let CADsubtotalDuty = 0;
+    let CADsubtotalExchangeFee = 0;
 
-    let grandTotalUSD = 0;
-    let grandTotalCustomsCAD = 0;
-    let grandTotalCAD = 0;
+    let USDgrandTotal = 0;
+    let CADgrandTotalCustoms = 0;
+    let CADgrandTotalAll = 0;
 
-    let showTotals = false;
-    let showDutyCol = false;
-    let showDescCol = false;
-    let showNote1 = false;
-    let showNote2 = false;
-    let showNote3 = false;
+    this.show = {
+      totalsCAN: false,
+      resultsCAN: true,
+      totalsUS: false,
+      resultsUS: true,
+      dutyCol: false,
+      descCol: false
+    };
 
-    this.itemsArray.map((itemObject) => {
-      const item = itemObject;
-      const priceUSD = parseFloat(item.priceUSD);
+    const showNote = {
+      one: false,
+      two: false,
+      three: false
+    };
 
-      item.priceUSD = (Number.isNaN(priceUSD)) ? 0 : priceUSD;
+    this.notes = [];
 
-      item.taxUSD = (item.taxableUS) ? (item.priceUSD * taxRateUS) : 0;
+    this.itemsArray.map((itemObj) => {
+      const item = itemObj;
 
-      item.subtotalUSD = item.priceUSD + item.taxUSD;
+      item.USDprice = parseFloat(item.USDprice);
 
-      // CAD calculations
-      item.declarableValueCAD = item.subtotalUSD * this.exchange.rateCAD;
+      item.USDprice = (Number.isNaN(item.USDprice) ? 0 : item.USDprice);
 
-      item.exchangeFeeCAD = item.declarableValueCAD * exchangeFee;
 
-      if (this.tripExemption.id !== 'same-day') {
-        if (item.taxableCDN) {
-          item.taxableValueCAD = item.declarableValueCAD - remainingExemption;
-          if (item.taxableValueCAD < 0) {
-            remainingExemption = Math.abs(item.taxableValueCAD);
-            item.taxableValueCAD = 0;
-            item.exemptValueCAD = item.declarableValueCAD;
-            showNote1 = true;
-            item.asterik = '*';
+
+      item.USDtaxUS = $$(
+        $(item.USDprice),
+        percent(this.taxUS.rate)
+      ).$;
+
+      item.USDsubtotal = $$(
+        $(item.USDprice),
+        addPercent(this.taxUS.rate)
+      ).$;
+
+      item.USDexchangeFee = $$(
+        $(item.USDsubtotal),
+        percent(this.exchange.fee)
+      ).$;
+
+      item.USDtotal = $$(
+        $(item.USDsubtotal),
+        addPercent(this.exchange.fee)
+      ).$;
+
+      item.CADdeclarable = $$(
+        $(item.USDsubtotal),
+        addPercent(exchangePercent)
+      ).$;
+
+      item.CADexchangeFee = $$(
+        $(item.CADdeclarable),
+        percent(this.exchange.fee)
+      ).$;
+
+      item.asterik = '';
+
+      if (this.tripExemption.id !== 'same-day') { // apply trip exemption to taxable amounts
+        if (item.taxableCAN) {
+          item.CADtaxable = $(item.CADdeclarable).subtract($(remainingExemption)).$;
+          if (item.CADtaxable < 0) {
+            remainingExemption = Math.abs(item.CADtaxable);
+            item.CADtaxable = 0;
+            item.CADexempt = item.CADdeclarable;
+            if (!showNote.one) {
+              showNote.one = true;
+              item.asterik = this.getNoteOrder(1);
+              this.notes.push(`${item.asterik} trip exemption applied`);
+            }
           } else {
-            item.exemptValueCAD = remainingExemption;
+            item.CADexempt = remainingExemption;
             remainingExemption = 0;
-            if (item.taxableValueCAD < item.declarableValueCAD) {
-              showNote2 = true;
-              item.asterik = '**';
+            if (item.CADtaxable < item.CADdeclarable) {
+              if (!showNote.two) {
+                showNote.two = true;
+                item.asterik = this.getNoteOrder(2);
+                this.notes.push(`${item.asterik} remainder of trip exemption applied`);
+              }
             }
           }
-        } else { // not taxable anyway
-          item.exemptValueCAD = item.declarableValueCAD;
-          item.taxableValueCAD = 0;
-          showNote3 = true;
-          item.asterik = '***';
+        } else { // non-taxable anyway
+          item.CADexempt = item.CADdeclarable;
+          item.CADtaxable = 0;
+          if (!showNote.three) {
+            showNote.three = true;
+            item.asterik = this.getNoteOrder(3);
+            this.notes.push(`${item.asterik} you marked this item as tax-exempt`);
+          }
         }
-      } else if (item.taxableCDN) {
-        item.exemptValueCAD = 0;
-        item.taxableValueCAD = item.declarableValueCAD;
-      } else {
-        item.exemptValueCAD = item.declarableValueCAD;
-        item.taxableValueCAD = 0;
-        showNote3 = true;
-        item.asterik = '***';
+      } else if (item.taxableCAN) { // tax it
+        item.CADexempt = 0;
+        item.CADtaxable = item.CADdeclarable;
+      } else { // non-taxable... don't tax it
+        item.CADexempt = item.CADdeclarable;
+        item.CADtaxable = 0;
+        if (!showNote.three) {
+          showNote.three = true;
+          item.asterik = this.getNoteOrder(3);
+          this.notes.push(`${item.asterik} you marked this item as tax-exempt`);
+        }
       }
 
-      item.taxCAD = (item.taxableCDN ? (item.taxableValueCAD * taxRateCDN) : 0);
+      if (item.taxableCAN && item.CADtaxable > 0) {
+        item.CADtaxCAN = $$(
+          $(item.CADtaxable), 
+          percent(this.provincialTax.rate)
+        ).$;
+        CADsubtotalTax = $$(
+          $(CADsubtotalTax),
+          $(item.CADtaxCAN)
+        ).$;
+      }
 
-      item.dutyCAD = item.taxableValueCAD * item.dutyCategory.dutyRate;
+      item.CADduty = (item.dutyCategory.rate > 0 ?
+        ($$($(item.CADtaxable), percent(item.dutyCategory.rate)).$) : 0);
 
-      item.subtotalCAD = item.declarableValueCAD + item.taxCAD + item.dutyCAD + item.exchangeFeeCAD;
+      item.CADsubtotal = $$(
+        $(item.CADdeclarable),
+        $(item.CADtaxCAN),
+        $(item.CADduty),
+        $(item.CADexchangeFee)
+      ).$;
 
-      item.subtotalCustomsCAD = item.taxCAD + item.dutyCAD;
+      item.subtotalCustomsCAD = $$(
+        $(item.CADtaxCAN),
+        $(item.CADduty)
+      ).$;
 
       // total accumulations
-      subtotalDeclarable += item.declarableValueCAD;
-      subtotalTaxable += item.taxableValueCAD;
-      subtotalTax += item.taxCAD;
-      subtotalDuty += item.dutyCAD;
-      subtotalExchangeFee += item.exchangeFeeCAD;
+      CADsubtotalDeclarable = $$(
+        $(CADsubtotalDeclarable),
+        $(item.CADdeclarable)
+      ).$;
 
-      grandTotalUSD += item.subtotalUSD;
-      grandTotalCustomsCAD += item.subtotalCustomsCAD;
-      grandTotalCAD += item.subtotalCAD;
+      CADsubtotalTaxable = $$(
+        $(CADsubtotalTaxable),
+        $(item.CADtaxable)
+      ).$;
 
-      if (item.number > 1) {
-        showTotals = true;
+
+
+      if (item.CADduty > 0) {
+        CADsubtotalDuty = $$(
+          $(CADsubtotalDuty),
+          $(item.CADduty)
+        ).$;
       }
 
-      if (item.dutyCategory.dutyRate > 0) {
-        showDutyCol = true;
-      }
+      CADsubtotalExchangeFee = $$(
+        $(CADsubtotalExchangeFee),
+        $(item.CADexchangeFee)
+      ).$;
 
-      if (item.desc !== null && item.desc !== '') {
-        showDescCol = true;
-      }
+      USDgrandTotal = $$(
+        $(USDgrandTotal),
+        $(item.USDsubtotal)
+      ).$;
 
+      CADgrandTotalCustoms = $$(
+        $(CADgrandTotalCustoms),
+        $(item.subtotalCustomsCAD)
+      ).$;
+
+      CADgrandTotalAll = $$(
+        $(CADgrandTotalAll),
+        $(item.CADsubtotal)
+      ).$;
+
+      this.show.totalsCAN = item.number > 1; // only show totals if more than one row
+      this.show.totalsUS = true; // temp
+      if (item.dutyCategory.category !== 0) {
+        this.show.dutyCol = true;
+      }
+      if (item.desc !== '') {
+        this.show.descCol = true;
+      }
       return item;
     }); // end of array map
 
-    this.show = {
-      results: true,
-      totals: showTotals,
-      dutyCol: showDutyCol,
-      descCol: showDescCol,
-      note1: showNote1,
-      note2: showNote2,
-      note3: showNote3
+    this.CADsubtotal = {
+      declarable: CADsubtotalDeclarable,
+      taxable: CADsubtotalTaxable,
+      tax: CADsubtotalTax,
+      duty: CADsubtotalDuty,
+      exchangeFee: CADsubtotalExchangeFee
     };
 
-    this.subtotal = {
-      ...this.subtotal,
-      declarable: subtotalDeclarable,
-      taxable: subtotalTaxable,
-      tax: subtotalTax,
-      duty: subtotalDuty,
-      exchangeFee: subtotalExchangeFee
+    console.log(this.notes);
+
+    const stateside = $$(
+      $(USDgrandTotal),
+      addPercent(this.exchange.rateCANtotal)
+    ).$;
+
+    this.CADgrandTotal = {
+      stateside,
+      customs: CADgrandTotalCustoms,
+      all: CADgrandTotalAll
     };
 
-    this.grandTotal = {
-      US: (grandTotalUSD * this.exchange.rateCADtotal),
-      customs: grandTotalCustomsCAD,
-      everything: grandTotalCAD
-    };
+    console.log(this.CADgrandTotal);
   } // end of calculate function
 } // end of controller
 

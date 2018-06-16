@@ -1,0 +1,49 @@
+ .item-row {
+	@include make-row();
+	@extend .align-items-center;
+	@extend .justify-content-center;	
+	margin-bottom: $spacer-quarter;
+
+	&__col {
+		@extend .font-weight-bold;
+		@extend .text-center;
+		padding: 0 $spacer-half;
+
+		&--taxable {
+			@extend .d-flex;
+			@extend .justify-content-around;
+			@extend .align-items-center;
+		}
+
+		&--hide-small {
+			@extend .d-none;
+			@extend .d-sm-flex;
+			@extend .justify-content-center;
+		}
+	}
+
+	&--header {
+		font-size: 1.1rem;
+	}
+
+	&__input {
+		width: 100%;
+		padding: $spacer-quarter;
+	}
+
+	&__checkbox {
+        height: $spacer;
+        width: $spacer;
+	}
+
+	&__label {
+		margin-bottom: 0;
+	}
+
+ }
+
+
+
+
+
+ // flex-space vertical-align

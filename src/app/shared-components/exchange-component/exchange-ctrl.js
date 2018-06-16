@@ -19,10 +19,12 @@ export default class ExchangeCtrl {
   }
 
   getRateCADtotal() {
-    const rateCAD = 1 / this.exchange.rateUSD;
-    const rateCADtotal = rateCAD * (1 + (this.exchange.fee / 100));
-    this.ExchangeService.setExchangeObj({ rateCAD, rateCADtotal });
-    this.exchange = this.ExchangeService.getExchangeObj();
+    const rateCADtotal = this.exchange.rateCAD * (1 + (this.exchange.fee / 100));
+    this.ExchangeService.setExchangeObj({ rateCADtotal });
+    this.exchange = {
+      ...this.exchange,
+      rateCADtotal
+    };
   }
 
   exchangeFeeChanged() {

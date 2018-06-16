@@ -1,0 +1,56 @@
+.navbar {
+  background-color: $primary-color;
+  min-height: 80px; 
+  white-space: nowrap;
+}
+
+.navbar-expand-lg {
+  .navbar-nav {
+    flex-wrap: nowrap;
+    .nav-link {
+        padding-top: $nav-link-padding-y;
+        padding-bottom: $nav-link-padding-y;
+        @include poly-fluid-sizing('padding-right', $nav-padding-x-map);
+        @include poly-fluid-sizing('padding-left', $nav-padding-x-map);
+        @include poly-fluid-sizing('font-size', $nav-font-size-map);
+    }
+  }
+}
+
+.navbar-collapse {
+  justify-content: center;
+}
+
+  .navbar-nav {
+    .nav-link {
+      color: $navbar-dark-color;
+
+      @include hover-focus {
+        color: $navbar-dark-hover-color;
+      }
+
+      &.disabled {
+        color: $navbar-dark-disabled-color;
+      }
+    }
+
+    .show > .nav-link,
+    .active > .nav-link,
+    .nav-link.show,
+    .nav-link.active {
+      color: $navbar-dark-active-color;
+    }
+  }
+
+.navbar-toggler {
+  color: $navbar-dark-color;
+  border-color: $navbar-dark-toggler-border-color;
+}
+
+.navbar-toggler-icon {
+  background-image: $navbar-dark-toggler-icon-bg;
+}
+
+.nav-link {
+  font-weight: $font-weight-medium;
+}

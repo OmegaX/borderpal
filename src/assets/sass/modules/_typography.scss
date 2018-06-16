@@ -1,0 +1,44 @@
+a {
+
+    color: $text-color;
+    transition: $transition-base;
+
+    &:hover,
+    &:focus
+    &:active {
+        color: $primary-color;
+        text-decoration: none;
+    }   
+}
+
+.fa-question-circle {
+    color: $dark-blue;
+    transition: $transition-base;
+    &:hover {
+        opacity: .7;
+    }
+}
+
+input, button {
+        @include poly-fluid-sizing('font-size', $p-map);
+}
+
+h1 {
+  @include poly-fluid-sizing('font-size', $h1-map);
+}
+
+h2 {
+  @include poly-fluid-sizing('font-size', $h2-map);
+}
+
+h3 {
+  @include poly-fluid-sizing('font-size', $h3-map);
+}
+
+h4 {
+  @include poly-fluid-sizing('font-size', $h4-map);
+}
+
+h5 {
+  @include poly-fluid-sizing('font-size', $h5-map);
+}

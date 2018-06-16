@@ -21,17 +21,16 @@ export default class ExchangeService {
   }
 
   callExchangeAPI() {
-    return this.http.get('https://api.fixer.io/latest?base=CAD')
+    const url = 'https://free.currencyconverterapi.com/api/v5/convert?q=CAD_USD,USD_CAD&compact=y';
+    return this.http.get(url)
       .then((response) => {
         if (typeof response.data === 'object') {
           this.exchange = {
             ...this.exchange,
-            date: response.data.date,
-            rateUSD: response.data.rates.USD,
-            rateEUR: response.data.rates.EUR,
-            rateGBP: response.data.rates.GBP,
-            rateCNY: response.data.rates.CNY
+            rateCAD: response.data.USD_CAD.val,
+            rateUSD: response.data.CAD_USD.val
           };
+          console.log(this.exchange);
           return this.exchange;
         }
         // valid response

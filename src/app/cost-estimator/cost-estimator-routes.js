@@ -1,5 +1,5 @@
-const template = require('./cost-estimator.html');
-const exchangePartial = require('../shared-components/exchange-component/exchange-component.html');
+import template from './cost-estimator.html';
+import exchangePartial from '../shared-components/exchange-component/exchange-component.html';
 
 export default function routes($stateProvider) {
   $stateProvider

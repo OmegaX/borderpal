@@ -1,19 +1,27 @@
+<html ng-app="borderPalApp" lang="en-CA">
 <head>
-    <meta charset="utf-8">
-    <title>BorderPal</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>BorderPal - The Cross-Border Shopping Assistant</title>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
 	<meta name="author" content="Doug Sabiston">
-	<meta name="description" content="The helpful app for Canadians and other cross-border shoppers who shop in or order from the USA">
+	<meta name="description" content="The cross-border shopping Assistant for Canadians who buy in the United States. Estimate final shopping costs, get border wait times, convert USD/gallon to CAD/litre and more!">
 	<meta property="og:image" content="./assets/images/ .png">
-	<meta property="og:description" content="The helpful app for Canadians and other cross-border shoppers who shop in or order from the USA">
+	<meta property="og:description" content="The helpful app for Canadians who shop in the United States">
 	<meta property="og:title" content="BorderPal">
 	<base href="/">
 </head>
-<body ng-app="borderPalApp">
+<body>
 	<header>
 		<!-- background image set by css -->
 	</header>
 	<navbar></navbar>
-	<main class="container-fluid" ui-view></main>
+	<div class="container-fluid">
+		<div class="page" ui-view>
+
+		</div>
+	</div>
 	<footer></footer>
 </body>
+</html>
