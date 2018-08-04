@@ -19,14 +19,14 @@ const config = {
   },
   plugins: [
     // new UglifyJsPlugin({
-    //   test: /\.js($|\?)/i
+     //   test: /\.js($|\?)/i;'/
     // }),
     new HtmlWebpackPlugin({
       title: 'Output Management',
       template: './src/index.template.ejs',
       minifiy: true
     }),
-    new FaviconsWebpackPlugin('./src/assets/images/canadian-icon.png'),
+    // new FaviconsWebpackPlugin('./src/assets/images/canadian-icon.png'),
     new ResourceHintWebpackPlugin()
   ],
   module: {

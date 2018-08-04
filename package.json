@@ -1,6 +1,6 @@
 {
   "name": "borderpal",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "",
   "main": "./src/app/app.module.js",
   "dependencies": {
@@ -63,6 +63,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
+    "prestart": "webpack",
     "start": "webpack-dev-server"
   },
   "repository": {
