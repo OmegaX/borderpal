@@ -30,10 +30,9 @@ export default class ExchangeService {
             rateCAD: response.data.USD_CAD.val,
             rateUSD: response.data.CAD_USD.val
           };
-          console.log(this.exchange);
           return this.exchange;
         }
-        // valid response
+        // invalid response
         return this.q.reject(response.data);
       });
   }

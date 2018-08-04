@@ -1,0 +1,21 @@
+.buttons {
+
+
+	&__btn {
+	@extend .btn;		
+	}
+	&__btn:not(:last-child) {
+	    margin-right: $spacer;
+	}
+
+	&__group {
+		@extend .d-flex;
+		@extend .justify-content-center;
+		@extend .pt-4;
+	}
+}
+
+input[type="checkbox"] {
+    height: $spacer * 1.2;
+    width: $spacer * 1.2;
+}

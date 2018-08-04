@@ -1,13 +1,13 @@
-<section ng-if="borderCtrl.selectedCams">
-  <div class="header-wrapper">
+<section data-ng-if="borderCtrl.selectedCams">
+  <div class="page__header-wrapper">
     <h1>{{borderCtrl.selectedCams.name}} Traffic Cams</h1>
     <h2>{{borderCtrl.h2}}</h2>
   </div>
-  <div class="row" ng-if="borderCtrl.showCams">
-    <div class="col-md-6" ng-repeat="cam in borderCtrl.cams | filter: { name: borderCtrl.selectedCams.side }" style="margin-bottom: 30px;">      
+  <div class="row" data-ng-if="borderCtrl.showCams">
+    <div class="col-lg-6" data-ng-repeat="cam in borderCtrl.cams | filter: { name: borderCtrl.selectedCams.side }">
       <a href="{{cam.source}}" target="_blank" title="{{cam.caption}}">
         <figure>
-          <img width="100%" ng-src="{{cam.src}}" alt="Traffic cam for {{cam.name}} border area - {{cam.caption}}">                
+          <img class="border-waits__cam-img" data-ng-src="{{cam.src}}" alt="Traffic cam for {{cam.name}} border area - {{cam.caption}}">                
           <figcaption class="cam-caption">{{cam.caption}}</figcaption>
         </figure>
       </a>  
@@ -15,10 +15,8 @@
   </div>
 </section>
 
-<section ng-if="!borderCtrl.selectedCams">
-  <div class="header-wrapper">
-    <h1>Sorry!</h1>
-    <h2>There are no cams for this location... yet</h2>
-  </div>
+<section data-ng-if="!borderCtrl.selectedCams">
+  <h4>Sorry!</h4>
+  <h5>There are no cams for this location... yet</h5>
 </section>
 

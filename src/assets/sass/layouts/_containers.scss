@@ -1,0 +1,22 @@
+header {
+  @include poly-fluid-sizing('height', $header-height-map);
+  background-image: url("../images/new-header-black.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+body {
+  @include poly-fluid-sizing('font-size', $p-map);
+  color: $text-color;
+  background-color: white;
+}
+
+main, aside, nav {
+  margin-bottom: 1rem;
+}
+
+footer {
+  background-color: $primary-color;
+  color: $white; 
+}

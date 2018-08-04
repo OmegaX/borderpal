@@ -1,21 +1,17 @@
-<div class="border-menu">
-	<div class="menu-header">
+<div class="side-nav">
+	<div class="side-nav__header">
 		<h3>Side of Border</h3>
 	</div>
-	<div ui-sref="border.cams" ng-click="borderCtrl.camNavClicked('Canada')" ng-class="{focus: borderCtrl.state.current.name === 'border.waits.us'}" class="menu-item">
-		<div class="fa-wrapper">
-			<img src="../../../assets/images/canadian-icon-small.png" alt="Travelling from Canada to the USA">	
-			<i class="fa fa-arrow-right" aria-hidden="true"></i>
-			<img src="../../../assets/images/american-icon-small.png" alt="Travelling to the USA from Canada">
-		</div>
-		<span class="fa-label">Canadian</span>
-	</div>
-	<div ui-sref="border.cams" ng-class="{focus: borderCtrl.state.current.name === 'border.waits.canada'}" ng-click="borderCtrl.camNavClicked('US')" class="menu-item">
-		<div class="fa-wrapper">
-			<img src="../../../assets/images/american-icon-small.png" alt="Travelling from the USA to Canada">	
-			<i class="fa fa-arrow-right" aria-hidden="true"></i>
-			<img src="../../../assets/images/canadian-icon-small.png" alt="Returning to Canada from the USA">
-		</div>
-		<span class="fa-label">US</span>
-	</div> 
+	<a class="side-nav__item-link" data-ui-sref="border.cams" data-ng-click="borderCtrl.camNavClicked('Canada')" data-ng-class="{focus: borderCtrl.state.current.name === 'border.waits.us'}">
+		<img src="../../../assets/images/canadian-icon-small.png" alt="Canadian flag icon for Canadian destinations">	
+		<i class="fas fa-arrow-right big" aria-hidden="true"></i>
+		<img src="../../../assets/images/american-icon-small.png" alt="American flag icon for US destinations">
+		<span class="side-nav__label medium">Canadian</span>
+	</a>
+	<a class="side-nav__item-link" data-ui-sref="border.cams" data-ng-class="{focus: borderCtrl.state.current.name === 'border.waits.canada'}" data-ng-click="borderCtrl.camNavClicked('US')">
+		<img src="../../../assets/images/american-icon-small.png" alt="Travelling from the USA to Canada">	
+		<i class="fas fa-arrow-right big" aria-hidden="true"></i>
+		<img src="../../../assets/images/canadian-icon-small.png" alt="American flag icon for US destinations">
+		<span class="side-nav__label medium">US</span>
+	</a> 
 </div>

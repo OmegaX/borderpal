@@ -1,51 +1,47 @@
-<uib-accordion>
-	<div uib-accordion-group id="exchange-component" class="side-section" is-open="exchangeCtrl.accordionOpen">
-		<uib-accordion-heading>
-			Today's Exchange Rate
-			<i class="glyphicon" ng-class="{'glyphicon-chevron-down': exchangeCtrl.accordionOpen, 'glyphicon-chevron-right': !exchangeCtrl.accordionOpen}"></i> 
-		</uib-accordion-heading>	
-		<div class="text-center">			
-			<p>
-				<span class="big">
-					<img src="../../../assets/images/american-icon-small.png" alt="american flag">
-					$1
-				</span>
-				<span class="medium">USD</span> 
-				<span class="big"> = ${{exchangeCtrl.exchange.rateCAD | number:3}}</span>
-				<span class="medium">CAD</span>
-			</p>
-			<p>
-				<span class="big">
-					<img src="../../../assets/images/canadian-icon-small.png" alt="canadian flag">
-					$1
-				</span>
-				<span class="medium">CAD</span>
-				<span class="big"> = ${{exchangeCtrl.exchange.rateUSD | number:3}}</span>
-				<span class="medium">USD</span>
-			</p>		
-			<p><strong>{{exchangeCtrl.exchange.date | date}}</strong></p>
-			<p>(updated every business day)</p>
-			<p class="note">
-				With a bank exchange fee of <strong>{{exchangeCtrl.exchange.fee}}%</strong> you'll pay ${{exchangeCtrl.exchange.rateCADtotal | number:3}} CAD for $1 USD. You can change this fee here.
-			</p>
-		</div>
-		<div id="bank-fee-wrapper">
-			<label for="bank-fee-input">
-				<a href="" uib-popover="{{exchangeCtrl.popoverText}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left" class="glyphicon glyphicon-question-sign"></a>
-				Bank Fee:
-			</label>
-			<div class="form-group">
-				<input
-					id="exchange-fee-input"
-					class="form-control"
-	    			percentage-field 
-					percentage-max-value="10" 
-					percentage-max-decimals="3"				
-					type="text"		
-					ng-model="exchangeCtrl.exchange.fee"
-					ng-change="exchangeCtrl.exchangeFeeChanged()"
-				/>
-			</div>			
-		</div>
-    </div>
-</uib-accordion>
+<div class="text-center">			
+	<p>
+		<span class="exchange__big">
+			<img src="../../../assets/images/american-icon-small.png" alt="american flag">
+			$1
+		</span>
+		<span class="exchange__small">USD</span> 
+		<span class="exchange__big"> = ${{exchangeCtrl.exchange.rateCAD | number:3}}</span>
+		<span class="exchange__small">CAD</span>
+	</p>
+	<p>
+		<span class="exchange__big">
+			<img src="../../../assets/images/canadian-icon-small.png" alt="canadian flag">
+			$1
+		</span>
+		<span class="exchange__small">CAD</span>
+		<span class="exchange__big"> = ${{exchangeCtrl.exchange.rateUSD | number:3}}</span>
+		<span class="exchange__small">USD</span>
+	</p>		
+	<p><strong>{{exchangeCtrl.exchange.date | date}}</strong></p>
+	<p>(updated every day)</p>
+</div>
+<p class="exchange__note">
+	With a bank exchange fee of <strong>{{exchangeCtrl.exchange.fee}}%</strong> you'll pay ${{exchangeCtrl.exchange.rateCADtotal | number:3}} CAD for $1 USD. You can change this fee here.
+</p>
+<div class="row accordion__row">
+	<div class="col-5 d-flex align-items-center pr-0">
+		<label for="bank-fee-input" class="mb-0">
+			<a href="" uib-popover="{{exchangeCtrl.popoverText}}" popover-trigger="'mouseenter'" popover-popup-delay="600" popover-append-to-body="true" popover-placement="top-left">
+				<i class="fas fa-question-circle"></i>				
+			</a>
+			Bank Fee:
+		</label>
+	</div>
+	<div class="col-5">
+		<input
+			id="exchange-fee-input"
+			class="form-control"
+			percentage-field 
+			percentage-max-value="10" 
+			percentage-max-decimals="3"				
+			type="text"		
+			ng-model="exchangeCtrl.exchange.fee"
+			ng-change="exchangeCtrl.exchangeFeeChanged()"
+		/>
+	</div>			
+</div>

@@ -1,0 +1,36 @@
+.side-nav {	
+  background-color: $light-blue;  
+
+	&__header {
+    padding: 1.25rem;
+    background-color: transparent;
+    border-bottom: none;
+    text-align: center;   
+	}
+
+  &__item-link {
+    @extend .d-flex;
+    @extend .align-items-center;
+    @extend .justify-content-start;    
+    @extend .pl-4;
+    cursor: pointer; 
+    height: 80px;
+
+    &.focus {
+      background-color: $medium-blue;
+      outline: 0;
+    }
+  
+    img {
+      @extend .mr-2;
+    }
+
+    .fas {
+      @extend .mr-2;
+    }
+
+    span {
+      @extend .ml-2;
+    }
+  }
+}

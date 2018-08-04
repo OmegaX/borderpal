@@ -1,0 +1,19 @@
+.exchange {
+	
+	&__note {
+		text-align: left;
+	}
+
+	&__big {
+	  @include poly-fluid-sizing('font-size', $h4-map);
+	}
+
+	&__medium {
+	  @include poly-fluid-sizing('font-size', $h5-map);
+	}
+
+	&__small{
+	  @include poly-fluid-sizing('font-size', $p-map);
+	}
+
+}

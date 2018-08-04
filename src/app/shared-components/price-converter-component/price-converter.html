@@ -1,0 +1,32 @@
+<div class="price-converter__outer">
+	<div class="price-converter__img-bg price-converter__img-bg--{{priceConverter.converterObj.img_bg}}">
+		<div class="price-converter__center">	
+			<div class="price-converter__left">
+				<div class="price-converter__row">
+					<img src="../../../assets/images/american-icon-small.png" alt="american flag">	
+					<span class="huge">{{priceConverter.inputValue | currency}}</span> 
+					<span>{{priceConverter.converterObj.inputLabel}}</span>
+				</div>
+				<div class="huge text-center">=</div>
+				<div class="price-converter__row">
+					<img src="../../../assets/images/canadian-icon-small.png" alt="canadian flag">
+					<span class="huge">{{priceConverter.outputValue | currency}}</span>
+					<span>{{priceConverter.converterObj.outputLabel}}</span>
+				</div>
+			</div>
+		</div>
+		<div class="price-converter__controls">
+			<label for="per-gallon-price">{{priceConverter.converterObj.instructions_long}}</label>
+			<div class="row">
+				<div class="col-6">
+					<input type="text" class="form-control input-lg" data-ng-model="priceConverter.inputValue" data-ng-blur="priceConverter.convert(priceConverter.inputValue)" placeholder="{{priceConverter.converterObj.instructions_short}}" format-as-currency />
+				</div>
+				<div class="col-6">
+					<button	type="button" class="price-converter__convert-btn" data-ng-click="priceConverter.convert(priceConverter.inputValue)" >
+						Convert
+					</button>
+				</div>
+			</div>
+		</div>
+		<small>{{priceConverter.converterObj.outputLabel}} is calculated using the current exchange rate and the bank exchange fee below. Changing the bank exchange fee has a small effect on the price.</small>
+	</div>		

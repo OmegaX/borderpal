@@ -5,25 +5,58 @@
 	margin-bottom: $spacer-quarter;
 
 	&__col {
-		@extend .font-weight-bold;
 		@extend .text-center;
 		padding: 0 $spacer-half;
 
-		&--taxable {
-			@extend .d-flex;
-			@extend .justify-content-around;
-			@extend .align-items-center;
+		&--item {
+			@extend .col-1;
 		}
 
-		&--hide-small {
+		&--desc {
 			@extend .d-none;
-			@extend .d-sm-flex;
-			@extend .justify-content-center;
+			@extend .d-sm-inline-block;
+			@extend .col-sm-3; 
+		}
+
+		&--price {
+			@extend .col-3;
+			@extend .col-sm-2; 
+		}
+
+		&--taxable-header {
+			@extend .col-4;
+			@extend .col-sm-2;
+		}
+
+		&--taxable {
+			@extend .col-4;
+			@extend .col-sm-2;
+			@extend .d-flex;
+			@extend .justify-content-around;
+
+			span {
+				@extend .d-flex;
+				@extend .align-items-center;	
+
+				label {
+					@extend .mr-1;
+				}
+			}
+		}
+
+		&--duty {
+			@extend .d-none;
+			@extend .d-sm-block;
+			@extend .col-sm-3; 
+		}
+
+		&--delete {
+			@extend .col-1; 
 		}
 	}
 
 	&--header {
-		font-size: 1.1rem;
+		@extend .h5;
 	}
 
 	&__input {
@@ -41,9 +74,3 @@
 	}
 
  }
-
-
-
-
-
- // flex-space vertical-align

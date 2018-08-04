@@ -8,7 +8,7 @@ import BorderService from './border-service';
 
 require('angularjs-geolocation');
 
-export default angular.module('borderPalApp.borderCtrl', [uirouter, ngMap, ngSanitize, 'geolocation'])
+export default angular.module('borderPalApp.borderWaits', [uirouter, ngMap, ngSanitize, 'geolocation'])
   .config(routes)
   .controller('BorderCtrl', BorderCtrl)
   .service('BorderService', BorderService)

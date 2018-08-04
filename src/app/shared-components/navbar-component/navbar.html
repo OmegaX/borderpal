@@ -1,51 +1,23 @@
-<!-- <nav class="navbar nav-big" role="navigation">
-  <ul class="nav navbar-nav">
-    <li><a ui-sref="cost-estimator">Estimate Shopping Costs</a></li>
-    <li><a ui-sref="border.waits.us">Get Border Waits &amp; Traffic Cams</a></li>    
-    <li><a ui-sref="gas">Find Cheap Gas</a></li>  
-    <li><a ui-sref="converter.metric">Convert Metric, Prices &amp; Money</a></li> -->
-<!--     <li><a ui-sref="duty-table">Duty Table</a></li> -->
-<!--   </ul>
-</nav>
-
-<nav class="navbar nav-small" role="navigation">
-  <div class="navbar-header">
-    <a ng-click="navCtrl.isNavCollapsed = !navCtrl.isNavCollapsed" class="navbar-brand" href="#">Menu</a>     
-    <button type="button" class="navbar-toggle" ng-click="navCtrl.isNavCollapsed = !navCtrl.isNavCollapsed">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-  </div>
+<div class="navbar navbar-expand-lg" role="navigation">
+  <button type="button" class="navbar-toggle" data-ng-class="{active: navCtrl.isNavCollapsed === false}" data-ng-click="navCtrl.isNavCollapsed = !navCtrl.isNavCollapsed">
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
   <div class="collapse navbar-collapse" uib-collapse="navCtrl.isNavCollapsed">
-      <ul class="nav navbar-nav">
-        <li><a ui-sref="cost-estimator">Estimate Costs</a></li>
-        <li><a ui-sref="border.waits.us">Get Border Waits</a></li>
-        <li><a ui-sref="gas">Find Cheap Gas</a></li>     
-        <li><a ui-sref="converter.metric">Convert Money</a></li>
-      </ul>
+    <ul class="nav navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-ui-sref="cost-estimator">Estimate Shopping Costs</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-ui-sref="border.waits.us">Get Border Waits &amp; Traffic Cams</a>
+      </li>    
+      <li class="nav-item">
+        <a class="nav-link" data-ui-sref="gas">Find Cheap Gas</a>
+      </li>  
+      <li class="nav-item">
+        <a class="nav-link" data-ui-sref="converter.units">Convert Metric, Prices &amp; Money</a>
+      </li>
+    </ul>
   </div>
-</nav> -->
-
-<!--   <nav class="navbar" role="navigation">
-    <div class="navbar-header">  
-      <button type="button" class="navbar-toggle" ng-class="{active: navCtrl.isNavCollapsed === false}" ng-click="navCtrl.isNavCollapsed = !navCtrl.isNavCollapsed">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button> -->
-  <nav class="navbar navbar-expand-lg" role="navigation">
-    <button class="navbar-toggler" type="button" ng-class="{active: navCtrl.isNavCollapsed === false}" ng-click="navCtrl.isNavCollapsed = !navCtrl.isNavCollapsed" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-   <!--  </div> -->
-    <div class="collapse navbar-collapse" uib-collapse="navCtrl.isNavCollapsed">
-      <ul class="nav navbar-nav">
-        <li class="nav-item"><a class="nav-link" ui-sref="cost-estimator">Estimate Shopping Costs</a></li>
-        <li class="nav-item"><a class="nav-link" ui-sref="border.waits.us">Get Border Waits &amp; Traffic Cams</a></li>    
-        <li class="nav-item"><a class="nav-link" ui-sref="gas">Find Cheap Gas</a></li>  
-        <li class="nav-item"><a class="nav-link" ui-sref="converter.metric">Convert Metric, Prices &amp; Money</a></li>
-      </ul>
-    </div>
-  </nav>
+</div>

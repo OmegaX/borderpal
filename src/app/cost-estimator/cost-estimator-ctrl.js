@@ -2,21 +2,41 @@ import { $ } from 'moneysafe';
 import { $$, percent, addPercent } from 'moneysafe/ledger';
 
 export default class CostEstimatorCtrl {
-  constructor(EstimatorService, ExchangeService, $scope) {
-    this.EstimatorService = EstimatorService;
-    this.ExchangeService = ExchangeService;
+  constructor(CostEstimatorService, CostEstimatorFactory, ExchangeService, $scope) {
+    this.costEstimatorService = CostEstimatorService;
+    this.costEstimatorFactory = CostEstimatorFactory;
+    this.exchangeService = ExchangeService;
     this.scope = $scope;
     this.init();
   }
 
   init() {
-    this.dutyCategories = Object.create(this.EstimatorService.getDutyCategories());
-    this.provincialTaxes = Object.create(this.EstimatorService.getProvincialTaxes());
-    this.tripExemptions = Object.create(this.EstimatorService.getTripExemptions());
-    this.popoverText = Object.create(this.EstimatorService.getPopoverText());
-    this.scope.$watchCollection(() => this.ExchangeService.getExchangeObj(), (response) => {
+    this.dutyCategories = this.costEstimatorFactory.getDutyCategories();
+    this.provincialTaxes = this.costEstimatorFactory.getProvincialTaxes();
+    this.tripExemptions = this.costEstimatorFactory.getTripExemptions();
+    this.popoverText = this.costEstimatorFactory.getPopoverText();
+    this.scope.$watchCollection(() => this.exchangeService.getExchangeObj(), (response) => {
       this.exchange = Object.create(response);
     });
+    this.itemPrototype = {
+      number: null,
+      desc: '',
+      taxableUS: true,
+      taxableCAN: true,
+      dutyCategory: this.dutyCategories[0],
+      USDprice: 0,
+      USDtaxUS: 0,
+      USDsubtotal: 0,
+      USDexchangeFee: 0,
+      USDtotal: 0,
+      CADdeclarable: 0,
+      CADtaxable: 0,
+      CADexempt: 0,
+      CADtaxCAN: 0,
+      CADduty: 0,
+      CADexchangeFee: 0,
+      CADsubtotal: 0
+    };
     this.clean();
   }
 
@@ -30,6 +50,7 @@ export default class CostEstimatorCtrl {
     this.grandTotal = {};
     this.itemsArray = [];
     this.provincialTax = this.provincialTaxes[1];
+    this.provincialTaxrate = this.provincialTax.rate;
     [this.tripExemption] = this.tripExemptions;
 
     // add first item
@@ -37,28 +58,29 @@ export default class CostEstimatorCtrl {
     this.addItem();
 
     this.accordionStatus = (window.innerWidth > 992) ?
-      { taxCDNOpen: true, taxUSAOpen: true } : { taxCDNOpen: false, taxUSAOpen: false };
+      { taxCDNOpen: true, taxUSAOpen: true, exchangeOpen: true }
+      : { taxCDNOpen: false, taxUSAOpen: false, exchangeOpen: false };
   }
 
   reset() {
     this.clean();
   }
 
-  createCDNcustomTaxObj() {
-    return {
-      label: `Custom - ${this.provincialTax.rate}%`,
-      rate: this.provincialTax.rate
-    };
+  addCDNcustomTax() {
+    this.provincialTaxes.push({
+      label: `Custom - ${this.provincialTaxrate}%`,
+      rate: this.provincialTaxrate
+    });
+    this.provincialTax = this.provincialTaxes[this.provincialTaxes.length - 1];
   }
 
-  addCDNcustomTax() {
-    this.provincialTaxes.push(this.createCDNcustomTaxObj());
-    this.provincialTax = this.provincialTaxes[this.provincialTaxes.length - 1];
+  provSelectChange() {
+    this.provincialTaxrate = this.provincialTax.rate;
   }
 
   getUStaxRate() {
     const { zipCode } = this.taxUS;
-    this.EstimatorService.getUSTaxRates(zipCode)
+    this.costEstimatorService.getUSTaxRates(zipCode)
       .then((response) => {
         this.taxUS = {
           ...this.taxUS,
@@ -94,34 +116,11 @@ export default class CostEstimatorCtrl {
     }
   }
 
-  createItemObj() {
-    return Object.create({
-      number: null,
-      desc: '',      
-      taxableUS: true,
-      taxableCAN: true,
-      dutyCategory: this.dutyCategories[0],
-      USDprice: 0,
-      USDtaxUS: 0,
-      USDsubtotal: 0,
-      USDexchangeFee: 0,
-      USDtotal: 0,    
-      CADdeclarable: 0,
-      CADtaxable: 0,
-      CADexempt: 0,
-      CADtaxCAN: 0,
-      CADduty: 0,
-      CADexchangeFee: 0,
-      CADsubtotal: 0
-    });
-  }
-
   addItem() {
-    const itemObj = this.createItemObj();
+    const itemObj = Object.create(this.itemPrototype);
     itemObj.number = this.itemCounter;
     this.itemsArray.push(itemObj);
     this.itemCounter += 1;
-    console.log(this.itemsArray);
   }
 
   removeItem(thisItemNumber = 1) {
@@ -189,8 +188,6 @@ export default class CostEstimatorCtrl {
 
       item.USDprice = (Number.isNaN(item.USDprice) ? 0 : item.USDprice);
 
-
-
       item.USDtaxUS = $$(
         $(item.USDprice),
         percent(this.taxUS.rate)
@@ -223,36 +220,26 @@ export default class CostEstimatorCtrl {
 
       item.asterik = '';
 
-      if (this.tripExemption.id !== 'same-day') { // apply trip exemption to taxable amounts
-        if (item.taxableCAN) {
-          item.CADtaxable = $(item.CADdeclarable).subtract($(remainingExemption)).$;
-          if (item.CADtaxable < 0) {
-            remainingExemption = Math.abs(item.CADtaxable);
-            item.CADtaxable = 0;
-            item.CADexempt = item.CADdeclarable;
-            if (!showNote.one) {
-              showNote.one = true;
-              item.asterik = this.getNoteOrder(1);
-              this.notes.push(`${item.asterik} trip exemption applied`);
-            }
-          } else {
-            item.CADexempt = remainingExemption;
-            remainingExemption = 0;
-            if (item.CADtaxable < item.CADdeclarable) {
-              if (!showNote.two) {
-                showNote.two = true;
-                item.asterik = this.getNoteOrder(2);
-                this.notes.push(`${item.asterik} remainder of trip exemption applied`);
-              }
-            }
-          }
-        } else { // non-taxable anyway
-          item.CADexempt = item.CADdeclarable;
+      if (this.tripExemption.id !== 'same-day' && item.taxableCAN) { // apply trip exemption to taxable amounts
+        item.CADtaxable = $(item.CADdeclarable).subtract($(remainingExemption)).$;
+        if (item.CADtaxable < 0) {
+          remainingExemption = Math.abs(item.CADtaxable);
           item.CADtaxable = 0;
-          if (!showNote.three) {
-            showNote.three = true;
-            item.asterik = this.getNoteOrder(3);
-            this.notes.push(`${item.asterik} you marked this item as tax-exempt`);
+          item.CADexempt = item.CADdeclarable;
+          if (!showNote.one) {
+            showNote.one = true;
+            item.asterik = this.getNoteOrder(1);
+            this.notes.push(`${item.asterik} trip exemption applied`);
+          }
+        } else {
+          item.CADexempt = remainingExemption;
+          remainingExemption = 0;
+          if (item.CADtaxable < item.CADdeclarable) {
+            if (!showNote.two) {
+              showNote.two = true;
+              item.asterik = this.getNoteOrder(2);
+              this.notes.push(`${item.asterik} remainder of trip exemption applied`);
+            }
           }
         }
       } else if (item.taxableCAN) { // tax it
@@ -270,7 +257,7 @@ export default class CostEstimatorCtrl {
 
       if (item.taxableCAN && item.CADtaxable > 0) {
         item.CADtaxCAN = $$(
-          $(item.CADtaxable), 
+          $(item.CADtaxable),
           percent(this.provincialTax.rate)
         ).$;
         CADsubtotalTax = $$(
@@ -304,8 +291,6 @@ export default class CostEstimatorCtrl {
         $(CADsubtotalTaxable),
         $(item.CADtaxable)
       ).$;
-
-
 
       if (item.CADduty > 0) {
         CADsubtotalDuty = $$(
@@ -353,8 +338,6 @@ export default class CostEstimatorCtrl {
       exchangeFee: CADsubtotalExchangeFee
     };
 
-    console.log(this.notes);
-
     const stateside = $$(
       $(USDgrandTotal),
       addPercent(this.exchange.rateCANtotal)
@@ -365,9 +348,7 @@ export default class CostEstimatorCtrl {
       customs: CADgrandTotalCustoms,
       all: CADgrandTotalAll
     };
-
-    console.log(this.CADgrandTotal);
   } // end of calculate function
 } // end of controller
 
-CostEstimatorCtrl.$inject = ['EstimatorService', 'ExchangeService', '$scope'];
+CostEstimatorCtrl.$inject = ['CostEstimatorService', 'CostEstimatorFactory', 'ExchangeService', '$scope'];

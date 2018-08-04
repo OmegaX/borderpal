@@ -12,27 +12,30 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="borderCtrl.closeModal()">Close</button>
+    <button type="button" class="btn btn-default" data-ng-click="borderCtrl.closeModal()">Close</button>
   </div>
 </script>
 
-<div class="header-wrapper">
-  <h1>{{borderCtrl.h1}}</h1>
-  <h2>{{borderCtrl.h2}}</h2>   
-</div>
-<div class="input-container">
-  <select id="sort-dropdown" class="form-control" ng-model="borderCtrl.sort">
-    <option value="distance" disabled="{{borderCtrl.coords.enabled}}">Sorted by Distance</option>
-    <option value="province">Sorted by Province</option>
-    <option value="state">Sorted by State</option>
-    <option value="-longitude">Sorted East to West</option>
-    <option value="longitude">Sorted West to East</option>
-  </select>
-</div>
-<p ng-if="!borderCtrl.coords.enabled">To sort by distance, please allow Borderpal access to your geolocation in your browser</p>
- <div class="table-responsive">  
-  <table id="border-waits-table" class="table table-striped">
-    <thead id="border-waits-head">
+<section class="page__section">
+  <div class="page__header-wrapper">
+    <h1>{{borderCtrl.h1}}</h1>
+    <h2>{{borderCtrl.h2}}</h2>   
+  </div>
+  <div class="page__content-wrapper">
+    <select class="form-control__select form-control__select--small" data-ng-model="borderCtrl.sort">
+      <option value="distance" disabled="{{borderCtrl.coords.enabled}}">Sorted by Distance</option>
+      <option value="province">Sorted by Province</option>
+      <option value="state">Sorted by State</option>
+      <option value="-longitude">Sorted East to West</option>
+      <option value="longitude">Sorted West to East</option>
+    </select>
+  </div>
+  <p data-ng-if="!borderCtrl.coords.enabled">To sort by distance, please allow Borderpal access to your geolocation in your browser</p>  
+</section>  
+
+<section class="page__section">
+  <table class="table">
+    <thead>
       <th class="name">Port of Entry</th>
       <th class="passenger">Passenger</th>
       <th class="commercial">Commerical</th>
@@ -42,4 +45,4 @@
     </thead>
     <tbody ui-view></tbody>
   </table>
-</div>
+</section>

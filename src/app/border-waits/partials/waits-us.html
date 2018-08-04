@@ -1,4 +1,4 @@
-<tr ng-repeat="port in borderCtrl.mergedBorderArrayUS | orderBy: borderCtrl.sort">
+<tr data-ng-repeat="port in borderCtrl.mergedBorderArrayUS | orderBy: borderCtrl.sort">
     <td class="name">
         <div class="big-name">
             {{port.name}}
@@ -10,10 +10,10 @@
     <td>{{port.passengerDelay}}</td>	
     <td>{{port.commercialDelay}}</td>	
     <td class="updated">{{port.updateTime}}</td>	
-    <td class="cams" ui-sref="border.cams">
-        <i class="fa fa-video-camera" aria-hidden="true" ng-if="port.cams" title="See traffic cams for this border" ng-click="borderCtrl.camClicked(port, 'Canada')"></i>
+    <td class="cams" data-ui-sref="border.cams">
+        <i class="fa fa-video-camera" aria-hidden="true" data-ng-if="port.cams" title="See traffic cams for this border" data-ng-click="borderCtrl.camClicked(port, 'Canada')"></i>
     </td>
 	<td class="map">
-		<img src="../../../assets/images/map-icon.png" alt="Google map icon" ng-click="borderCtrl.openModal(port)" class="google-map-icon" title="Open a Google Map for this location">
+		<img src="../../../assets/images/map-icon.png" alt="Google map icon" data-ng-click="borderCtrl.openModal(port)" class="google-map-icon" title="Open a Google Map for this location">
 	</td>		
 </tr>

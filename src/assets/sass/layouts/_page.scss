@@ -1,0 +1,63 @@
+.page {
+	@include make-row();
+
+	&__main {
+		@include make-col-ready();
+		@extend .order-1;
+		@extend .order-lg-2;			
+		@extend .col-12;
+
+		padding-top: $spacerX2;
+
+		&--wide {
+			@extend .col-lg-8;
+			@extend .col-xl-9;
+		}
+
+		&--small {
+			@extend .col-lg-6;
+			@extend .col-xl-7;
+		}
+	}
+
+	&__page-section {
+		margin-bottom: 2rem;
+	}
+
+	&__header-wrapper {
+		@extend .text-center;
+		margin-bottom: $spacerX2;
+	}
+
+	&__content-wrapper {
+		margin-bottom: $spacerX2;
+		&--md {
+			margin-bottom: $spacerX2;
+		}
+
+		&--lg {
+			margin-bottom: $spacerX3;
+		}
+	}
+
+	&__aside {
+		@include make-col-ready();
+		
+		&--left {
+			@extend .order-2;
+			@extend .order-lg-1;
+			@extend .col-12;
+			@extend .col-lg-4;
+			@extend .col-xl-3;
+		}
+		&--right {
+			@extend .d-none;
+			@extend .d-lg-flex;
+			@extend .order-3;
+			@extend .col-lg-2;		
+		}
+
+	}
+
+
+}

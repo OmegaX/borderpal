@@ -1,0 +1,71 @@
+a {
+
+  color: $text-color;
+  transition: $transition-base;
+
+  &:hover,
+  &:focus
+  &:active {
+      color: $primary-color;
+      text-decoration: none;
+  }   
+
+  .fas {
+    transition: $transition-base;
+    &:hover {
+        opacity: .6;
+    }      
+  }
+}
+
+.fa-question-circle {
+  color: $dark-blue;
+}
+
+.fa-minus-circle {
+  color: red;
+  font-size: 1.4rem;
+}
+
+input, button, h6, p {
+  @include poly-fluid-sizing('font-size', $p-map);
+}
+
+h1 {
+  @include poly-fluid-sizing('font-size', $h1-map);
+}
+
+h2 {
+  @include poly-fluid-sizing('font-size', $h2-map);
+}
+
+h3 {
+  @include poly-fluid-sizing('font-size', $h3-map);
+  font-weight: $font-weight-medium;
+}
+
+h4 {
+  @include poly-fluid-sizing('font-size', $h4-map);
+  font-weight: $font-weight-medium;
+}
+
+h5, .h5 {
+  @include poly-fluid-sizing('font-size', $h5-map);
+  font-weight: $font-weight-medium;
+}
+
+.huge {
+  @include poly-fluid-sizing('font-size', $h1-map);
+  line-height: 40px;
+  font-weight: $font-weight-bold;
+}
+
+.big {
+  @include poly-fluid-sizing('font-size', $h4-map);
+  font-weight: $font-weight-bold;
+}
+
+.medium {
+  @include poly-fluid-sizing('font-size', $h5-map);
+  font-weight: $font-weight-medium;
+}

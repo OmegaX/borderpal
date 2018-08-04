@@ -1,0 +1,71 @@
+<update-title title="Gas Finder - Find Cheap Gas"></update-title>
+<update-meta name="description" content="Find the cheapest gas by border state and convert $USD/gallon to $CAD/litre"></update-meta>
+<update-meta property="og:title" content="Gas Finder - Find Cheap Gas"></update-meta>
+<update-meta itemprop="description" content="Find the cheapest gas by border state and convert $USD/gallon to $CAD/litre"></update-meta>
+
+<main class="page__main page__main--wide">
+	<section class="page__section">
+		<div class="page__header-wrapper">
+			<h1>Find Cheap Gas</h1>
+			<h3>Convert USD/gallon to CAD/litre</h3>
+			<p>Select a state and click a price to convert to the CAD/litre equivelent</p>
+		</div>
+		<div class="page__content-wrapper">
+			<select class="form-control__select form-control__select--big" data-ng-model="gasFinder.selectedState" data-ng-options="stateObject.name for stateObject in gasFinder.statesArray" data-ng-change="gasFinder.getGasPrices()">
+				<option value="" disabled selected>Select border state</option>
+			</select>
+		</div>
+	</section>
+
+	<section class="page__section" data-ng-if="gasFinder.gasObject">
+		<div class="page__header-wrapper">
+			<h3>Cheapest Gas in {{gasFinder.selectedState.name}}</h3>
+		</div>
+		<table class="table gas-finder__table">
+			<thead>
+				<th scope="col">Price</th>
+				<th scope="col">Station</th>
+				<th scope="col">Area</th>
+				<th scope="col">Time</th>
+			</thead>
+			<tbody>
+				<tr data-ng-repeat="station in gasFinder.gasObject">
+					<td class="big" title="Click to convert to CAD/litre" data-ng-click="gasFinder.convertGas(station.price)">{{station.price | currency}}</td>
+					<td>
+						<div class="medium">
+							{{station.brand}}
+						</div>
+						{{station.address}}
+					</td>
+					<td>{{station.area}}</td>
+					<td>{{station.time}}</td>
+				</tr>
+			</tbody>
+		</table>
+		<p class="note" data-ng-if="gasFinder.gasObject"><strong>Note: </strong> This table shows only the cheapest reported prices for regular gas in states that share a border with Canada.</p>
+	</section>
+</main>
+
+<aside class="page__aside page__aside--left">
+	<div class="row">
+		<div class="col-12 col-sm-6 col-lg-12">
+			<section class="gas-finder__converter-section">
+				<div class="gas-finder__converter-headers">
+					<h5>Gas Converter</h5>
+					<h6>Convert USD/gallon to CAD/litre</h6>
+				</div>
+				<div class="gas-finder__converter-outer" ui-view="converterView"></div>
+			</section>
+		</div>
+		<div class="col-12 col-sm-6 col-lg-12">
+			<section class="gas-finder__converter-section">
+				<div class="gas-finder__converter-headers">
+					<h5>Exchange Rate</h5>
+				</div>
+				<div class="gas-finder__converter-outer">
+					<div ui-view="exchangeView"></div>
+				</div>
+			</section>
+		</div>		
+	</div>	
+</aside>

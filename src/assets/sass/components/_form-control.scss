@@ -1,0 +1,28 @@
+.form-control {
+
+	&__select { 	
+		@extend .form-control;
+		background-color: $light-blue;	
+		min-width: 200px;
+
+		&--small {
+			@include poly-fluid-sizing('font-size', $p-map);
+			@include poly-fluid-sizing('padding-left', $p-map);
+			margin-left: auto;
+			width: 25%;
+		}
+
+		&--big {
+			@include poly-fluid-sizing('font-size', $h5-map);
+			@include poly-fluid-sizing('padding-left', $h5-map);	
+	    height: 50px !important;	  
+	    margin: 0 auto;
+	    width: 30%;
+		}
+	}
+
+	&__input {
+		@extend .form-control;
+		height: 38px;
+	}
+}

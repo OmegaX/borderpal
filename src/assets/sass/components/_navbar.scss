@@ -1,0 +1,87 @@
+.navbar {
+  background-color: $primary-color;
+  white-space: nowrap;
+  padding: 1rem;
+}
+
+.navbar-toggle {
+    position: relative;
+    display: inline;
+    float: none;
+    padding: $spacer;
+    margin: 0;
+    border: none;
+    background-color: transparent;
+
+    &:focus {
+      outline: none;
+    }
+
+    @include media-breakpoint-up(lg) { 
+      display: none;
+    }
+
+  .icon-bar {
+    display: block;
+    position: relative;
+    background-color: $white;
+    width: 40px;
+    height: 3px;  
+    transition: all 500ms ease-in-out;
+  }
+
+  .icon-bar + .icon-bar {
+    margin-top: 6px;
+  }
+
+  &.active .icon-bar:nth-of-type(1) {
+    top: 9px;
+    transform: rotate(45deg);
+  }
+
+  &.active .icon-bar:nth-of-type(2) {
+    background-color: transparent;
+  }
+
+  &.active .icon-bar:nth-of-type(3) {
+    top: -9px;
+    transform: rotate(-45deg);
+  }
+}
+
+.navbar-expand-lg {
+  .navbar-nav {
+    flex-wrap: nowrap;
+    .nav-link {
+        @include poly-fluid-sizing('padding-right', $nav-padding-x-map);
+        @include poly-fluid-sizing('padding-left', $nav-padding-x-map);
+        @include poly-fluid-sizing('font-size', $nav-font-size-map);
+    }
+  }
+}
+
+.navbar-collapse {
+  justify-content: center;
+}
+
+  .navbar-nav {
+    .nav-link {
+      color: $navbar-dark-color;
+      font-weight: $font-weight-medium;
+
+      @include hover-focus {
+        color: $navbar-dark-hover-color;
+      }
+
+      &.disabled {
+        color: $navbar-dark-disabled-color;
+      }
+    }
+
+    .show > .nav-link,
+    .active > .nav-link,
+    .nav-link.show,
+    .nav-link.active {
+      color: $navbar-dark-active-color;
+    }
+  }

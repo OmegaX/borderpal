@@ -1,0 +1,28 @@
+<update-title title="Metric, Gas and Grocery Converter for Canadian cross-border shoppers"></update-title>
+<update-meta name="description" content="Easily convert metric and imperial units, $USD/gallon to $CAD/litre for gas, $USD/pound to $CAD/kilogram for groceries such as meat, fruit and vegetables, and US and Canadian currencies using the most up-to-date exchange rates."></update-meta>
+<update-meta property="og:title" content="Metric, Gas and Grocery Converter for Canadian cross-border shoppers"></update-meta>
+<update-meta itemprop="description" content="Easily convert metric and imperial units, $USD/gallon to $CAD/litre for gas, $USD/pound to $CAD/kilogram for groceries such as meat, fruit and vegetables, and US and Canadian currencies using the most up-to-date exchange rates."></update-meta>
+
+<aside class="page__aside page__aside--left">
+  <div class="side-nav">
+    <div class="side-nav__header">
+      <h3>Converter Menu</h3>
+    </div>
+    <a class="side-nav__item-link" data-ui-sref="converter.metric" data-ng-class="{focus: converter.state.current.name === 'converter.metric'}" title="Convert metric and imperial units, as well as currency">
+      <img src="../../assets/images/measuring-tape.png" alt="Tape measure icon for metric and imperial conversion">
+      <span class="medium">Convert Units &amp; Currency</span>
+    </a>
+    <a class="side-nav__item-link" data-ui-sref="converter.gas" data-ng-class="{focus: converter.state.current.name === 'converter.gas'}" title="Compare $USD/gallon to $CAD/litre">
+      <img src="../../assets/images/gas-icon.png" alt="Fuel station icon for fuel price conversion">
+      <span class="medium">Convert Gas Prices</span>
+    </a> 
+    <a class="side-nav__item-link" data-ui-sref="converter.groceries" data-ng-class="{focus: converter.state.current.name == 'converter.groceries'}" title="$USD/pound to $CAD/kg">
+      <img src="../../assets/images/chicken.png" alt="Chicken icon for grocery price conversion">
+      <span class="medium">Convert Grocery Prices</span>
+    </a>
+  </div>    
+</aside>
+
+<main ui-view class="page__main page__main--small"></main>
+ 
+<aside ui-view="right-side" class="page__aside page__aside--right"></aside> 

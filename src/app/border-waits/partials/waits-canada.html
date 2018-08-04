@@ -1,19 +1,19 @@
-<tr ng-repeat="port in borderCtrl.mergedBorderArrayCAN | orderBy: borderCtrl.sort">
+<tr data-ng-repeat="port in borderCtrl.mergedBorderArrayCAN | orderBy: borderCtrl.sort">
 	<td class="name">
 		<div class="big-name">
 			{{port.name}}
 		</div>
 		{{port.from}} 
-		<i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+		<i class="fas fas-long-arrow-right" aria-hidden="true"></i>
 		{{port.to}}
 	</td>					
   	<td>{{port.passengerDelay}}</td>	
   	<td>{{port.commercialDelay}}</td>	
 	<td class="updated">{{port.updateTime}}</td>
-	<td class="cams" ui-sref="border.cams">
-  		<i class="fa fa-video-camera" aria-hidden="true" ng-if="port.cams" title="See traffic cams for this port of entry" ng-click="borderCtrl.camClicked(port, 'US')"></i>
+	<td class="cams" data-ui-sref="border.cams">
+  		<i class="fas fas-video-camera" aria-hidden="true" data-ng-if="port.cams" title="See traffic cams for this port of entry" data-ng-click="borderCtrl.camClicked(port, 'US')"></i>
 	</td>
 	<td class="map">
-		<img src="../../../assets/images/map-icon.png" alt="Google map icon" ng-click="borderCtrl.openModal(port)" class="google-map-icon" title="Open a Google Map for this location">
+		<img src="../../../assets/images/map-icon.png" alt="Google map icon" data-ng-click="borderCtrl.openModal(port)" class="google-map-icon" title="Open a Google Map for this location">
 	</td>	
 </tr>
