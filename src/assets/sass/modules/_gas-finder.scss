@@ -1,17 +1,17 @@
 .gas-finder {
 
-	&__converter-section { //same as accordion
-		margin-bottom: $spacer; 
+	&__section { //same as accordion
+		margin-bottom: $spacer;
 		background-color: $light-blue;
 		border: 1px solid $border-color;
-		border-radius: $spacer-quarter;   
+		border-radius: $spacer-quarter;
 	    position: relative;
 	    display: flex;
 	    flex-direction: column;
 	    min-width: 0;
 	    word-wrap: break-word;
 	    background-clip: border-box;
-	}	
+	}
 
 	&__converter-headers {
 		padding: 1.25rem;
@@ -21,26 +21,27 @@
 	}
 
 
-	&__converter-outer {
-		padding: 0 1.25rem 1.25rem 1.25rem;
-	    flex: 1 1 auto;
+	&__converter {
+		// padding: 0 1.25rem 1.25rem 1.25rem;
+	 //    flex: 1 1 auto;
 	}
 
 	&__results-headers {
 		text-align: center;
 	}
 
-	&__table {   
+	&__table {
+
 	    .big {
 	        font-size: 2.3em;
 	        font-weight: 900;
-	        cursor: pointer; 
+	        cursor: pointer;
 
 		    &:hover {
 		        background-color: $light-blue;
 		    }
 		}
-	} 
+	}
 
 	&__button {
 	    width: 100%;

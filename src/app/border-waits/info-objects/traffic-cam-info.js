@@ -625,7 +625,7 @@ const trafficCamArray = [
   },
   {
     id: 'AB01',
-    src: 'http://511.alberta.ca/cameras/imgs/4-02b_1.jpg',
+    src: 'https://511.alberta.ca/map/Cctv/ESS_AB_ABDOT_004-02%20COUTTS--1',
     source: 'https://www.alberta.ca',
     name: 'Sweet Grass',
     side: 'Canada',
@@ -637,7 +637,7 @@ const trafficCamArray = [
   },
   {
     id: 'AB04',
-    src: 'http://511.alberta.ca/cameras/imgs/4-02a_1.jpg',
+    src: 'https://511.alberta.ca/map/Cctv/ESS_AB_ABDOT_004-02%20WARNER--1',
     source: 'https://www.alberta.ca',
     name: 'Sweet Grass',
     side: 'Canada',
@@ -649,7 +649,7 @@ const trafficCamArray = [
   },
   // {
   //   id: 'AB02',
-  //   src: 'http://rwis.mdt.mt.gov/ScanWeb/Wx/images/Vid-000629001-00-03-2018-02-01-21-50.jpg',
+  //   src: 'https://rwis.mdt.mt.gov/ScanWeb/Wx/images/Vid-000629001-00-03-2019-05-05-23-19.jpg',
   //   source: 'http://rwis.mdt.mt.gov',
   //   name: 'Sweet Grass',
   //   side: 'US',
@@ -661,7 +661,7 @@ const trafficCamArray = [
   // },
   // {
   //   id: 'AB03',
-  //   src: 'http://rwis.mdt.mt.gov/ScanWeb/Wx/images/Vid-000629001-00-00-2018-02-01-21-35.jpg',
+  //   src: 'https://rwis.mdt.mt.gov/ScanWeb/Wx/images/Vid-000629001-00-00-2019-05-05-23-20.jpg',
   //   source: 'http://rwis.mdt.mt.gov',
   //   name: 'Sweet Grass',
   //   side: 'US',

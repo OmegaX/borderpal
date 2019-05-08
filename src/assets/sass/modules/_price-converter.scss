@@ -1,53 +1,120 @@
-.price-converter {
+.page__main {
 
-	&__convert-btn {
-		@extend .btn;
-		@extend .btn-primary;
-		text-transform: uppercase;
-		width: 100%;
+	.side-nav__svg {
+	    width: 4rem;
+	    height: 4rem;
+	    padding-right: 1rem;
 	}
 
-	&__row {
-		@extend .d-flex;
-		@extend .align-items-center;
-	}
+	.price-converter {
+		position: relative;
 
-	&__left {
-		@extend .d-inline-block;
-		@extend .text-left;
-
-		img {
-			@extend .mr-2;
+		label {
+			margin-bottom: 0;
+			line-height: 38px;
 		}
 
-		.huge {
-			@extend .mr-2;
-			margin-bottom: .3rem;
-		}
-	}
-
-	&__center {
-		@extend .text-center;
-		@extend .mb-4;
-	}
-
-	&__controls {
-		@extend .mb-4;
-		@extend .text-center;
-	}
-
-	&__img-bg {
-	    background-size: contain;
-	    background-repeat: no-repeat;
-	    background-position: center;
-
-		&--gas {
-			background-image: url("../images/gas-tank.png");
-		 
+		&__center {
+			display: flex;
+			justify-content: center;
+			align-items: center;
 		}
 
-		&--groceries {
-			background-image: url("../images/groceries.png");
+		// &__container {
+		// 	max-width: 500px;
+		// 	margin: 0 auto;
+		// }
+
+		&__font-big {
+			font-size: 3rem;
+			font-weight: 700;
 		}
+
+		&__font-medium {
+			font-size: 2rem;
+		}
+
+		&__font-small {
+			padding-left: .5rem;
+			font-style: italic;
+			font-size: 1.5rem;
+		}
+
+		&__left-col {
+			@extend .col-12;
+			@extend .col-sm-4;
+			@extend .offset-sm-2;
+		}
+
+		&__right-col {
+			@extend .col-12;
+			@extend .col-sm-6;
+		}
+
+		&__img-bg {
+		    background-size: 100% 100%;
+		    background-repeat: no-repeat;
+		    display: block;
+		    position: absolute;
+		    top: 2rem;
+		    left: 2rem;
+		    bottom: 2rem;
+		    right: 2rem;
+		    opacity: 0.1;
+		    z-index: -1;
+
+			&--gas {
+				background-image: url("../svgs/gas.svg");
+			}
+
+			&--groceries {
+		  		background-image:  url("../svgs/groceries.svg");
+		  	}
+		}
+	}
+}
+
+.page__aside {
+
+	.price-converter {
+		padding: 1rem;
+
+		&__center {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		&__left-col {
+			@extend .col-12;
+		}
+
+		&__right-col {
+			@extend .col-12;
+		}
+
+		h1 {
+			@extend .h4;
+		}
+
+		h2 {
+			@extend .h6;
+		}
+
+		&__font-big {
+			font-size: 2.5rem;
+			font-weight: 700;
+		}
+
+		&__font-medium {
+			font-size: 1.75rem;
+		}
+
+		&__font-small {
+			padding-left: .25rem;
+			font-size: 1rem;
+			font-style: italic;
+		}
+
 	}
 }

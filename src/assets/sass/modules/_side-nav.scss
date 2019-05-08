@@ -1,26 +1,176 @@
-.side-nav {	
-  background-color: $light-blue;  
+.side-nav {
+  @extend .m-md-0;
+  margin: 0 -15px;
+  background-color: $light-blue;
 
 	&__header {
+    @extend .d-none;
+    @extend .d-md-block;
     padding: 1.25rem;
-    background-color: transparent;
-    border-bottom: none;
-    text-align: center;   
+    text-align: center;
 	}
+
+  &__svg {
+    width: 3rem;
+    height: 3rem;
+    padding-right: .75rem;
+
+    @include media-breakpoint-up(md) {
+      width: 2.75rem;
+      height: 2.75rem;
+      padding-right: .75rem;
+    }
+  }
+
+  &__label {
+    font-size: 1.4rem;
+    display: block;
+
+    @include media-breakpoint-up(md) {
+      display: inline;
+      font-size: 1.2rem;
+    }
+
+    &--mobile {
+      @extend .d-lg-none;
+      font-weight: bold;
+    }
+
+    &--desktop {
+      @extend .d-none;
+      @extend .d-lg-inline;
+    }
+  }
+
+&__item {
+    @extend .col;
+    @extend .p-0;
+    @extend .col-md-12;
+ }
+
+  &__items {
+    @extend .d-flex;
+    @extend .d-md-block;
+    list-style: none;
+    margin: 0;
+
+    a {
+      display: block;
+      position: relative;
+      cursor: pointer;
+      outline: none;
+
+      svg {
+        fill: $text-color;
+        transition: $transition-base;
+        height: 100%;
+        position: absolute;
+        top: 0;
+
+      }
+    }
+
+    &--big {
+      padding-left: 0;
+
+      li {
+        padding-left: 0;
+      }
+
+      a {
+        padding: 1rem;
+        text-align: center;
+
+        .fas {
+          font-size: 1.3rem;
+        }
+
+        @include media-breakpoint-up(md) {
+          padding: 1.2rem 0 1.2rem 2.5rem;
+          text-align: left;
+
+          .fas {
+            padding-right: .5rem;
+            font-size: 1rem;
+          }
+        }
+
+        svg {
+          width: 3rem;
+          position: relative;
+
+          @include media-breakpoint-up(md) {
+            left: 2rem;
+            position: absolute;
+            width: 1.5rem;
+            opacity: 1;
+            right: auto;
+          }
+        }
+
+        &:hover {
+          color: $primary-color;
+
+          svg {
+            fill: $primary-color;;
+          }
+        }
+
+        &.active {
+          color: $text-color;
+          background-color: $medium-blue;
+          text-shadow: $white-text-shadow;
+
+          svg {
+            fill: $text-color;;
+          }
+        }
+      }
+    }
+
+    &--small {
+      padding: 0 0 2rem 2.5rem;
+
+      li {
+        padding: .5rem 0;
+      }
+
+      a {
+        padding-left: 1.8rem;
+        position: relative;
+
+        &:hover,
+        &:focus,
+        &:active {
+          svg {
+            fill: $primary-color;
+          }
+        }
+
+        .fas {
+          position: absolute;
+          left: 0;
+          top: .25rem;
+          fill: $primary-color;
+        }
+      }
+
+    }
+  }
 
   &__item-link {
     @extend .d-flex;
     @extend .align-items-center;
-    @extend .justify-content-start;    
+    @extend .justify-content-start;
     @extend .pl-4;
-    cursor: pointer; 
+    cursor: pointer;
     height: 80px;
 
     &.focus {
       background-color: $medium-blue;
       outline: 0;
     }
-  
+
     img {
       @extend .mr-2;
     }

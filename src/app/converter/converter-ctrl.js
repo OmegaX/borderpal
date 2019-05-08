@@ -16,26 +16,41 @@ export default class ConverterCtrl {
     this.typeOptions = Object.keys(this.unitsObj);
     [this.selectedType] = this.typeOptions;
 
-    this.scope.$watchCollection(() => this.exchangeService.getExchangeObj(), () => {
-      this.exchange = this.exchangeService.getExchangeObj();
-      return () => this.exchange;
-    });
+    // this.scope.$watchCollection(() => this.exchangeService.getExchangeObj(), () => {
+    //   this.exchange = this.exchangeService.getExchangeObj();
+    //   this.unitsObj.Currency[0].multiplier = this.exchange.rateUSD;
+    //   return () => this.exchange;
+    // });
 
-    this.scope.$watchCollection(() => this.state.current, () => {
-      this.updateType();
-    });
+    this.scope.$watchCollection(() => this.exchangeService.getExchangeObj(), (response) => {
+      this.exchange = Object.create(response);
+      this.unitsObj.Currency[0].multiplier = this.exchange.rateUSD;
+    }); // todo not all object needed
+
+    this.priceConverterService.setState('units');
+
+
+    // this.updateType();
   }
 
-  updateType() {
-    if (this.state.current.name === 'converter.gas') {
-      this.priceConverterService.setConverterType('gas');
-    } else if (this.state.current.name === 'converter.groceries') {
-      this.priceConverterService.setConverterType('groceries');
-    }
+  // updateType() {
+  //   if (this.state.current.name === 'converter.gas') {
+  //     this.priceConverterService.setConverterType('gas');
+  //   } else if (this.state.current.name === 'converter.groceries') {
+  //     this.priceConverterService.setConverterType('groceries');
+  //   }
+  // }
+
+  // menuClicked() {
+  //   this.updateState();
+  // }\
+
+  setState(val) {
+    this.priceConverterService.setState(val);
   }
 
-  menuClicked() {
-    this.updateState();
+  getState() {
+    this.priceConverterService.getState();
   }
 
   clean() {
@@ -44,16 +59,12 @@ export default class ConverterCtrl {
     this.explanation = null;
   }
 
-  getExchangeRate() {
-    this.exchangeService.callExchangeAPI()
-      .then((response) => {
-        this.unitsObj.Currency[0].multiplier = response.rateUSD;
-        this.unitsObj.Currency[1].multiplier = 1;
-        this.unitsObj.Currency[2].multiplier = response.rateEUR;
-        this.unitsObj.Currency[3].multiplier = response.rateGBP;
-        this.unitsObj.Currency[4].multiplier = response.rateCNY;
-      });
-  }
+  // getExchangeRate() {
+  //   this.exchangeService.callExchangeAPI()
+  //     .then((response) => {
+  //       this.unitsObj.Currency[0].multiplier = this.exchange.rateUSD;
+  //     });
+  // }
 
   // when page loads or ng-change typeSelector changes
   typeChange(selectedType = this.selectedType) {
@@ -82,7 +93,6 @@ export default class ConverterCtrl {
         [defaultLeftUnit, defaultRightUnit] = this.unitOptions; // lb to kg
         break;
       case 'Currency':
-        this.getExchangeRate();
         [defaultLeftUnit, defaultRightUnit] = this.unitOptions; // USD to CAD
         break;
       default:

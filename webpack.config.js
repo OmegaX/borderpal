@@ -26,7 +26,7 @@ const config = {
       template: './src/index.template.ejs',
       minifiy: true
     }),
-    // new FaviconsWebpackPlugin('./src/assets/images/canadian-icon.png'),
+    new FaviconsWebpackPlugin('./src/assets/images/borderpal-favicon.png'),
     new ResourceHintWebpackPlugin()
   ],
   module: {

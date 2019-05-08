@@ -55,9 +55,12 @@ export default class BorderService {
   getProtectedCams(obj) {
     const url = './server/get-cams.php';
     const stringObj = JSON.stringify(obj);
+    console.log(stringObj);
     return this.$http.post(url, stringObj)
       .then((response) => {
+        console.log(response);
         if (typeof response.data === 'object') {
+          console.log(response.data);
           return response.data;
         }
         // invalid response

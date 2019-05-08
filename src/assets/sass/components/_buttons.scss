@@ -1,9 +1,21 @@
 .buttons {
 
+	&__primary {
+		@extend .btn;
+		text-transform: uppercase;
+		background-color: $primary-color;
+		color: $white;
+		border: none;
+
+		&:hover {
+			background-color: $dark-blue;
+		}
+	}
 
 	&__btn {
-	@extend .btn;		
+		@extend .btn;
 	}
+
 	&__btn:not(:last-child) {
 	    margin-right: $spacer;
 	}
@@ -19,3 +31,4 @@ input[type="checkbox"] {
     height: $spacer * 1.2;
     width: $spacer * 1.2;
 }
+

@@ -1,12 +1,21 @@
 import { $ } from 'moneysafe';
 import { $$, percent, addPercent } from 'moneysafe/ledger';
+import Utilities from '../shared-functions/utility-functions';
 
 export default class CostEstimatorCtrl {
-  constructor(CostEstimatorService, CostEstimatorFactory, ExchangeService, $scope) {
+  constructor(
+    CostEstimatorService, CostEstimatorFactory, ExchangeService,
+    $scope, $state, $stateParams, $window, $location, $anchorScroll
+  ) {
     this.costEstimatorService = CostEstimatorService;
     this.costEstimatorFactory = CostEstimatorFactory;
     this.exchangeService = ExchangeService;
     this.scope = $scope;
+    this.state = $state;
+    this.stateParams = $stateParams;
+    this.window = $window;
+    this.location = $location;
+    this.anchorScroll = $anchorScroll;
     this.init();
   }
 
@@ -15,16 +24,18 @@ export default class CostEstimatorCtrl {
     this.provincialTaxes = this.costEstimatorFactory.getProvincialTaxes();
     this.tripExemptions = this.costEstimatorFactory.getTripExemptions();
     this.popoverText = this.costEstimatorFactory.getPopoverText();
+
     this.scope.$watchCollection(() => this.exchangeService.getExchangeObj(), (response) => {
       this.exchange = Object.create(response);
     });
+
     this.itemPrototype = {
       number: null,
       desc: '',
       taxableUS: true,
-      taxableCAN: true,
+      isTaxableCAN: true,
       dutyCategory: this.dutyCategories[0],
-      USDprice: 0,
+      USDprice: null,
       USDtaxUS: 0,
       USDsubtotal: 0,
       USDexchangeFee: 0,
@@ -57,9 +68,9 @@ export default class CostEstimatorCtrl {
     this.itemCounter = 1;
     this.addItem();
 
-    this.accordionStatus = (window.innerWidth > 992) ?
-      { taxCDNOpen: true, taxUSAOpen: true, exchangeOpen: true }
-      : { taxCDNOpen: false, taxUSAOpen: false, exchangeOpen: false };
+    this.accordionStatus = (this.window.innerWidth > 992) ?
+      { taxCDNOpen: true, taxUSAOpen: true }
+      : { taxCDNOpen: false, taxUSAOpen: false };
   }
 
   reset() {
@@ -97,21 +108,21 @@ export default class CostEstimatorCtrl {
   }
 
   onBlurUStaxField() {
-    const taxRateUS = parseFloat(this.taxUS.rateLabel);
-    if (Number.isNaN(taxRateUS)) {
+    const taxRateUS = this.taxUS.rateLabel;
+    if (Utilities.isNumeric(taxRateUS)) {
+      this.taxUS = {
+        ...this.taxUS,
+        region: 'You entered a custom tax rate',
+        zipCode: null,
+        rate: taxRateUS
+      };
+    } else {
       this.taxUS = {
         ...this.taxUS,
         region: 'You entered an invalid tax rate. It has defaulted to 0.',
         zipCode: null,
         rate: 0,
         rateLabel: 0
-      };
-    } else {
-      this.taxUS = {
-        ...this.taxUS,
-        region: 'You entered a custom tax rate',
-        zipCode: null,
-        rate: taxRateUS / 100
       };
     }
   }
@@ -150,17 +161,21 @@ export default class CostEstimatorCtrl {
   }
 
   calculate() {
+    this.location.hash('js-results');
+    this.anchorScroll();
+
     const exchangePercent = (this.exchange.rateCAD - 1) * 100;
 
     let remainingExemption = this.tripExemption.exemption;
 
     let CADsubtotalDeclarable = 0;
     let CADsubtotalTaxable = 0;
+    let CADsubtotalExempt = 0;
     let CADsubtotalTax = 0;
     let CADsubtotalDuty = 0;
     let CADsubtotalExchangeFee = 0;
 
-    let USDgrandTotal = 0;
+    let USDgrandtotal = 0;
     let CADgrandTotalCustoms = 0;
     let CADgrandTotalAll = 0;
 
@@ -220,8 +235,10 @@ export default class CostEstimatorCtrl {
 
       item.asterik = '';
 
-      if (this.tripExemption.id !== 'same-day' && item.taxableCAN) { // apply trip exemption to taxable amounts
+      if (this.tripExemption.id !== 'same-day' && item.isTaxableCAN) { // apply trip exemption to taxable amounts
         item.CADtaxable = $(item.CADdeclarable).subtract($(remainingExemption)).$;
+                console.log('taxablesame day');
+
         if (item.CADtaxable < 0) {
           remainingExemption = Math.abs(item.CADtaxable);
           item.CADtaxable = 0;
@@ -242,7 +259,7 @@ export default class CostEstimatorCtrl {
             }
           }
         }
-      } else if (item.taxableCAN) { // tax it
+      } else if (item.isTaxableCAN) { // tax it
         item.CADexempt = 0;
         item.CADtaxable = item.CADdeclarable;
       } else { // non-taxable... don't tax it
@@ -255,7 +272,7 @@ export default class CostEstimatorCtrl {
         }
       }
 
-      if (item.taxableCAN && item.CADtaxable > 0) {
+      if (item.isTaxableCAN && item.CADtaxable > 0) {
         item.CADtaxCAN = $$(
           $(item.CADtaxable),
           percent(this.provincialTax.rate)
@@ -264,6 +281,8 @@ export default class CostEstimatorCtrl {
           $(CADsubtotalTax),
           $(item.CADtaxCAN)
         ).$;
+      } else {
+        item.CADtaxCAN = 0;
       }
 
       item.CADduty = (item.dutyCategory.rate > 0 ?
@@ -292,6 +311,11 @@ export default class CostEstimatorCtrl {
         $(item.CADtaxable)
       ).$;
 
+      CADsubtotalExempt = $$(
+        $(CADsubtotalExempt),
+        $(item.CADexempt)
+      ).$;
+
       if (item.CADduty > 0) {
         CADsubtotalDuty = $$(
           $(CADsubtotalDuty),
@@ -304,8 +328,8 @@ export default class CostEstimatorCtrl {
         $(item.CADexchangeFee)
       ).$;
 
-      USDgrandTotal = $$(
-        $(USDgrandTotal),
+      USDgrandtotal = $$(
+        $(USDgrandtotal),
         $(item.USDsubtotal)
       ).$;
 
@@ -319,27 +343,29 @@ export default class CostEstimatorCtrl {
         $(item.CADsubtotal)
       ).$;
 
-      this.show.totalsCAN = item.number > 1; // only show totals if more than one row
-      this.show.totalsUS = true; // temp
+      // this.show.totalsCAN = item.number > 1; // only show totals if more than one row
+      // this.show.totalsUS = true; // temp
       if (item.dutyCategory.category !== 0) {
         this.show.dutyCol = true;
       }
       if (item.desc !== '') {
         this.show.descCol = true;
       }
+
       return item;
     }); // end of array map
 
     this.CADsubtotal = {
       declarable: CADsubtotalDeclarable,
       taxable: CADsubtotalTaxable,
+      exempt: CADsubtotalExempt,
       tax: CADsubtotalTax,
       duty: CADsubtotalDuty,
       exchangeFee: CADsubtotalExchangeFee
     };
 
     const stateside = $$(
-      $(USDgrandTotal),
+      $(USDgrandtotal),
       addPercent(this.exchange.rateCANtotal)
     ).$;
 
@@ -351,4 +377,4 @@ export default class CostEstimatorCtrl {
   } // end of calculate function
 } // end of controller
 
-CostEstimatorCtrl.$inject = ['CostEstimatorService', 'CostEstimatorFactory', 'ExchangeService', '$scope'];
+CostEstimatorCtrl.$inject = ['CostEstimatorService', 'CostEstimatorFactory', 'ExchangeService', '$scope', '$state', '$stateParams', '$window', '$location', '$anchorScroll'];

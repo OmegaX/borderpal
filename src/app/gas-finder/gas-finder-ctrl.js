@@ -1,3 +1,5 @@
+import Utilities from '../shared-functions/utility-functions';
+
 export default class GasFinderCtrl {
   constructor(GasFinderService, PriceConverterService) {
     this.gasFinderService = GasFinderService;
@@ -7,17 +9,23 @@ export default class GasFinderCtrl {
 
   init() {
     this.statesArray = this.gasFinderService.getStates();
-    this.priceConverterService.setConverterType('gas');
+    this.priceConverterService.setState('gas');
   }
 
   // user clicks on a USD/gallon gas price in table
-  convertGas(inputValue) {
+  convertGas(clickedValue) {
     // only the input value changes
-    const newConverterObj = {
-      inputValue
-    };
+    let inputValue = parseFloat(clickedValue);
+
+    inputValue = Utilities.isNumeric(inputValue) ? inputValue : 0;
+
     // update input value for re-calculation
-    this.priceConverterService.updateConverterObj(newConverterObj);
+    this.priceConverterService.updateConverterObj(inputValue);
+    var tammy = this.priceConverterService.getConverterObj();
+    console.log(tammy);
+
+    //console.log(newConverterObj);
+
   }
 
   // get cheapest gas prices from scraper when user selects a state

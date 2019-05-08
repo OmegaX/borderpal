@@ -13,4 +13,7 @@ export default class Utilities {
     // convert fahrenheit to celcius
     return (temp - 32) * (5 / 9);
   }
+  static isNumeric(n) {
+    return !Number.isNaN(parseFloat(n)) && Number.isFinite(n);
+  }
 }

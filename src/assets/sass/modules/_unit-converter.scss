@@ -1,14 +1,17 @@
 .unit-converter {
 
-	&__control-col {
-    flex: 0 0 46%;
-    max-width: 46%;
-	}
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
 
-  &__center-col {
-    flex: 0 0 8%;
-    max-width: 8%;
+  	&__control-col {
+      flex: 0 0 46%;
+      max-width: 46%;
+  	}
+
+    &__center-col {
+      flex: 0 0 8%;
+      max-width: 8%;
+    }
   }
-
-
 }

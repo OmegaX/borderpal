@@ -21,19 +21,33 @@ export default class ExchangeService {
   }
 
   callExchangeAPI() {
-    const url = 'https://free.currencyconverterapi.com/api/v5/convert?q=CAD_USD,USD_CAD&compact=y';
+    const url = '/server/get-exchange-rates.php';
     return this.http.get(url)
       .then((response) => {
         if (typeof response.data === 'object') {
           this.exchange = {
             ...this.exchange,
-            rateCAD: response.data.USD_CAD.val,
-            rateUSD: response.data.CAD_USD.val
+            rateUSD: response.data.CAD_USD,
+            rateCAD: response.data.USD_CAD
           };
           return this.exchange;
         }
-        // invalid response
-        return this.q.reject(response.data);
+        this.exchange = {
+          ...this.exchange,
+          rateUSD: 0.74,
+          rateCAD: 1.35
+        };
+        console.log("not object");
+        return this.exchange;
+      })
+      .catch(() => {
+        this.exchange = {
+          ...this.exchange,
+          rateUSD: 0.74,
+          rateCAD: 1.35
+        };
+        console.log("error connecting");
+        return this.exchange;
       });
   }
 }

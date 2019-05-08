@@ -1,32 +1,58 @@
-<div class="price-converter__outer">
-	<div class="price-converter__img-bg price-converter__img-bg--{{priceConverter.converterObj.img_bg}}">
-		<div class="price-converter__center">	
-			<div class="price-converter__left">
-				<div class="price-converter__row">
-					<img src="../../../assets/images/american-icon-small.png" alt="american flag">	
-					<span class="huge">{{priceConverter.inputValue | currency}}</span> 
-					<span>{{priceConverter.converterObj.inputLabel}}</span>
-				</div>
-				<div class="huge text-center">=</div>
-				<div class="price-converter__row">
-					<img src="../../../assets/images/canadian-icon-small.png" alt="canadian flag">
-					<span class="huge">{{priceConverter.outputValue | currency}}</span>
-					<span>{{priceConverter.converterObj.outputLabel}}</span>
-				</div>
-			</div>
+<section class="price-converter">
+  <div class="page__header-wrapper">
+    <h2>{{priceConverter.converterObj[priceConverter.appState].h2}}</h2>
+    <h3>{{priceConverter.converterObj[priceConverter.appState].h3}}</h3>
+  </div>
+  <div class="price-converter__img-bg price-converter__img-bg--{{priceConverter.converterObj[priceConverter.appState].img_bg}}"></div>
+    <div class="page__content-wrapper">
+      <div class="price-converter__container">
+        <div class="row">
+          <div class="price-converter__left-col">
+            <input
+              type="number"
+              id="gal-price-input"
+              min="0"
+              step="0.01"
+              class="form-control form-control-lg"
+              data-ng-model="priceConverter.inputVal"
+              data-ng-change="priceConverter.convert()"
+              smart-float
+              placeholder="{{priceConverter.converterObj[priceConverter.appState].instructions_short}}"
+            />
+          </div>
+          <div class="price-converter__right-col">
+            <label for="gal-price-input">
+              {{priceConverter.converterObj[priceConverter.appState].instructions_long}}
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page__content-wrapper">
+    <div class="price-converter__center">
+      <img class="side-nav__svg" src="../../../assets/svgs/american-flag.svg">
+      <span class="price-converter__font-big">
+        {{priceConverter.inputVal | currency}}
+      </span>
+      <span class="price-converter__font-small">
+        {{priceConverter.converterObj[priceConverter.appState].inputLabel}}
+      </span>
+    </div>
+    <div class="price-converter__center">
+      <i class="fas fa-equals price-converter__font-medium"></i>
+    </div>
+		<div class="price-converter__center">
+      <img class="side-nav__svg" src="../../../assets/svgs/canadian-flag.svg">
+      <span class="price-converter__font-big">
+        {{priceConverter.outputVal | currency}}
+      </span>
+			<span class="price-converter__font-small">
+        {{priceConverter.converterObj[priceConverter.appState].outputLabel}}
+      </span>
 		</div>
-		<div class="price-converter__controls">
-			<label for="per-gallon-price">{{priceConverter.converterObj.instructions_long}}</label>
-			<div class="row">
-				<div class="col-6">
-					<input type="text" class="form-control input-lg" data-ng-model="priceConverter.inputValue" data-ng-blur="priceConverter.convert(priceConverter.inputValue)" placeholder="{{priceConverter.converterObj.instructions_short}}" format-as-currency />
-				</div>
-				<div class="col-6">
-					<button	type="button" class="price-converter__convert-btn" data-ng-click="priceConverter.convert(priceConverter.inputValue)" >
-						Convert
-					</button>
-				</div>
-			</div>
-		</div>
-		<small>{{priceConverter.converterObj.outputLabel}} is calculated using the current exchange rate and the bank exchange fee below. Changing the bank exchange fee has a small effect on the price.</small>
-	</div>		
+  </div>
+	<p>{{priceConverter.converterObj[priceConverter.appState].outputLabel}} is calculated using today's exchange rate of {{priceConverter.exchange.rateUSD | currency}} as well as the bank exchange fee of {{priceConverter.exchange.fee}}% for a total cost of {{priceConverter.exchange.rateCADtotal | currency}} CAD for $1 USD.</p>
+  <p>1 gallon is 3.785 litres. 1 litre is .264 gallons.</p>
+</div>
+</section>

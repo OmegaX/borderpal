@@ -1,20 +1,21 @@
 a {
-
   color: $text-color;
   transition: $transition-base;
 
   &:hover,
-  &:focus
+  &:focus,
   &:active {
-      color: $primary-color;
-      text-decoration: none;
-  }   
+    color: $primary-color;
+    text-decoration: none;
+  }
 
   .fas {
+    color: $text-color;
     transition: $transition-base;
+
     &:hover {
-        opacity: .6;
-    }      
+      color: $primary-color;
+    }
   }
 }
 
@@ -24,48 +25,115 @@ a {
 
 .fa-minus-circle {
   color: red;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
 }
 
-input, button, h6, p {
-  @include poly-fluid-sizing('font-size', $p-map);
-}
 
-h1 {
+// todo use bs variables
+
+h1, .h1 {
+  // font-size: 2.6rem;
   @include poly-fluid-sizing('font-size', $h1-map);
 }
 
-h2 {
+h2, .h2 {
+  // font-size: 2.2rem;
   @include poly-fluid-sizing('font-size', $h2-map);
 }
 
-h3 {
+h3, .h3 {
+  // font-size: 1.8rem;
   @include poly-fluid-sizing('font-size', $h3-map);
   font-weight: $font-weight-medium;
 }
 
-h4 {
+h4, .h4 {
+  // font-size: 1.5rem;
   @include poly-fluid-sizing('font-size', $h4-map);
   font-weight: $font-weight-medium;
 }
 
 h5, .h5 {
+  // font-size: 1.2rem;
   @include poly-fluid-sizing('font-size', $h5-map);
   font-weight: $font-weight-medium;
 }
 
-.huge {
-  @include poly-fluid-sizing('font-size', $h1-map);
-  line-height: 40px;
-  font-weight: $font-weight-bold;
+
+.font {
+
+  &__size {
+
+    &--huge {
+      font-size: 6.5rem;
+      // @include poly-fluid-sizing('font-size', $giant-map);
+    }
+
+    &--big {
+      font-size: 3rem;
+      //@include poly-fluid-sizing('font-size', $h1-map);
+      font-weight: $font-weight-bold;
+    }
+
+    &--medium {
+      font-size: 2.5rem;
+      // include poly-fluid-sizing('font-size', $h4-map);
+      font-weight: $font-weight-bold;
+    }
+
+    &--regular {
+      // @include poly-fluid-sizing('font-size', $p-map);
+      font-weight: $font-weight-medium;
+    }
+  }
 }
 
-.big {
-  @include poly-fluid-sizing('font-size', $h4-map);
-  font-weight: $font-weight-bold;
-}
+// .giant {
+//     @include poly-fluid-sizing('font-size', $giant-map);
+// }
 
-.medium {
-  @include poly-fluid-sizing('font-size', $h5-map);
-  font-weight: $font-weight-medium;
-}
+// .big {
+//   @include poly-fluid-sizing('font-size', $h1-map);
+//   font-weight: $font-weight-bold;
+// }
+
+// .medium {
+//   @include poly-fluid-sizing('font-size', $h4-map);
+//   font-weight: $font-weight-bold;
+// }
+
+// .regular {
+//   @include poly-fluid-sizing('font-size', $p-map);
+//   font-weight: $font-weight-medium;
+// }
+
+// .typography {
+
+//   &__label {
+//     font-weight: $font-weight-bold;
+
+//     &--medium {
+//       color: $grey-medium;
+//     }
+
+    // &--giant {
+    //   @include poly-fluid-sizing('font-size', $giant-map);
+    // }
+
+    // &--huge {
+    //   @include poly-fluid-sizing('font-size', $h1-map);
+    // }
+
+    // &--large {
+    //   @include poly-fluid-sizing('font-size', $h2-map);
+    // }
+
+    // &--medium {
+    //   @include poly-fluid-sizing('font-size', $h3-map);
+    // }
+
+    // &--small {
+    //   @include poly-fluid-sizing('font-size', $h5-map);
+    // }
+//   }
+// }

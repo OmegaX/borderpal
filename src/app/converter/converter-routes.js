@@ -1,6 +1,7 @@
 const template = require('./converter.html');
 const templateUnits = require('./partials/units.html');
-const templateUnitsRightMenu = require('./partials/units-right-menu.html');
+const templateLeftNav = require('./partials/units-nav-left.html');
+const templateRightNav = require('./partials/units-nav-right.html');
 const templateExchange = require('../shared-components/exchange-component/exchange-component.html');
 const templatePriceConverter = require('../shared-components/price-converter-component/price-converter.html');
 
@@ -14,6 +15,9 @@ export default function routes($stateProvider) {
           controller: 'ConverterCtrl',
           controllerAs: 'converter'
         },
+        'left-side@converter': {
+          template: templateLeftNav
+        },
         'right-side@converter': {
           template: templateExchange,
           controller: 'ExchangeCtrl',
@@ -21,18 +25,8 @@ export default function routes($stateProvider) {
         }
       }
     })
-    .state('converter.gas', {
-      url: '/gas',
-      views: {
-        '': {
-          template: templatePriceConverter,
-          controller: 'PriceConverterCtrl',
-          controllerAs: 'priceConverter'
-        }
-      }
-    })
-    .state('converter.groceries', {
-      url: '/groceries',
+    .state('converter.price', {
+      url: '/price',
       views: {
         '': {
           template: templatePriceConverter,
@@ -48,7 +42,7 @@ export default function routes($stateProvider) {
           template: templateUnits
         },
         'right-side@converter': {
-          template: templateUnitsRightMenu
+          template: templateRightNav
         }
       }
     });

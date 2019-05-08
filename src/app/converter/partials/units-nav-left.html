@@ -1,0 +1,28 @@
+<nav class="units-nav-left side-nav">
+  <div class="side-nav__header">
+    <h3>Converter Menu</h3>
+  </div>
+  <ul class="side-nav__items side-nav__items--big">
+    <li class="side-nav__item">
+      <a data-ng-click="converter.setState('units')" data-ui-sref="converter.units" data-ui-sref-active="active" title="Convert metric and imperial units, as well as currency">
+        <i class="fas fa-ruler-combined"></i>
+        <span class="side-nav__label side-nav__label--mobile">Units</span>
+        <span class="side-nav__label side-nav__label--desktop">Units &amp; Currency</span>
+      </a>
+    </li>
+    <li class="side-nav__item">
+      <a data-ng-click="converter.setState('gas')" data-ng-class="{'active': converter.priceConverterService.converterState == 'gas'}" data-ui-sref="converter.price" title="Compare $USD/gallon to $CAD/litre">
+        <i class="fas fa-gas-pump"></i>
+        <span class="side-nav__label side-nav__label--mobile">Gas</span>
+        <span class="side-nav__label side-nav__label--desktop">Gas Prices</span>
+      </a>
+    </li>
+    <li class="side-nav__item">
+      <a data-ng-click="converter.setState('groceries')" data-ng-class="{'active': converter.priceConverterService.converterState == 'groceries'}" data-ui-sref="converter.price" title="$USD/pound to $CAD/kg">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="side-nav__label side-nav__label--mobile">Groceries</span>
+        <span class="side-nav__label side-nav__label--desktop">Grocery Prices</span>
+      </a>
+    </li>
+  </ul>
+</nav>

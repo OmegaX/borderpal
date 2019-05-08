@@ -1,15 +1,42 @@
 .cost-estimator {
 
 	&__results-section {
-		margin-bottom: $spacerX2;
+		margin-bottom: 2rem;
+
+		&--usd {
+			display: none;
+
+			@include media-breakpoint-up(md) {
+				display: block;
+			}
+		}
 	}
+
+	// .btn-success, .btn-warning {
+	// 	display: none;
+
+	// 	@include media-breakpoint-up(md) {
+	// 		display: block;
+	// 	}
+	// }
 
 	&__results-headers {
 		text-align: center;
-		margin-bottom: $spacerX2;
+		margin-bottom: 2rem;
 	}
 
 	&__items-section {
-		margin-bottom: $spacerX2;
+		margin-bottom: 2rem;
+	}
+
+	.popover-icon {
+		display: none;
+	}
+
+	@include media-breakpoint-up(sm) {
+
+		.popover-icon {
+			display: inline;
+		}
 	}
 }

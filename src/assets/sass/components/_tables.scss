@@ -1,84 +1,13 @@
 .table {
-    @extend .table-striped;
-    // @extend .table-sm;
- @extend .table-sm;   
-th {
+	@extend .table-striped;
+	@extend .table-sm;
+
+  th, td {
+    vertical-align: middle;
     padding: 1rem 0.3rem;
-    
-}
-   		
-
-
-
+  }
 }
 
-
-
-
-// table.table {
-//     .big-name {
-//         font-weight: bold; 
-//         font-size: 1.2em;
-//     }
-//     thead > tr > th, tbody > tr > th, tfoot > tr > th, 
-//     thead > tr > td, tbody > tr > td {
-//         vertical-align: middle;
-//     }   
-//     tbody tr:hover:not(.no-hover) {
-//         background-color: $light-blue !important;
-//     }
-
-//     .google-map-icon {
-//         cursor: pointer;
-//         width: 24px;
-//     }     
-// }
-
-// #border-waits-table {
-//     margin-top: 22px;
-//     width: 100%;
-//     th {
-//         font-size: 1.2em;
-//         font-weight: bold;
-//     }
-//     .name {
-//         width: 40%;
-//     }
-//     .passenger {
-//         width: 16%;
-//     }
-//     .commercial {
-//         width: 16%;
-//     }
-//     .updated {
-//         width: 16%;
-//     }
-//     .updated::first-letter {
-//         text-transform: capitalize;
-//     }
-//     .cams {
-//         width: 6%;
-//     }
-//     .map {
-//         width: 6%;
-//     }
-//     .cams, .map {
-//         text-align: center;
-//     }
-
-//     .fa-long-arrow-right {
-//         font-weight: 400; 
-//         font-size: 18px; 
-//         padding: 0 6px; 
-//         color: #808080;
-//           position: relative;
-//           transform: translateY(8%);    
-//     }
-//     .fa-video-camera {
-//         font-size: 24px;
-//         cursor: pointer;
-//         color: $dark-blue;
-//         transform:rotateY(180deg);
-//     }
-
-// }
+.table-responsive {
+	white-space: nowrap;
+}

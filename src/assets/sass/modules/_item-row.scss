@@ -1,42 +1,76 @@
  .item-row {
 	@include make-row();
-	@extend .align-items-center;
-	@extend .justify-content-center;	
-	margin-bottom: $spacer-quarter;
+	@include align-items(center);
+	@include justify-content(center);
+	@extend .mb-1;
 
 	&__col {
 		@extend .text-center;
-		padding: 0 $spacer-half;
+
+		@include make-col-ready();
 
 		&--item {
-			@extend .col-1;
+			display: none;
+
+			@include media-breakpoint-up(sm) {
+				@include make-col(2);
+				display: inline;
+			}
+
+			@include media-breakpoint-up(md) {
+				@include make-col(1);
+			}
 		}
 
 		&--desc {
-			@extend .d-none;
-			@extend .d-sm-inline-block;
-			@extend .col-sm-3; 
+			display: none;
+
+			@include media-breakpoint-up(md) {
+				@include make-col(2);
+				display: inline;
+			}
 		}
 
 		&--price {
-			@extend .col-3;
-			@extend .col-sm-2; 
+			@include make-col(6);
+
+			@include media-breakpoint-up(sm) {
+				@include make-col(2);
+			}
+
+			// @include media-breakpoint-up(lg) {
+			// 	@include make-col(2);
+			// }
 		}
 
 		&--taxable-header {
-			@extend .col-4;
-			@extend .col-sm-2;
+			@include make-col(6);
+
+			@include media-breakpoint-up(sm) {
+				@include make-col(3);
+			}
+
+			@include media-breakpoint-up(md) {
+				@include make-col(2);
+			}
 		}
 
 		&--taxable {
-			@extend .col-4;
-			@extend .col-sm-2;
-			@extend .d-flex;
-			@extend .justify-content-around;
+			@include make-col(6);
+			@include flexbox();
+			@include justify-content(space-around);
+
+			@include media-breakpoint-up(sm) {
+				@include make-col(3);
+			}
+
+			@include media-breakpoint-up(md) {
+				@include make-col(2);
+			}
 
 			span {
-				@extend .d-flex;
-				@extend .align-items-center;	
+				@include flexbox();
+				@include align-items(center);
 
 				label {
 					@extend .mr-1;
@@ -45,13 +79,22 @@
 		}
 
 		&--duty {
-			@extend .d-none;
-			@extend .d-sm-block;
-			@extend .col-sm-3; 
+			display: none;
+
+			@include media-breakpoint-up(sm) {
+				@include make-col(4);
+				display: inline;
+			}
+
 		}
 
 		&--delete {
-			@extend .col-1; 
+			display: none;
+
+			@include media-breakpoint-up(sm) {
+				@include make-col(1);
+				display: inline;
+			}
 		}
 	}
 

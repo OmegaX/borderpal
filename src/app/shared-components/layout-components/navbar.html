@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-lg" role="navigation">
+  <button type="button" class="navbar-toggle" data-ng-class="{active: navCtrl.isNavCollapsed === false}" data-ng-click="navCtrl.isNavCollapsed = !navCtrl.isNavCollapsed">
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+  <div class="collapse navbar-collapse" uib-collapse="navCtrl.isNavCollapsed">
+    <ul class="nav navbar-nav" data-ng-click="navCtrl.linkClick()">
+      <li class="nav-item">
+        <a class="nav-link"data-ui-sref="cost-estimator" data-ui-sref-active="active">Estimate Shopping Costs</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-ui-sref="border.waits.us" data-ui-sref-active="active">Get Border Waits &amp; Traffic Cams</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-ui-sref="gas" data-ui-sref-active="active">Find Cheap Gas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-ui-sref="converter.units" data-ui-sref-active="active">Convert Metric, Prices &amp; Money</a>
+      </li>
+    </ul>
+  </div>
+</nav>

@@ -1,17 +1,27 @@
-<div class="side-nav">
+<div class="side-nav side-nav-border">
 	<div class="side-nav__header">
 		<h3>Travel Direction</h3>
 	</div>
-	<a class="side-nav__item-link" data-ui-sref="border.waits.us" data-ng-class="{focus: borderCtrl.state.current.name === 'border.waits.us'}" data-ng-click="borderCtrl.getUSwaits()">
-		<img src="../../../assets/images/canadian-icon-small.png" alt="Canadian flag icon for Canadian destinations">	
-		<i class="fas fa-arrow-right big" aria-hidden="true"></i>
-		<img src="../../../assets/images/american-icon-small.png" alt="American flag icon for US destinations">
-		<span class="side-nav__label medium">US-Bound</span>
-	</a>
-	<a class="side-nav__item-link" data-ui-sref="border.waits.canada" data-ng-class="{focus: borderCtrl.state.current.name === 'border.waits.canada'}"data-ng-click="borderCtrl.getCANwaits()">
-		<img src="../../../assets/images/american-icon-small.png" alt="American flag icon for US destinations">	
-		<i class="fas fa-arrow-right big" aria-hidden="true"></i>
-		<img src="../../../assets/images/canadian-icon-small.png" alt="Canadian flag icon for Canadian destinations">
-		<span class="side-nav__label medium">Home-Bound</span>
-	</a> 
+	<ul class="side-nav__items side-nav__items--big">
+		<li class="side-nav__item">
+			<a data-ui-sref="border.waits.us" data-ui-sref-active="active" data-ng-click="borderCtrl.getUSwaits()">
+				<div class="side-nav-border__i-wrapper">
+					<img class="side-nav-border__svg" src="../../../assets/svgs/canadian-flag.svg">
+         			<img class="side-nav-border__svg side-nav-border__svg--small" src="../../../assets/svgs/right-arrow.svg">
+					<img class="side-nav-border__svg" src="../../../assets/svgs/american-flag.svg">
+				</div>
+				<span class="side-nav__label">US-Bound</span>
+			</a>
+		</li>
+		<li class="side-nav__item">
+			<a data-ui-sref="border.waits.canada" data-ui-sref-active="active" data-ng-click="borderCtrl.getCANwaits()">
+				<div class="side-nav-border__i-wrapper">
+					<img class="side-nav-border__svg" src="../../../assets/svgs/american-flag.svg">
+         			<img class="side-nav-border__svg side-nav-border__svg--small" src="../../../assets/svgs/right-arrow.svg">
+					<img class="side-nav-border__svg" src="../../../assets/svgs/canadian-flag.svg">
+				</div>
+				<span class="side-nav__label">Home-Bound</span>
+			</a>
+		</li>
+	</ul>
 </div>

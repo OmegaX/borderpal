@@ -46,6 +46,14 @@ export default function routes($stateProvider, $compileProvider) {
           template: templateCamsNav
         }
       }
+    })
+    .state('border.cams.us', {
+      url: '/us',
+      template: templateCamsGeneric
+    })
+    .state('border.cams.canada', {
+      url: '/canada',
+      template: templateCamsGeneric
     });
 }
 

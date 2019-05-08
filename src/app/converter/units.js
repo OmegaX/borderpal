@@ -284,7 +284,7 @@ const unitsObj = {
     {
       id: 'USD',
       label: 'US dollar (USD)',
-      multiplier: null,
+      multiplier: 1,
       precision: 2,
       compare: 'CAD'
     },
@@ -295,27 +295,27 @@ const unitsObj = {
       precision: 2,
       compare: 'USD'
     },
-    {
-      id: 'EUR',
-      label: 'Euro (EUR)',
-      multiplier: null,
-      precision: 2,
-      compare: 'CAD'
-    },
-    {
-      id: 'GBP',
-      label: 'British Pound (GBP)',
-      multiplier: null,
-      precision: 2,
-      compare: 'CAD'
-    },
-    {
-      id: 'CNY',
-      label: 'Chinese Yuan (CNY)',
-      multiplier: null,
-      precision: 2,
-      compare: 'CAD'
-    }
+    // {
+    //   id: 'EUR',
+    //   label: 'Euro (EUR)',
+    //   multiplier: null,
+    //   precision: 2,
+    //   compare: 'CAD'
+    // },
+    // {
+    //   id: 'GBP',
+    //   label: 'British Pound (GBP)',
+    //   multiplier: null,
+    //   precision: 2,
+    //   compare: 'CAD'
+    // },
+    // {
+    //   id: 'CNY',
+    //   label: 'Chinese Yuan (CNY)',
+    //   multiplier: null,
+    //   precision: 2,
+    //   compare: 'CAD'
+    // }
   ]
 };
 

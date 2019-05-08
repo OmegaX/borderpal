@@ -1,19 +1,56 @@
 .exchange {
-	
+
+	&__center {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+		margin-bottom: .5rem;
+	}
+
+	&__seperator {
+		width: 75%;
+		display: block;
+		margin: .5rem auto;
+		border-bottom: 1px solid $gray-600;
+	}
+
+	&__font-big {
+		font-size: 1.2rem;
+		font-weight: 700;
+	}
+
+	&__font-medium {
+		font-size: 1.1rem;
+		padding: 0 .5rem;
+	}
+
+	&__font-italic {
+		font-style: italic;
+	}
+
+	&__font-italic-center {
+		font-style: italic;
+		text-align: center;
+	}
+
+	&__font-small {
+		padding-left: .25rem;
+		font-size: .9rem;
+	}
+
 	&__note {
 		text-align: left;
 	}
-
-	&__big {
-	  @include poly-fluid-sizing('font-size', $h4-map);
-	}
-
-	&__medium {
-	  @include poly-fluid-sizing('font-size', $h5-map);
-	}
-
-	&__small{
-	  @include poly-fluid-sizing('font-size', $p-map);
-	}
-
 }
+
+// .page__aside--right {
+
+// 	.exchange {
+// 		padding: 0 1.25rem 1.25rem 1.25rem;
+// 		background-color: $light-blue;
+// 		margin-bottom: 1rem;
+// 	    border: 1px solid #ccc;
+// 	    border-radius: 0.25rem;
+// 	}
+// }

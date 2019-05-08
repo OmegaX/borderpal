@@ -1,0 +1,32 @@
+.converter {
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+	&__col-45 {
+		flex: 0 0 45%;
+    max-width: 45%;
+
+  	.form-control {
+  		@extend .mb-1;
+  	}
+	}
+
+	&__col-10 {
+		flex: 0 0 10%;
+  	max-width: 10%;
+  	display: flex;
+  	align-items: center;
+  	justify-content: center;
+
+  	svg {
+      @include poly-fluid-sizing('width', $h3-map);
+  	}
+	}
+
+  &__explanation {
+    text-align: center;
+  }
+}

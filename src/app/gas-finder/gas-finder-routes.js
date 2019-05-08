@@ -1,6 +1,6 @@
 const template = require('./gas-finder.html');
-const exchangePartial = require('../shared-components/exchange-component/exchange-component.html');
-const converterPartial = require('../shared-components/price-converter-component/price-converter.html');
+const exchangeTemplate = require('../shared-components/exchange-component/exchange-component.html');
+const converterTemplate = require('../shared-components/price-converter-component/price-converter.html');
 
 export default function routes($stateProvider) {
   $stateProvider
@@ -13,12 +13,12 @@ export default function routes($stateProvider) {
           controllerAs: 'gasFinder'
         },
         'converterView@gas': {
-          template: converterPartial,
+          template: converterTemplate,
           controller: 'PriceConverterCtrl',
           controllerAs: 'priceConverter'
         },
         'exchangeView@gas': {
-          template: exchangePartial,
+          template: exchangeTemplate,
           controller: 'ExchangeCtrl',
           controllerAs: 'exchangeCtrl'
         }

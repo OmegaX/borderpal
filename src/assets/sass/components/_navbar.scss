@@ -1,37 +1,42 @@
 .navbar {
   background-color: $primary-color;
   white-space: nowrap;
-  padding: 1rem;
+  margin-bottom: 0;
+
+  @include media-breakpoint-up(lg) {
+    padding: 2rem 0;
+    margin-bottom: 1rem;
+  }
 }
 
 .navbar-toggle {
-    position: relative;
-    display: inline;
-    float: none;
-    padding: $spacer;
-    margin: 0;
-    border: none;
-    background-color: transparent;
+  position: relative;
+  display: inline;
+  float: none;
+  padding: $spacer;
+  margin: 0;
+  border: none;
+  background-color: transparent;
 
-    &:focus {
-      outline: none;
-    }
+  &:focus {
+    outline: none;
+  }
 
-    @include media-breakpoint-up(lg) { 
-      display: none;
-    }
+  @include media-breakpoint-up(lg) {
+    display: none;
+  }
 
   .icon-bar {
     display: block;
     position: relative;
     background-color: $white;
     width: 40px;
-    height: 3px;  
+    height: 3px;
     transition: all 500ms ease-in-out;
-  }
 
-  .icon-bar + .icon-bar {
-    margin-top: 6px;
+    &+ .icon-bar {
+      margin-top: 6px;
+    }
   }
 
   &.active .icon-bar:nth-of-type(1) {
@@ -49,39 +54,34 @@
   }
 }
 
-.navbar-expand-lg {
-  .navbar-nav {
-    flex-wrap: nowrap;
-    .nav-link {
-        @include poly-fluid-sizing('padding-right', $nav-padding-x-map);
-        @include poly-fluid-sizing('padding-left', $nav-padding-x-map);
-        @include poly-fluid-sizing('font-size', $nav-font-size-map);
-    }
-  }
-}
-
 .navbar-collapse {
   justify-content: center;
-}
 
   .navbar-nav {
+    flex-wrap: nowrap;
+
     .nav-link {
+      @include poly-fluid-sizing('padding-right', $nav-padding-x-map);
+      @include poly-fluid-sizing('padding-left', $nav-padding-x-map);
+      @include poly-fluid-sizing('font-size', $nav-font-size-map);
       color: $navbar-dark-color;
       font-weight: $font-weight-medium;
+      transition: $transition-base;
 
       @include hover-focus {
         color: $navbar-dark-hover-color;
       }
 
-      &.disabled {
-        color: $navbar-dark-disabled-color;
+      &.active {
+        color: $navbar-dark-active-color;
+        text-shadow: $white-text-shadow;
       }
     }
-
-    .show > .nav-link,
-    .active > .nav-link,
-    .nav-link.show,
-    .nav-link.active {
-      color: $navbar-dark-active-color;
-    }
   }
+}
+// .show > .nav-link,
+// .active > .nav-link,
+// .nav-link.show,
+// .nav-link.active {
+//   color: $navbar-dark-active-color;
+// }

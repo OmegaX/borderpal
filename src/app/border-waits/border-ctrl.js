@@ -1,20 +1,16 @@
 import moment from 'moment-es6';
 
 export default class BorderCtrl {
-  constructor(BorderService, $uibModal, $uibModalStack, NgMap, $scope, geolocation, $state, $stateParams) {
-    this.BorderService = BorderService;
+  constructor(BorderService, $uibModal, $uibModalStack, NgMap, $scope, $state, $stateParams) {
+    this.borderService = BorderService;
     this.$uibModal = $uibModal;
     this.$uibModalStack = $uibModalStack;
     this.$scope = $scope;
     this.NgMap = NgMap;
-    this.geolocation = geolocation;
+    // this.geolocation = geolocation;
     this.state = $state;
     this.stateParams = $stateParams;
-    this.coords = {
-      enabled: false,
-      lat: null,
-      long: null
-    };
+
     this.init();
   }
 
@@ -22,29 +18,43 @@ export default class BorderCtrl {
     this.googleMapsUrl = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyAnrb7ty9PGUxcRcciP4hWeMLth10-7Awc';
     this.timeLastCheckedCAN = null;
     this.timeLastCheckedUS = null;
+
     // if page refreshed while in cams state, return to default
-    if (this.state.current.name === 'border.cams') {
+    if (this.state.current.name === 'border.cams.us') {
       this.state.transitionTo('border.waits.us');
+    } else if (this.state.current.name === 'border.cams.canada') {
+      this.state.transitionTo('border.waits.canada');
     }
-    this.geolocation.getLocation().then((data) => {
-      this.coords = {
-        enabled: true,
-        lat: data.coords.latitude,
-        long: data.coords.longitude
-      };
-      this.getBorderWaits();
-      this.sort = 'distance';
-    }, () => {
-      this.getBorderWaits();
-      this.sort = 'longitude';
-    });
+
+    this.h1 = 'US Border Waits';
+    this.h2 = 'For travellers to the US';
+
+    this.sort = '-longitude';
+    this.getBorderWaits();
+
+    // this.coords = {};
+
+    // this.geolocation.getLocation().then((data) => {
+    //   this.coords = {
+    //     lat: data.coords.latitude,
+    //     long: data.coords.longitude
+    //   };
+    //   this.sort = 'distance';
+    //   console.log(this.sort);
+    //   this.getBorderWaits();
+    // }, () => {
+    //   this.sort = 'state';
+    //   console.log(this.sort);
+    //   this.getBorderWaits();
+    // });
   }
 
   getBorderWaits() {
     if (this.state.current.name === 'border.waits.us') {
       this.getUSwaits();
+    } else {
+      this.getCANwaits();
     }
-    this.getCANwaits();
   }
 
   camNavClicked(side) {
@@ -53,15 +63,15 @@ export default class BorderCtrl {
   }
 
   camClicked(selectedPort, side) {
-    this.h2 = (side === 'Canada' ? 'Cams on the Canadian side of the border for US-bound travellers'
-      : 'Cams on US side of the border for home-bound travellers');
+    this.h2 = (side === 'Canada' ? 'Cams on the Canadian side for US-bound travellers'
+      : 'Cams on US side for return travellers');
     this.selectedCams = selectedPort;
-    const existingCamArray = this.BorderService.getTrafficCams();
+    const existingCamArray = this.borderService.getTrafficCams(); // todo
     const matchingPorts = existingCamArray
       .filter(port => port.name === selectedPort.name && port.side === side);
     if (selectedPort.protected === true) {
       const ports = matchingPorts.map(port => port);
-      this.BorderService.getProtectedCams(ports)
+      this.borderService.getProtectedCams(ports)
         .then((response) => {
           const mergedCamArray = matchingPorts.map((existingCamObj) => {
             const returnedCamObj = response.map(returned => returned)
@@ -70,6 +80,7 @@ export default class BorderCtrl {
               ...existingCamObj,
               ...returnedCamObj
             };
+
             return mergedCamObj;
           });
           this.cams = mergedCamArray;
@@ -81,17 +92,21 @@ export default class BorderCtrl {
     }
   }
 
-  getDistance(lat, long) {
-    let distanceLong = long - this.coords.long;
-    distanceLong = Math.abs(distanceLong);
-    let distanceLat = lat - this.coords.lat;
-    distanceLat = Math.abs(distanceLat);
-    return distanceLong + distanceLat;
-  }
+  // getDistance(lat, long) {
+  //   let distanceLong = long - this.coords.long;
+  //   let distanceLat = lat - this.coords.lat;
+
+  //   distanceLong = Math.abs(distanceLong);
+  //   distanceLat = Math.abs(distanceLat);
+
+  //   const distanceSqrt = (distanceLong * distanceLong) + (distanceLat * distanceLat);
+  //   return Math.sqrt(distanceSqrt);
+  // }
 
   getCANwaits() {
     this.h1 = 'Canadian Border Waits';
-    this.h2 = 'For Travellers Returning Home';
+    this.h2 = 'For Return Travellers';
+
     let minutesSince = 0;
     const timestamp = moment(new Date(), 'HH:mm:ss');
     if (this.timeLastCheckedCAN !== null) {
@@ -100,7 +115,7 @@ export default class BorderCtrl {
     if (this.timeLastCheckedCAN === null || minutesSince < -5) {
       this.timeLastCheckedCAN = timestamp;
       this.mergedBorderArrayCAN = [];
-      this.BorderService.getCDNBorderWaits()
+      this.borderService.getCDNBorderWaits()
         .then((response) => {
           this.mergedBorderArrayCAN = response.waitTimes.map((port) => {
             const theirBorderObj = {
@@ -108,12 +123,12 @@ export default class BorderCtrl {
               commercialDelay: BorderCtrl.getDelayWordingCAN(port['poe-comm-status']),
               updateTime: moment(port['poe-updated']).startOf('hour').fromNow()
             };
-            const ourBorderObj = this.BorderService.getOurBorderArrayCAN().map(ourport => ourport)
+            const ourBorderObj = this.borderService.getOurBorderArrayCAN().map(ourport => ourport)
               .find(ourport => ourport.id === port['poe-name']);
-            if (this.coords.enabled) {
-              ourBorderObj.distance =
-                this.getDistance(ourBorderObj.latitude, ourBorderObj.longitude);
-            }
+            // if (this.coords.enabled) {
+            //   ourBorderObj.distance =
+            //     this.getDistance(ourBorderObj.latitude, ourBorderObj.longitude);
+            // }
             const mergedBorderObj = {
               ...theirBorderObj,
               ...ourBorderObj
@@ -135,7 +150,7 @@ export default class BorderCtrl {
     if (this.timeLastCheckedUS === null || minutesSince < -5) {
       this.mergedBorderArrayUS = [];
       this.timeLastCheckedUS = timeStamp;
-      this.BorderService.getUSBorderWaits()
+      this.borderService.getUSBorderWaits()
         .then((response) => {
           this.mergedBorderArrayUS = response.map((port) => {
             const theirBorderObj = {
@@ -144,14 +159,14 @@ export default class BorderCtrl {
                 .getDelayWordingUS(port.passengerDelay, port.passengerStatus),
               commercialDelay: BorderCtrl
                 .getDelayWordingUS(port.commercialDelay, port.commercialStatus),
-              updateTime: BorderCtrl.checkTime(port.updateTime)
+              updateTime: port.updateTime
             };
-            const ourBorderObj = this.BorderService.getOurBorderArrayUS().map(ourport => ourport)
+            const ourBorderObj = this.borderService.getOurBorderArrayUS().map(ourport => ourport)
               .find(ourport => ourport.id === port.portID);
-            if (this.coords.enabled) {
-              ourBorderObj.distance =
-                this.getDistance(ourBorderObj.latitude, ourBorderObj.longitude);
-            }
+            // if (this.coords.enabled) {
+            //   ourBorderObj.distance =
+            //     this.getDistance(ourBorderObj.latitude, ourBorderObj.longitude);
+            // }
             const mergedBorderObj = {
               ...theirBorderObj,
               ...ourBorderObj
@@ -228,52 +243,52 @@ export default class BorderCtrl {
     }
   }
 
-  static getTimeOffset(timeZ) {
-    const timeZone = timeZ.trim().toUpperCase();
-    switch (true) {
-      case (timeZone === 'PST'):
-        return '16:00';
-      case (timeZone === 'MST'):
-        return '17:00';
-      case (timeZone === 'CST'):
-        return '18:00';
-      case (timeZone === 'EST'):
-        return '19:00';
-      default:
-        return '16:00';
-    }
-  }
+  // static getTimeOffset(timeZ) {
+  //   const timeZone = timeZ.trim().toUpperCase();
+  //   switch (true) {
+  //     case (timeZone === 'PST'):
+  //       return '16:00';
+  //     case (timeZone === 'MST'):
+  //       return '17:00';
+  //     case (timeZone === 'CST'):
+  //       return '18:00';
+  //     case (timeZone === 'EST'):
+  //       return '19:00';
+  //     default:
+  //       return '16:00';
+  //   }
+  // }
 
-  static checkTime(timeFromAPI) {
-    if (typeof timeFromAPI === 'undefined' || timeFromAPI === null || timeFromAPI === '') {
-      return 'N/A';
-    }
-    const wholeTime = timeFromAPI.replace('At ', '');
-    let twelveHours = '';
-    let timeZone = '';
-    let timeOffset = '';
-    let splitTime = '';
-    let meridiem = '';
-    if (wholeTime.search(/noon/i) > -1) {
-      twelveHours = '12:00 PM';
-      timeZone = wholeTime[1];
-      timeOffset = BorderCtrl.getTimeOffset(timeZone);
-    } else if (wholeTime.search(/midnight/i) > -1) {
-      twelveHours = '12:00 AM';
-      timeZone = wholeTime[1];
-      timeOffset = BorderCtrl.getTimeOffset(timeZone);
-    } else {
-      splitTime = wholeTime.split(' ');
-      const twelve = splitTime[0].trim();
-      meridiem = splitTime[1].trim();
-      twelveHours = `${twelve} ${meridiem}`;
-      timeZone = splitTime[2].trim();
-      timeOffset = BorderCtrl.getTimeOffset(timeZone);
-    }
-    const timeCompare = `${twelveHours} GMT+${timeOffset}`;
+  // static checkTime(timeFromAPI) {
+  //   if (typeof timeFromAPI === 'undefined' || timeFromAPI === null || timeFromAPI === '') {
+  //     return 'N/A';
+  //   }
+  //   const wholeTime = timeFromAPI.replace('At ', '');
+  //   let twelveHours = '';
+  //   let timeZone = '';
+  //   let timeOffset = '';
+  //   let splitTime = '';
+  //   let meridiem = '';
+  //   if (wholeTime.search(/noon/i) > -1) {
+  //     twelveHours = '12:00 PM';
+  //     timeZone = wholeTime[1];
+  //     timeOffset = BorderCtrl.getTimeOffset(timeZone);
+  //   } else if (wholeTime.search(/midnight/i) > -1) {
+  //     twelveHours = '12:00 AM';
+  //     timeZone = wholeTime[1];
+  //     timeOffset = BorderCtrl.getTimeOffset(timeZone);
+  //   } else {
+  //     splitTime = wholeTime.split(' ');
+  //     const twelve = splitTime[0].trim();
+  //     meridiem = splitTime[1].trim();
+  //     twelveHours = `${twelve} ${meridiem}`;
+  //     timeZone = splitTime[2].trim();
+  //     timeOffset = BorderCtrl.getTimeOffset(timeZone);
+  //   }
+  //   const timeCompare = `${twelveHours} GMT+${timeOffset}`;
 
-    return moment(timeCompare, ['HH:mm A Z']).startOf('hour').fromNow();
-  }
+  //   return moment(timeCompare, ['HH:mm A Z']).startOf('hour').fromNow();
+  // }
 }
 
-BorderCtrl.$inject = ['BorderService', '$uibModal', '$uibModalStack', 'NgMap', '$scope', 'geolocation', '$state', '$stateParams'];
+BorderCtrl.$inject = ['BorderService', '$uibModal', '$uibModalStack', 'NgMap', '$scope', '$state', '$stateParams'];

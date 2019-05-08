@@ -12,7 +12,7 @@ export default class GasFinderService {
   }
 
   getGasPrices(state) {
-    const url = './server/getgasprices.php';
+    const url = '/server/getgasprices.php';
     return this.$http.post(url, state)
       .then((response) => {
         if (typeof response.data === 'object') {

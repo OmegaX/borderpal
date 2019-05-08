@@ -19,27 +19,27 @@
 <section class="page__section">
   <div class="page__header-wrapper">
     <h1>{{borderCtrl.h1}}</h1>
-    <h2>{{borderCtrl.h2}}</h2>   
+    <h2>{{borderCtrl.h2}}</h2>
   </div>
   <div class="page__content-wrapper">
-    <select class="form-control__select form-control__select--small" data-ng-model="borderCtrl.sort">
-      <option value="distance" disabled="{{borderCtrl.coords.enabled}}">Sorted by Distance</option>
+    <select class="form-control__select form-control__select--big" data-ng-model="borderCtrl.sort">
+     <!--  <option value="distance">Sorted by Distance</option> -->
       <option value="province">Sorted by Province</option>
       <option value="state">Sorted by State</option>
       <option value="-longitude">Sorted East to West</option>
       <option value="longitude">Sorted West to East</option>
     </select>
   </div>
-  <p data-ng-if="!borderCtrl.coords.enabled">To sort by distance, please allow Borderpal access to your geolocation in your browser</p>  
-</section>  
+  <p data-ng-if="borderCtrl.coords.disabled">To sort by distance, please allow Borderpal access to your geolocation in your browser</p>
+</section>
 
-<section class="page__section">
+<section class="page__section table-responsive">
   <table class="table">
     <thead>
       <th class="name">Port of Entry</th>
       <th class="passenger">Passenger</th>
       <th class="commercial">Commerical</th>
-      <th class="updated">Updated</th>          
+      <th class="updated">Updated</th>
       <th class="cam">Cams</th>
       <th class="map">Maps</th>
     </thead>

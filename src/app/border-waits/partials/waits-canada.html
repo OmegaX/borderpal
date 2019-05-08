@@ -3,17 +3,19 @@
 		<div class="big-name">
 			{{port.name}}
 		</div>
-		{{port.from}} 
-		<i class="fas fas-long-arrow-right" aria-hidden="true"></i>
+		{{port.from}}
+		<i class="fas fa-arrow-right"></i>
 		{{port.to}}
-	</td>					
-  	<td>{{port.passengerDelay}}</td>	
-  	<td>{{port.commercialDelay}}</td>	
+	</td>
+  	<td>{{port.passengerDelay}}</td>
+  	<td>{{port.commercialDelay}}</td>
 	<td class="updated">{{port.updateTime}}</td>
-	<td class="cams" data-ui-sref="border.cams">
-  		<i class="fas fas-video-camera" aria-hidden="true" data-ng-if="port.cams" title="See traffic cams for this port of entry" data-ng-click="borderCtrl.camClicked(port, 'US')"></i>
+	<td class="cams">
+		<a data-ui-sref="border.cams.us">
+  			<i class="fas fa-camera" aria-hidden="true" data-ng-if="port.cams" title="See traffic cams for this port of entry" data-ng-click="borderCtrl.camClicked(port, 'US')"></i>
+  		</a>
 	</td>
 	<td class="map">
-		<img src="../../../assets/images/map-icon.png" alt="Google map icon" data-ng-click="borderCtrl.openModal(port)" class="google-map-icon" title="Open a Google Map for this location">
-	</td>	
+		<img class="border-waits__map-icon" src="../../../assets/images/map-icon.png" alt="Google map icon" data-ng-click="borderCtrl.openModal(port)" class="google-map-icon" title="Open a Google Map for this location">
+	</td>
 </tr>

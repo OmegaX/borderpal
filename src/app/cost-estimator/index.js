@@ -1,5 +1,5 @@
 import angular from 'angular';
-import formatAsCurrency from 'format-as-currency';
+// import formatAsCurrency from 'format-as-currency';
 import accordion from 'ui-bootstrap4/src/accordion';
 import routes from './cost-estimator-routes';
 import exchangeComponent from '../shared-components/exchange-component';

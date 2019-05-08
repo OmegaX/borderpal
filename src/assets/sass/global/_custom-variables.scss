@@ -1,0 +1,99 @@
+$fa-font-path:"../../../node_modules/font-awesome/fonts";
+$font-stack: 'Roboto', sans-serif;
+$primary-color: #1c2765;
+$light-green: #ebfaeb;
+$light-blue: #eaf1f7;
+$medium-blue: #c5d8e9;
+$dark-blue: #337ab7;
+$border-color: #ccc;
+$text-color: #333;
+$white: #fff;
+$grey-dark: #595959;
+$grey-medium: #737373;
+
+$theme-colors: (
+  "primary":    $dark-blue,
+  "secondary":  $medium-blue,
+  "success":    $light-green,
+  "info":       $light-green,
+  "warning":    $light-green,
+  "danger":     $light-green,
+  "light":      $light-blue,
+  "dark":       $dark-blue
+);
+
+$body-bg: $light-blue;
+$body-color: $medium-blue;
+
+// stylelint-disable
+
+$spacer: 1rem !default;
+$spacer-quarter: ($spacer * .25);
+$spacer-half: ($spacer * .5);
+$spacer-three-quarters: ($spacer * .75);
+$spacerX2: ($spacer * 2);
+$spacerX3: ($spacer * 3);
+$spacerX4: ($spacer * 4);
+$spacerX5: ($spacer * 5);
+
+$spacers: ();
+$spacers: map-merge((
+  none: 0,
+  quarter: $spacer-quarter,
+  half: $spacer-half,
+  single: $spacer,
+  double: $spacerX2,
+  triple: $spacerX3,
+  quadruple: $spacerX4
+), $spacers);
+
+$font-weight-normal: 300;
+$font-weight-medium: 500;
+$font-weight-bold: 700 !default;
+
+$btn-font-weight: $font-weight-bold;
+
+$hero-text-shadow: 0px 0px 30px rgba(0, 0, 0, 1);
+$white-text-shadow: 0px 0px 3px rgba(255, 255, 255, 0.5);
+$navbar-nav-link-padding-x: 1rem;
+$transition-base: all 350ms ease-in-out;
+
+$font-family-sans-serif:      'Montserrat', sans-serif;
+$headings-font-weight:        $font-weight-bold;
+
+$font-size-base:              1rem !default; // Assumes the browser default, typically `16px`
+$font-size-xs:                ($font-size-base * .75);
+
+$h1-font-size:                $font-size-base * 2.55;
+$h2-font-size:                $font-size-base * 2 !default;
+$h3-font-size:                $font-size-base * 1.75 !default;
+$h4-font-size:                $font-size-base * 1.5 !default;
+$h5-font-size:                $font-size-base * 1.1;
+$h6-font-size:                $font-size-base !default;
+
+// Navbar
+
+$navbar-dark-color:                 rgba($white, .8);
+$navbar-dark-hover-color:           $white;
+$navbar-dark-active-color:          $white;
+$nav-link-padding-x:                100px;
+$nav-link-padding-y:                50px;
+
+$nav-font-size-map: (992px: 16px, 1140px: 20px, 1600px: 24px, 2000px: 30px);
+$nav-padding-x-map: (992px: 16px, 1140px: 20px, 1600px: 24px, 2000px: 30px);
+$header-height-map: (320px: 300px, 1140px: 500px);
+$titanic-map: (320px: 40px, 768px: 80px, 1140px: 140px, 2000px: 190px);
+$giant-map: (320px: 48px, 768px: 64px, 1140px: 80px, 1600px: 104px);
+$h1-map: (320px: 32px, 768px: 32px, 1140px: 35px, 2000px: 39px);
+$h2-map: (320px: 28px, 768px: 28px, 1140px: 31px, 2000px: 35px);
+$h3-map: (320px: 24px, 768px: 24px, 1140px: 27px, 2000px: 31px);
+$h4-map: (320px: 20px, 768px: 21px, 1140px: 23px, 2000px: 27px);
+$h5-map: (320px: 14px, 768px: 16px, 1140px: 18px, 2000px: 22px);
+$p-map: (320px: 12px, 768px: 14px, 1140px: 16px, 2000px: 19px);
+
+$paralax-bg: translateZ(.25px) scale(.75) translateX(-94%) translateY(-100%);
+$paralax-fg: translateZ(.4px) scale(.63) translateX(-104%) translateY(-40%);
+// $far-left: translateZ(.25px) scale(.75) translateX(-94%) translateY(-100%) rotate(-30deg);
+// $close-left: translateZ(.4px) scale(.6) translateX(-104%) translateY(-40%) rotate(-30deg);
+// $far-straight: translateZ(.25px) scale(.75) translateX(-94%) translateY(-100%) rotate(0deg);
+// $close-straight: translateZ(.4px) scale(.6) translateX(-104%) translateY(-40%) rotate(0deg);

@@ -1,0 +1,29 @@
+.border-waits {
+
+	.big-name {
+		font-size: 1.3rem
+	}
+
+	.fa-arrow-right {
+		font-size: 1rem;
+		padding: 0 1rem;
+	} 
+
+	.fa-camera {
+		font-size: 1.1rem;
+	}
+
+	&__map-icon {
+		width: 24px;
+		height: 24px;
+	}
+
+	&__cam-img {
+		width: 100%;
+		height: auto;
+	}
+
+	&__caption {
+		font-size: 1.2rem;
+	}
+}

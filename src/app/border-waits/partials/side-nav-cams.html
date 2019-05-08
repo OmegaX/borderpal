@@ -1,17 +1,27 @@
-<div class="side-nav">
+<div class="side-nav side-nav-border">
 	<div class="side-nav__header">
 		<h3>Side of Border</h3>
 	</div>
-	<a class="side-nav__item-link" data-ui-sref="border.cams" data-ng-click="borderCtrl.camNavClicked('Canada')" data-ng-class="{focus: borderCtrl.state.current.name === 'border.waits.us'}">
-		<img src="../../../assets/images/canadian-icon-small.png" alt="Canadian flag icon for Canadian destinations">	
-		<i class="fas fa-arrow-right big" aria-hidden="true"></i>
-		<img src="../../../assets/images/american-icon-small.png" alt="American flag icon for US destinations">
-		<span class="side-nav__label medium">Canadian</span>
-	</a>
-	<a class="side-nav__item-link" data-ui-sref="border.cams" data-ng-class="{focus: borderCtrl.state.current.name === 'border.waits.canada'}" data-ng-click="borderCtrl.camNavClicked('US')">
-		<img src="../../../assets/images/american-icon-small.png" alt="Travelling from the USA to Canada">	
-		<i class="fas fa-arrow-right big" aria-hidden="true"></i>
-		<img src="../../../assets/images/canadian-icon-small.png" alt="American flag icon for US destinations">
-		<span class="side-nav__label medium">US</span>
-	</a> 
+	<ul class="side-nav__items side-nav__items--big">
+		<li class="side-nav__item">
+			<a data-ui-sref="border.cams.canada" data-ui-sref-active="active" data-ng-click="borderCtrl.camNavClicked('Canada')">
+				<div class="side-nav-border__i-wrapper">
+					<img class="side-nav-border__svg" src="../../../assets/svgs/canadian-flag.svg">
+         			<img class="side-nav-border__svg side-nav-border__svg--small" src="../../../assets/svgs/right-arrow.svg">
+					<img class="side-nav-border__svg" src="../../../assets/svgs/american-flag.svg">
+				</div>
+				<span class="side-nav__label">Canada</span>
+			</a>
+		</li>
+		<li class="side-nav__item">
+			<a data-ui-sref="border.cams.us" data-ui-sref-active="active" data-ng-click="borderCtrl.camNavClicked('US')">
+				<div class="side-nav-border__i-wrapper">
+					<img class="side-nav-border__svg" src="../../../assets/svgs/american-flag.svg">
+         			<img class="side-nav-border__svg side-nav-border__svg--small" src="../../../assets/svgs/right-arrow.svg">
+					<img class="side-nav-border__svg" src="../../../assets/svgs/canadian-flag.svg">
+				</div>
+				<span class="side-nav__label">US</span>
+			</a>
+		</li>
+	</ul>
 </div>

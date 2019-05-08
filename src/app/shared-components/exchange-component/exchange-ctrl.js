@@ -1,15 +1,21 @@
 import { $ } from 'moneysafe';
 import { $$, addPercent } from 'moneysafe/ledger';
+import moment from 'moment-es6';
 
 export default class ExchangeCtrl {
-  constructor(ExchangeService) {
+  constructor(ExchangeService, $window) {
     this.exchangeService = ExchangeService;
+    this.window = $window;
     this.init();
   }
 
   init() {
     this.getExchangeRate();
+    this.timeStamp = moment().format('ddd, MMM DD YYYY, h:mm a');
+
     this.popoverText = 'Most banks charge a fee for converting currency. Typically it\'s 2.5%.';
+
+    this.accordionOpen = (this.window.innerWidth > 992);
   }
 
   getExchangeRate() {
@@ -26,7 +32,10 @@ export default class ExchangeCtrl {
       addPercent(this.exchange.fee)
     ).$;
 
+    // update for the other controllers watching exchangeService
     this.exchangeService.setExchangeObj({ rateCADtotal });
+
+    // update for this controller
     this.exchange = {
       ...this.exchange,
       rateCADtotal
@@ -40,4 +49,4 @@ export default class ExchangeCtrl {
   }
 }
 
-ExchangeCtrl.$inject = ['ExchangeService'];
+ExchangeCtrl.$inject = ['ExchangeService', '$window'];
